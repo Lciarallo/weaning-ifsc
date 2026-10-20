@@ -1,0 +1,32 @@
+| ID   | Base   |   IDnum |   NIF |   RR |   VT |   RSBI | Resultado   |   crisp | decisao   | binario   |   n_regras_ativadas |   area |   momento | acerto_conservador   | faixa           |
+|:-----|:-------|--------:|------:|-----:|-----:|-------:|:------------|--------:|:----------|:----------|--------------------:|-------:|----------:|:---------------------|:----------------|
+| TR1  | Treino |       1 |   -30 |   17 |  500 |     34 | Fracasso    |  79.318 | Sucesso   | Sucesso   |                   2 | 20.625 |  1635.938 | False                | Sucesso (≥60)   |
+| TR2  | Treino |       2 |   -26 |   44 |  265 |    166 | Fracasso    |  11.952 | Fracasso  | Fracasso  |                   2 | 20.925 |   250.087 | True                 | Fracasso (<40)  |
+| TR3  | Treino |       3 |   -18 |   32 |  370 |     86 | Fracasso    |  32.305 | Fracasso  | Fracasso  |                   8 | 19.819 |   640.242 | True                 | Fracasso (<40)  |
+| TR4  | Treino |       4 |   -22 |   30 |  350 |     86 | Fracasso    |  37.699 | Fracasso  | Fracasso  |                   4 | 16.964 |   639.541 | True                 | Fracasso (<40)  |
+| TR5  | Treino |       5 |   -10 |   29 |  320 |     91 | Fracasso    |  32.548 | Fracasso  | Fracasso  |                   8 | 17.194 |   559.631 | True                 | Fracasso (<40)  |
+| TR6  | Treino |       6 |   -20 |   46 |  225 |    204 | Fracasso    |  13.214 | Fracasso  | Fracasso  |                   2 | 13.125 |   173.437 | True                 | Fracasso (<40)  |
+| TR7  | Treino |       7 |   -24 |   38 |  276 |    138 | Fracasso    |  12.882 | Fracasso  | Fracasso  |                   4 | 15.300 |   197.100 | True                 | Fracasso (<40)  |
+| TR8  | Treino |       8 |   -15 |   40 |  270 |    148 | Fracasso    |  11.855 | Fracasso  | Fracasso  |                   2 | 21.467 |   254.489 | True                 | Fracasso (<40)  |
+| TR9  | Treino |       9 |   -12 |   32 |  220 |    145 | Fracasso    |  12.404 | Fracasso  | Fracasso  |                   4 | 18.281 |   226.758 | True                 | Fracasso (<40)  |
+| TR10 | Treino |      10 |   -20 |   33 |  124 |    266 | Fracasso    |  13.214 | Fracasso  | Fracasso  |                   4 | 13.125 |   173.437 | True                 | Fracasso (<40)  |
+| TR11 | Treino |      11 |   -25 |   30 |  412 |     73 | Fracasso    |  50.000 | Cautela   | Fracasso  |                   1 | 13.056 |   652.800 | True                 | Cautela (40–60) |
+| TR12 | Treino |      12 |   -28 |   38 |  400 |     95 | Fracasso    |  37.482 | Fracasso  | Fracasso  |                   4 | 18.245 |   683.847 | True                 | Fracasso (<40)  |
+| TR13 | Treino |      13 |   -24 |   24 |  300 |     80 | Sucesso     |  43.934 | Cautela   | Fracasso  |                   4 | 19.062 |   837.500 | False                | Cautela (40–60) |
+| TR14 | Treino |      14 |   -23 |   29 |  300 |     97 | Sucesso     |  29.422 | Fracasso  | Fracasso  |                   8 | 19.983 |   587.956 | False                | Fracasso (<40)  |
+| TR15 | Treino |      15 |   -60 |   16 |  650 |     25 | Sucesso     |  86.212 | Sucesso   | Sucesso   |                   1 |  9.167 |   790.278 | True                 | Sucesso (≥60)   |
+| TR16 | Treino |      16 |   -30 |   30 |  250 |    120 | Sucesso     |  30.000 | Fracasso  | Fracasso  |                   2 | 11.250 |   337.500 | False                | Fracasso (<40)  |
+| TR17 | Treino |      17 |   -42 |   13 |  950 |     14 | Sucesso     |  88.333 | Sucesso   | Sucesso   |                   1 | 22.500 |  1987.500 | True                 | Sucesso (≥60)   |
+| TR18 | Treino |      18 |   -42 |   24 |  750 |     32 | Sucesso     |  83.644 | Sucesso   | Sucesso   |                   2 | 22.031 |  1842.773 | True                 | Sucesso (≥60)   |
+| TR19 | Treino |      19 |   -32 |   21 |  530 |     40 | Sucesso     |  82.665 | Sucesso   | Sucesso   |                   2 | 21.545 |  1780.998 | True                 | Sucesso (≥60)   |
+| TR20 | Treino |      20 |   -40 |   22 |  916 |     24 | Sucesso     |  88.333 | Sucesso   | Sucesso   |                   1 | 22.500 |  1987.500 | True                 | Sucesso (≥60)   |
+| TR21 | Treino |      21 |   -30 |   19 |  500 |     38 | Sucesso     |  79.318 | Sucesso   | Sucesso   |                   2 | 20.625 |  1635.938 | True                 | Sucesso (≥60)   |
+| TE1  | Teste  |       1 |   -15 |   25 |  450 |     56 | Fracasso    |  41.841 | Cautela   | Fracasso  |                   2 | 20.365 |   852.083 | True                 | Cautela (40–60) |
+| TE2  | Teste  |       2 |   -22 |   41 |  400 |    103 | Fracasso    |  23.642 | Fracasso  | Fracasso  |                   4 | 17.358 |   410.387 | True                 | Fracasso (<40)  |
+| TE3  | Teste  |       3 |   -28 |   24 |  310 |     77 | Fracasso    |  52.278 | Cautela   | Fracasso  |                   8 | 25.532 |  1334.735 | True                 | Cautela (40–60) |
+| TE4  | Teste  |       4 |   -40 |   23 |  465 |     49 | Sucesso     |  85.920 | Sucesso   | Sucesso   |                   2 | 22.383 |  1923.120 | True                 | Sucesso (≥60)   |
+| TE5  | Teste  |       5 |   -48 |   24 |  380 |     63 | Sucesso     |  74.374 | Sucesso   | Sucesso   |                   4 | 19.897 |  1479.824 | True                 | Sucesso (≥60)   |
+| TE6  | Teste  |       6 |   -34 |   28 |  530 |     53 | Sucesso     |  72.144 | Sucesso   | Sucesso   |                   4 | 19.737 |  1423.918 | True                 | Sucesso (≥60)   |
+| TE7  | Teste  |       7 |   -40 |   19 |  740 |     26 | Sucesso     |  88.145 | Sucesso   | Sucesso   |                   1 | 21.467 |  1892.178 | True                 | Sucesso (≥60)   |
+| TE8  | Teste  |       8 |   -42 |   27 |  550 |     49 | Sucesso     |  77.419 | Sucesso   | Sucesso   |                   2 | 18.925 |  1465.126 | True                 | Sucesso (≥60)   |
+| TE9  | Teste  |       9 |   -55 |   19 |  480 |     40 | Sucesso     |  88.253 | Sucesso   | Sucesso   |                   1 | 22.065 |  1947.338 | True                 | Sucesso (≥60)   |

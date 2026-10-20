@@ -1,0 +1,60 @@
+// ~->[DNET-1]->~
+// Rede Naive Bayes — Weaning_Rede2_Netica
+// Gerada para inspeção/uso no Netica; CPTs estimadas SOMENTE com os 21 casos de treino.
+
+bnet Weaning_Rede2_Netica {
+
+node Desmame {
+  kind = NATURE;
+  discrete = TRUE;
+  chance = CHANCE;
+  states = (Fracasso, Sucesso);
+  parents = ();
+  probs = (0.56521739, 0.43478261);
+};
+
+node NIF {
+  kind = NATURE;
+  discrete = TRUE;
+  chance = CHANCE;
+  states = (ate_-25, maior_-25);
+  parents = (Desmame);
+  probs =
+    ((0.28571429, 0.71428571),   // Desmame = Fracasso
+     (0.72727273, 0.27272727));  // Desmame = Sucesso
+};
+
+node RR {
+  kind = NATURE;
+  discrete = TRUE;
+  chance = CHANCE;
+  states = (ate_30, maior_30);
+  parents = (Desmame);
+  probs =
+    ((0.21428571, 0.78571429),   // Desmame = Fracasso
+     (0.81818182, 0.18181818));  // Desmame = Sucesso
+};
+
+node VT {
+  kind = NATURE;
+  discrete = TRUE;
+  chance = CHANCE;
+  states = (ate_350, maior_350);
+  parents = (Desmame);
+  probs =
+    ((0.57142857, 0.42857143),   // Desmame = Fracasso
+     (0.36363636, 0.63636364));  // Desmame = Sucesso
+};
+
+node RSBI {
+  kind = NATURE;
+  discrete = TRUE;
+  chance = CHANCE;
+  states = (ate_90, maior_90);
+  parents = (Desmame);
+  probs =
+    ((0.35714286, 0.64285714),   // Desmame = Fracasso
+     (0.72727273, 0.27272727));  // Desmame = Sucesso
+};
+
+}

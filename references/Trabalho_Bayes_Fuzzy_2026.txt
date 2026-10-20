@@ -1,0 +1,85 @@
+                            MINISTÉRIO DA EDUCAÇÃO
+                            SECRETARIA DE EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA
+                            INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE SANTA CATARINA
+                            CAMPUS FLORIANÓPOLIS – DEPARTAMENTO ACADÊMICO DE ELETROTÉCNICA
+
+_____________________________________________________________________
+Curso de Especialização em Computação Aplicada à Indústria
+Unidade Curricular: Sistemas probabilísticos e difusos                 Semestre: 2016/2
+Professor: Cesar Alberto Penz                                           email: cesar.penz@ifsc.edu.br
+
+                                                    TRABALHO
+
+   1.   Descrição do processo sob análise: Interrupção de ventilação mecânica assistida
+
+         A interrupção do suporte respiratório para um paciente que esteja recebendo ventilação mecânica requer a
+   avaliação da capacidade do paciente de continuar respirando sem auxílio, de maneira estável clínica e
+   fisiologicamente. Retirar o auxílio prematuramente pode levar ao sofrimento do paciente, enquanto deixar tempo a
+   mais, representa gasto desnecessário de um recurso escasso e pode ser porta para entrada de infecções no paciente.
+         Geralmente o médico deve tomar esta decisão baseado nas seguintes variáveis que são facilmente obtidas
+   dos pacientes: pico negativo da pressão inspiratória (cm.H2O); taxa respiratória (respirações/minuto); volume tidal
+   (ml).
+         Uma base de dados com 21 tentativas de interrupção de ventilação assistida está disponível para
+   treinamento, sendo 9 tentativas que obtiveram sucesso e 12 tentativas que fracassaram. Uma segunda base de
+   dados com mais 9 tentativas está disponível para teste, ref. ASHUTOSH, K., L. et all. (1992). Prediction criteria
+   for successful weaning from respiratory support: statistical and connectionist analyses. Critical care medicine,
+   1992, 1295–1301. https://doi.org/10.1097/00003246-199209000-00017.
+         Uma pesquisa foi realizada buscando identificar valores de referência para as variáveis disponíveis para
+   tomada de decisão, assim foi montada uma base de conhecimento acerca do tema, disponível no arquivo pdf
+   “Base de Conhecimento Weaning”. Abaixo alguns vídeos para melhor contextualização do problema.
+
+        Neural Control of Breathing | Respiratory System
+        https://www.youtube.com/watch?v=GqkMzds77f8
+
+        Respiratory Rate Assessment: Nursing Skills
+        https://www.youtube.com/watch?v=Vk8rBjZKq_8
+
+        Respiratory Rate, Tidal Volume and Minute Volume
+        https://www.youtube.com/watch?v=GTedxUBCiiM
+
+        Weaning from ventilator | Mechanical ventilation | Little Criticos
+        https://www.youtube.com/watch?v=WPMHHWb22T8
+
+        Everything you need to know about weaning parameters in mechanical ventilation
+        https://www.youtube.com/watch?v=aQ3i5uxDURo
+
+        Weaning from Mechanical Ventilation in the ICU
+        https://www.youtube.com/watch?v=DRixIR8nDnc
+2.   Desenvolvimento de redes Naive Bayes para suporte à tomada de decisão acerca da interrupção de ventilação
+     mecânica assistida
+         a. Proposição e implementação de duas redes Naive Bayes considerando como possíveis variáveis de
+             entrada – pico negativo da pressão inspiratória (cm.H2O); taxa respiratória (respirações/minuto);
+             volume tidal (ml); e RSBI (Rapid Shallow Breathing Index). A definição dos limiares de
+             discretização deve ser baseada: 1) nas informações coletadas nas pesquisas realizadas (vídeos,
+             artigos, base de conhecimento); 2) automaticamente via Netica a partir da base de dados de
+             treinamento.
+         b. Avaliar as redes propostas para os dados de treinamento e teste; apresentar as probabilidades de
+             sucesso e fracasso para os diferentes casos.
+         c. Comparar os resultados das duas redes.
+
+
+
+
+3.   Desenvolvimento de um sistema de inferência fuzzy para suporte à tomada de decisão acerca da interrupção
+     de ventilação mecânica assistida
+         a. Proposição e implementação de um sistema de inferência fuzzy considerando como possíveis
+              variáveis de entrada – pico negativo da pressão inspiratória (cm.H2O); taxa respiratória
+              (respirações/minuto); volume tidal (ml); e RSBI (Rapid Shallow Breathing Index).
+                     i. Considere a implementação do método de inferência do tipo Mamdani.
+                    ii. A definição das funções de pertinência pode ser baseada nas informações coletadas na
+                        pesquisa ou outras que vislumbre na análise do problema.
+                   iii. Apresentar as variáveis e termos linguísticos de entrada e saída, e a base de regras
+                        estabelecida.
+         b. Avaliar o sistema proposto para os dados completa; representar exemplos da aplicação do sistema
+              (no mínimo, um exemplo de cada saída desejada – sucesso e fracasso; no mínimo, um exemplo
+              crítico, duvidoso, de difícil inferência): apresentar os processos de fuzzificação, desfuzzyficação e
+              as regras ativadas.
+
+4.   Observações finais e encaminhamento do trabalho.
+        a. Deverá ser gerado um relatório organizado com as atividades executadas (gráficos, tabelas,
+             esquemas contribuem para a clareza do documento). Enviar por email em formato PDF.
+
+         b.   Todos os arquivos gerados deverão ser enviados por email.
+
+         c.   Avaliação do trabalho compreenderá todos os itens apresentados neste documento.
+

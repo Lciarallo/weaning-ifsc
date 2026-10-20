@@ -1,0 +1,17 @@
+﻿Caso,Regra,NIF,RR,VT,RSBI,mu_NIF,mu_RR,mu_VT,mu_RSBI,alpha,Consequente,Score
+TE5,55,NIF_Forte,RR_Adequada,VT_Baixo,RSBI_Favoravel,1.0,0.75,0.2,1.0,0.2,A,5
+TE5,58,NIF_Forte,RR_Adequada,VT_Adequado,RSBI_Favoravel,1.0,0.75,0.45714285714285713,1.0,0.45714285714285713,MA,7
+TE5,64,NIF_Forte,RR_Limitrofe,VT_Baixo,RSBI_Favoravel,1.0,0.25,0.2,1.0,0.2,M,3
+TE5,67,NIF_Forte,RR_Limitrofe,VT_Adequado,RSBI_Favoravel,1.0,0.25,0.45714285714285713,1.0,0.25,A,5
+TR10,12,NIF_Fraco,RR_Limitrofe,VT_Baixo,RSBI_Desfavoravel,0.5,0.625,1.0,1.0,0.5,MB,-5
+TR10,21,NIF_Fraco,RR_Elevada,VT_Baixo,RSBI_Desfavoravel,0.5,0.375,1.0,1.0,0.375,MB,-7
+TR10,39,NIF_Limitrofe,RR_Limitrofe,VT_Baixo,RSBI_Desfavoravel,0.5,0.625,1.0,1.0,0.5,MB,-3
+TR10,48,NIF_Limitrofe,RR_Elevada,VT_Baixo,RSBI_Desfavoravel,0.5,0.375,1.0,1.0,0.375,MB,-5
+TE3,28,NIF_Limitrofe,RR_Adequada,VT_Baixo,RSBI_Favoravel,0.7,0.75,0.9,1.0,0.7,M,3
+TE3,31,NIF_Limitrofe,RR_Adequada,VT_Adequado,RSBI_Favoravel,0.7,0.75,0.05714285714285714,1.0,0.05714285714285714,A,5
+TE3,37,NIF_Limitrofe,RR_Limitrofe,VT_Baixo,RSBI_Favoravel,0.7,0.25,0.9,1.0,0.25,B,1
+TE3,40,NIF_Limitrofe,RR_Limitrofe,VT_Adequado,RSBI_Favoravel,0.7,0.25,0.05714285714285714,1.0,0.05714285714285714,M,3
+TE3,55,NIF_Forte,RR_Adequada,VT_Baixo,RSBI_Favoravel,0.3,0.75,0.9,1.0,0.3,A,5
+TE3,58,NIF_Forte,RR_Adequada,VT_Adequado,RSBI_Favoravel,0.3,0.75,0.05714285714285714,1.0,0.05714285714285714,MA,7
+TE3,64,NIF_Forte,RR_Limitrofe,VT_Baixo,RSBI_Favoravel,0.3,0.25,0.9,1.0,0.25,M,3
+TE3,67,NIF_Forte,RR_Limitrofe,VT_Adequado,RSBI_Favoravel,0.3,0.25,0.05714285714285714,1.0,0.05714285714285714,A,5

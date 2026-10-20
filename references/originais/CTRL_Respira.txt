@@ -1,0 +1,3 @@
+IDnum()
+bel (Resultado,Fracasso)
+bel (Resultado,Sucesso)

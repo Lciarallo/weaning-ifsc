@@ -1,0 +1,5 @@
+|   Área agregada (∫μ dy) |   Momento (∫y·μ dy) |   Centroide y* = momento/área |   Regras com α>0 | Decisão conservadora   | Caso   | Desfecho real   | Decisão (3 níveis)   |   NB1 P(Sucesso) |   NB2 P(Sucesso) |
+|------------------------:|--------------------:|------------------------------:|-----------------:|:-----------------------|:-------|:----------------|:---------------------|-----------------:|-----------------:|
+|                  19.897 |            1479.824 |                        74.374 |                4 | Sucesso                | TE5    | Sucesso         | Sucesso              |            0.894 |            0.958 |
+|                  13.125 |             173.437 |                        13.214 |                4 | Fracasso               | TR10   | Fracasso        | Fracasso             |            0.010 |            0.018 |
+|                  25.532 |            1334.735 |                        52.278 |                8 | Fracasso               | TE3    | Fracasso        | Cautela              |            0.442 |            0.906 |
