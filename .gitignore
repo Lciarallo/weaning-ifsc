@@ -5,7 +5,7 @@ __pycache__/
 *~
 
 # Pacote de e-mail (redundante com os arquivos versionados)
-Entrega_Weaning_IFSC.zip
+Entrega_Weaning_IFSC*.zip
 
 # Sistema
 .DS_Store

@@ -12,124 +12,129 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY NIF
-  TERM Fraco := trapmf (-25, -15, 0, 0);
-  TERM Limitrofe := trimf (-35, -25, -15);
-  TERM Forte := trapmf (-60, -60, -35, -25);
+  RANGE := (-60 .. 0);
+  TERM Fraco := Trapezoid -25 -15 0 0;
+  TERM Limitrofe := Triangle -35 -25 -15;
+  TERM Forte := Trapezoid -60 -60 -35 -25;
 END_FUZZIFY
 
 FUZZIFY RR
-  TERM Adequada := trapmf (5, 5, 22, 30);
-  TERM Limitrofe := trimf (22, 30, 38);
-  TERM Elevada := trapmf (30, 38, 60, 60);
+  RANGE := (5 .. 60);
+  TERM Adequada := Trapezoid 5 5 22 30;
+  TERM Limitrofe := Triangle 22 30 38;
+  TERM Elevada := Trapezoid 30 38 60 60;
 END_FUZZIFY
 
 FUZZIFY VT
-  TERM Baixo := trapmf (100, 100, 300, 400);
-  TERM Adequado := trimf (300, 475, 650);
-  TERM Elevado := trapmf (600, 750, 1000, 1000);
+  RANGE := (100 .. 1000);
+  TERM Baixo := Trapezoid 100 100 300 400;
+  TERM Adequado := Triangle 300 475 650;
+  TERM Elevado := Trapezoid 600 750 1000 1000;
 END_FUZZIFY
 
 FUZZIFY RSBI
-  TERM Favoravel := trapmf (0, 0, 90, 120);
-  TERM Limitrofe := trimf (90, 120, 150);
-  TERM Desfavoravel := trapmf (120, 150, 300, 300);
+  RANGE := (0 .. 300);
+  TERM Favoravel := Trapezoid 0 0 90 120;
+  TERM Limitrofe := Triangle 90 120 150;
+  TERM Desfavoravel := Trapezoid 120 150 300 300;
 END_FUZZIFY
 
 DEFUZZIFY Potencial
-  TERM Muito_Baixo := trapmf (0, 0, 15, 30);
-  TERM Baixo := trimf (15, 30, 45);
-  TERM Moderado := trimf (35, 50, 65);
-  TERM Alto := trimf (55, 70, 85);
-  TERM Muito_Alto := trapmf (70, 85, 100, 100);
+  RANGE := (0 .. 100);
+  TERM Muito_Baixo := Trapezoid 0 0 15 30;
+  TERM Baixo := Triangle 15 30 45;
+  TERM Moderado := Triangle 35 50 65;
+  TERM Alto := Triangle 55 70 85;
+  TERM Muito_Alto := Trapezoid 70 85 100 100;
   METHOD : COG;
+  ACCU : MAX;
   DEFAULT := 0;
 END_DEFUZZIFY
 
 RULEBLOCK regras
   AND : MIN;
   ACT : MIN;
-  ACCU : MAX;
-  RULE 1 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 2 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 3 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 4 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 5 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 6 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 7 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 8 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 9 : IF NIF IS Fraco AND RR IS Adequada AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 10 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 11 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Muito_Baixo;
-  RULE 12 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 13 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 14 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 15 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 16 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 17 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 18 : IF NIF IS Fraco AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 19 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Muito_Baixo;
-  RULE 20 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Muito_Baixo;
-  RULE 21 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 22 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 23 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Muito_Baixo;
-  RULE 24 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 25 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 26 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Muito_Baixo;
-  RULE 27 : IF NIF IS Fraco AND RR IS Elevada AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 28 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 29 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 30 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 31 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Alto;
-  RULE 32 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Moderado;
-  RULE 33 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 34 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Alto;
-  RULE 35 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Moderado;
-  RULE 36 : IF NIF IS Limitrofe AND RR IS Adequada AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 37 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 38 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 39 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 40 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 41 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 42 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 43 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 44 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 45 : IF NIF IS Limitrofe AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 46 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 47 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Muito_Baixo;
-  RULE 48 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 49 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 50 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 51 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 52 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 53 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 54 : IF NIF IS Limitrofe AND RR IS Elevada AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 55 : IF NIF IS Forte AND RR IS Adequada AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Alto;
-  RULE 56 : IF NIF IS Forte AND RR IS Adequada AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Moderado;
-  RULE 57 : IF NIF IS Forte AND RR IS Adequada AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 58 : IF NIF IS Forte AND RR IS Adequada AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Muito_Alto;
-  RULE 59 : IF NIF IS Forte AND RR IS Adequada AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Alto;
-  RULE 60 : IF NIF IS Forte AND RR IS Adequada AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Moderado;
-  RULE 61 : IF NIF IS Forte AND RR IS Adequada AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Muito_Alto;
-  RULE 62 : IF NIF IS Forte AND RR IS Adequada AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Alto;
-  RULE 63 : IF NIF IS Forte AND RR IS Adequada AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Moderado;
-  RULE 64 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 65 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 66 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 67 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Alto;
-  RULE 68 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Moderado;
-  RULE 69 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 70 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Alto;
-  RULE 71 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Moderado;
-  RULE 72 : IF NIF IS Forte AND RR IS Limitrofe AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 73 : IF NIF IS Forte AND RR IS Elevada AND VT IS Baixo AND RSBI IS Favoravel THEN Potencial IS Baixo;
-  RULE 74 : IF NIF IS Forte AND RR IS Elevada AND VT IS Baixo AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 75 : IF NIF IS Forte AND RR IS Elevada AND VT IS Baixo AND RSBI IS Desfavoravel THEN Potencial IS Muito_Baixo;
-  RULE 76 : IF NIF IS Forte AND RR IS Elevada AND VT IS Adequado AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 77 : IF NIF IS Forte AND RR IS Elevada AND VT IS Adequado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 78 : IF NIF IS Forte AND RR IS Elevada AND VT IS Adequado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
-  RULE 79 : IF NIF IS Forte AND RR IS Elevada AND VT IS Elevado AND RSBI IS Favoravel THEN Potencial IS Moderado;
-  RULE 80 : IF NIF IS Forte AND RR IS Elevada AND VT IS Elevado AND RSBI IS Limitrofe THEN Potencial IS Baixo;
-  RULE 81 : IF NIF IS Forte AND RR IS Elevada AND VT IS Elevado AND RSBI IS Desfavoravel THEN Potencial IS Baixo;
+  RULE 1 : if NIF is Fraco and RR is Adequada and VT is Baixo and RSBI is Favoravel then Potencial is Baixo;
+  RULE 2 : if NIF is Fraco and RR is Adequada and VT is Baixo and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 3 : if NIF is Fraco and RR is Adequada and VT is Baixo and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 4 : if NIF is Fraco and RR is Adequada and VT is Adequado and RSBI is Favoravel then Potencial is Moderado;
+  RULE 5 : if NIF is Fraco and RR is Adequada and VT is Adequado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 6 : if NIF is Fraco and RR is Adequada and VT is Adequado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 7 : if NIF is Fraco and RR is Adequada and VT is Elevado and RSBI is Favoravel then Potencial is Moderado;
+  RULE 8 : if NIF is Fraco and RR is Adequada and VT is Elevado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 9 : if NIF is Fraco and RR is Adequada and VT is Elevado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 10 : if NIF is Fraco and RR is Limitrofe and VT is Baixo and RSBI is Favoravel then Potencial is Baixo;
+  RULE 11 : if NIF is Fraco and RR is Limitrofe and VT is Baixo and RSBI is Limitrofe then Potencial is Muito_Baixo;
+  RULE 12 : if NIF is Fraco and RR is Limitrofe and VT is Baixo and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 13 : if NIF is Fraco and RR is Limitrofe and VT is Adequado and RSBI is Favoravel then Potencial is Baixo;
+  RULE 14 : if NIF is Fraco and RR is Limitrofe and VT is Adequado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 15 : if NIF is Fraco and RR is Limitrofe and VT is Adequado and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 16 : if NIF is Fraco and RR is Limitrofe and VT is Elevado and RSBI is Favoravel then Potencial is Baixo;
+  RULE 17 : if NIF is Fraco and RR is Limitrofe and VT is Elevado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 18 : if NIF is Fraco and RR is Limitrofe and VT is Elevado and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 19 : if NIF is Fraco and RR is Elevada and VT is Baixo and RSBI is Favoravel then Potencial is Muito_Baixo;
+  RULE 20 : if NIF is Fraco and RR is Elevada and VT is Baixo and RSBI is Limitrofe then Potencial is Muito_Baixo;
+  RULE 21 : if NIF is Fraco and RR is Elevada and VT is Baixo and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 22 : if NIF is Fraco and RR is Elevada and VT is Adequado and RSBI is Favoravel then Potencial is Baixo;
+  RULE 23 : if NIF is Fraco and RR is Elevada and VT is Adequado and RSBI is Limitrofe then Potencial is Muito_Baixo;
+  RULE 24 : if NIF is Fraco and RR is Elevada and VT is Adequado and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 25 : if NIF is Fraco and RR is Elevada and VT is Elevado and RSBI is Favoravel then Potencial is Baixo;
+  RULE 26 : if NIF is Fraco and RR is Elevada and VT is Elevado and RSBI is Limitrofe then Potencial is Muito_Baixo;
+  RULE 27 : if NIF is Fraco and RR is Elevada and VT is Elevado and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 28 : if NIF is Limitrofe and RR is Adequada and VT is Baixo and RSBI is Favoravel then Potencial is Moderado;
+  RULE 29 : if NIF is Limitrofe and RR is Adequada and VT is Baixo and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 30 : if NIF is Limitrofe and RR is Adequada and VT is Baixo and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 31 : if NIF is Limitrofe and RR is Adequada and VT is Adequado and RSBI is Favoravel then Potencial is Alto;
+  RULE 32 : if NIF is Limitrofe and RR is Adequada and VT is Adequado and RSBI is Limitrofe then Potencial is Moderado;
+  RULE 33 : if NIF is Limitrofe and RR is Adequada and VT is Adequado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 34 : if NIF is Limitrofe and RR is Adequada and VT is Elevado and RSBI is Favoravel then Potencial is Alto;
+  RULE 35 : if NIF is Limitrofe and RR is Adequada and VT is Elevado and RSBI is Limitrofe then Potencial is Moderado;
+  RULE 36 : if NIF is Limitrofe and RR is Adequada and VT is Elevado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 37 : if NIF is Limitrofe and RR is Limitrofe and VT is Baixo and RSBI is Favoravel then Potencial is Baixo;
+  RULE 38 : if NIF is Limitrofe and RR is Limitrofe and VT is Baixo and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 39 : if NIF is Limitrofe and RR is Limitrofe and VT is Baixo and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 40 : if NIF is Limitrofe and RR is Limitrofe and VT is Adequado and RSBI is Favoravel then Potencial is Moderado;
+  RULE 41 : if NIF is Limitrofe and RR is Limitrofe and VT is Adequado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 42 : if NIF is Limitrofe and RR is Limitrofe and VT is Adequado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 43 : if NIF is Limitrofe and RR is Limitrofe and VT is Elevado and RSBI is Favoravel then Potencial is Moderado;
+  RULE 44 : if NIF is Limitrofe and RR is Limitrofe and VT is Elevado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 45 : if NIF is Limitrofe and RR is Limitrofe and VT is Elevado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 46 : if NIF is Limitrofe and RR is Elevada and VT is Baixo and RSBI is Favoravel then Potencial is Baixo;
+  RULE 47 : if NIF is Limitrofe and RR is Elevada and VT is Baixo and RSBI is Limitrofe then Potencial is Muito_Baixo;
+  RULE 48 : if NIF is Limitrofe and RR is Elevada and VT is Baixo and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 49 : if NIF is Limitrofe and RR is Elevada and VT is Adequado and RSBI is Favoravel then Potencial is Baixo;
+  RULE 50 : if NIF is Limitrofe and RR is Elevada and VT is Adequado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 51 : if NIF is Limitrofe and RR is Elevada and VT is Adequado and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 52 : if NIF is Limitrofe and RR is Elevada and VT is Elevado and RSBI is Favoravel then Potencial is Baixo;
+  RULE 53 : if NIF is Limitrofe and RR is Elevada and VT is Elevado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 54 : if NIF is Limitrofe and RR is Elevada and VT is Elevado and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 55 : if NIF is Forte and RR is Adequada and VT is Baixo and RSBI is Favoravel then Potencial is Alto;
+  RULE 56 : if NIF is Forte and RR is Adequada and VT is Baixo and RSBI is Limitrofe then Potencial is Moderado;
+  RULE 57 : if NIF is Forte and RR is Adequada and VT is Baixo and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 58 : if NIF is Forte and RR is Adequada and VT is Adequado and RSBI is Favoravel then Potencial is Muito_Alto;
+  RULE 59 : if NIF is Forte and RR is Adequada and VT is Adequado and RSBI is Limitrofe then Potencial is Alto;
+  RULE 60 : if NIF is Forte and RR is Adequada and VT is Adequado and RSBI is Desfavoravel then Potencial is Moderado;
+  RULE 61 : if NIF is Forte and RR is Adequada and VT is Elevado and RSBI is Favoravel then Potencial is Muito_Alto;
+  RULE 62 : if NIF is Forte and RR is Adequada and VT is Elevado and RSBI is Limitrofe then Potencial is Alto;
+  RULE 63 : if NIF is Forte and RR is Adequada and VT is Elevado and RSBI is Desfavoravel then Potencial is Moderado;
+  RULE 64 : if NIF is Forte and RR is Limitrofe and VT is Baixo and RSBI is Favoravel then Potencial is Moderado;
+  RULE 65 : if NIF is Forte and RR is Limitrofe and VT is Baixo and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 66 : if NIF is Forte and RR is Limitrofe and VT is Baixo and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 67 : if NIF is Forte and RR is Limitrofe and VT is Adequado and RSBI is Favoravel then Potencial is Alto;
+  RULE 68 : if NIF is Forte and RR is Limitrofe and VT is Adequado and RSBI is Limitrofe then Potencial is Moderado;
+  RULE 69 : if NIF is Forte and RR is Limitrofe and VT is Adequado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 70 : if NIF is Forte and RR is Limitrofe and VT is Elevado and RSBI is Favoravel then Potencial is Alto;
+  RULE 71 : if NIF is Forte and RR is Limitrofe and VT is Elevado and RSBI is Limitrofe then Potencial is Moderado;
+  RULE 72 : if NIF is Forte and RR is Limitrofe and VT is Elevado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 73 : if NIF is Forte and RR is Elevada and VT is Baixo and RSBI is Favoravel then Potencial is Baixo;
+  RULE 74 : if NIF is Forte and RR is Elevada and VT is Baixo and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 75 : if NIF is Forte and RR is Elevada and VT is Baixo and RSBI is Desfavoravel then Potencial is Muito_Baixo;
+  RULE 76 : if NIF is Forte and RR is Elevada and VT is Adequado and RSBI is Favoravel then Potencial is Moderado;
+  RULE 77 : if NIF is Forte and RR is Elevada and VT is Adequado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 78 : if NIF is Forte and RR is Elevada and VT is Adequado and RSBI is Desfavoravel then Potencial is Baixo;
+  RULE 79 : if NIF is Forte and RR is Elevada and VT is Elevado and RSBI is Favoravel then Potencial is Moderado;
+  RULE 80 : if NIF is Forte and RR is Elevada and VT is Elevado and RSBI is Limitrofe then Potencial is Baixo;
+  RULE 81 : if NIF is Forte and RR is Elevada and VT is Elevado and RSBI is Desfavoravel then Potencial is Baixo;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

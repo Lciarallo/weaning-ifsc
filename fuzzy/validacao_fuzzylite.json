@@ -1,0 +1,23 @@
+{
+  "executed_at_utc": "2026-10-21T00:19:02.734256+00:00",
+  "software": "fuzzylite 4.0, compilado da distribuição original preservada",
+  "source_archive_sha256": "12f12f18befaef19d17f8c9a14f2d2c3c7418b9df5323eb87eda8e5188510d56",
+  "build_note": "Ajuste de compatibilidade somente na mensagem de erro C++: range para range.str(). Algoritmo do importador preservado.",
+  "scope": "Importação dos dois modelos pelo motor real; MATLAB/Octave não executados.",
+  "results": [
+    {
+      "arquivo": "fuzzy/weaning_mamdani.fcl",
+      "sha256": "bc93afc2faeec10990bc9a302e8a9c0c5f9b4276163bca89c658624fc2f76bf5",
+      "importacao_exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arquivo": "fuzzy/weaning_mamdani.fis",
+      "sha256": "5474032c6d915d1893fa2ab1405814dfa2edd0e1f5aae1b5716caa70b91e2a8e",
+      "importacao_exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

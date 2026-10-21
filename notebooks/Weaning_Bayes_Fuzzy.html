@@ -7796,13 +7796,14 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d40cd504">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c5a80d3b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Apoio-%C3%A0-decis%C3%A3o-na-interrup%C3%A7%C3%A3o-da-ventila%C3%A7%C3%A3o-mec%C3%A2nica">Apoio à decisão na interrupção da ventilação mecânica<a class="anchor-link" href="#Apoio-%C3%A0-decis%C3%A3o-na-interrup%C3%A7%C3%A3o-da-ventila%C3%A7%C3%A3o-mec%C3%A2nica">¶</a></h1><h3 id="Duas-redes-Naive-Bayes-e-um-sistema-de-infer%C3%AAncia-fuzzy-Mamdani">Duas redes Naive Bayes e um sistema de inferência fuzzy Mamdani<a class="anchor-link" href="#Duas-redes-Naive-Bayes-e-um-sistema-de-infer%C3%AAncia-fuzzy-Mamdani">¶</a></h3><p><strong>Disciplina:</strong> Sistemas Probabilísticos e Difusos — IFSC<br/>
+<strong>Autor:</strong> Luiz Eduardo do Nascimento Ciarallo<br/>
 <strong>Professor:</strong> Cesar Alberto Penz<br/>
 <strong>Base de dados:</strong> Ashutosh <em>et al.</em>, <em>Critical Care Medicine</em>, 1992 (21 casos de treino + 9 de teste)<br/>
 <strong>Data:</strong> outubro de 2026</p>
@@ -7815,7 +7816,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=12f4bd2b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b08fba64">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7865,13 +7866,13 @@ a.anchor-link {
 </table>
 <p><strong>Mapa das figuras:</strong> 1 distribuições; 2 topologia; 3 matrizes NB; 4 métricas NB; 5 divergência entre redes; 6 cortes de discretização; 7 funções de pertinência; 8 regras; 9 superfície NIF×RR; 10 superfície VT×RSBI; 11 saída fuzzy nos 30 casos; 12 matrizes fuzzy; 13–18 casos TE5/TR10/TE3 (entrada e saída); 19 comparação final.</p>
 <blockquote>
-<p><strong>Ressalva metodológica importante:</strong> o Netica é proprietário e não foi executado neste ambiente. Os limiares automáticos da execução de referência foram reproduzidos e auditados apenas com o treino, e a rede equivalente foi exportada em <code>.dne</code>. O item 2(a) é, portanto, atendido em conteúdo e rastreabilidade, mas não inclui uma captura de tela gerada nesta máquina. Isso está explicitado na Seção 2.4 e no checklist final.</p>
+<p><strong>Execução nativa comprovada:</strong> os cortes da Rede 2 foram gerados pelo Netica Application 7.01, com dois estados, 20% de arredondamento e apenas os 21 casos de treino. A rede foi aprendida pelo Netica C API 5.04; ambas as redes foram avaliadas pelo motor nativo e confrontadas com o Python. Capturas reais, rede, casos, log e hashes estão em <code>netica/evidencias/</code>.</p>
 </blockquote>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f172b86e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1aa99f5b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7881,7 +7882,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=36430e38">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1a196fc3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7927,8 +7928,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Projeto: /home/lciarallo/Documentos/git/weaning-ifsc
-Python: 3.14.7
+<pre>Projeto: /home/lciarallo/Documentos/Git_projects/weaning-ifsc
+Python: 3.14.8
 pandas: 3.0.3
 </pre>
 </div>
@@ -7936,7 +7937,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=41a5718b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7e7cceb2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7953,7 +7954,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=51d48139">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ecb77365">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8181,7 +8182,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f38a2889">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3e71d145">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8309,7 +8310,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a563c1fd">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c566d2ad">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8343,7 +8344,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3dd2a621">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=490aa5a0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8353,7 +8354,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b290e590">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=282625ce">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8446,7 +8447,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=77a04c65">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=408f683a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8464,7 +8465,7 @@ pandas: 3.0.3
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ba30b285">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=84660f90">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8482,7 +8483,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f8696fe2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=eb54c925">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8516,7 +8517,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cdd3d81e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=14f5f564">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8528,7 +8529,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6f455fbd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c927f9c0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8538,7 +8539,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6359ddea">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c5d9bdf8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8677,7 +8678,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ecee5c03">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8aa225bb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8688,24 +8689,24 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f1a08829">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d4fe37a3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="2.4-Rede-2-%E2%80%94-discretiza%C3%A7%C3%A3o-autom%C3%A1tica-no-estilo-Netica">2.4 Rede 2 — discretização automática no estilo Netica<a class="anchor-link" href="#2.4-Rede-2-%E2%80%94-discretiza%C3%A7%C3%A3o-autom%C3%A1tica-no-estilo-Netica">¶</a></h3><p>A Rede 2 reproduz a execução de referência do Netica com <strong>dois intervalos por variável</strong>, obtidos exclusivamente do treino. A semântica é <code>[inferior, superior)</code>: o limite inferior pertence ao intervalo, o superior não (exceto a última faixa). Os cortes são medianas ou medianas arredondadas:</p>
+<h3 id="2.4-Rede-2-%E2%80%94-discretiza%C3%A7%C3%A3o-autom%C3%A1tica-executada-pelo-Netica">2.4 Rede 2 — discretização automática executada pelo Netica<a class="anchor-link" href="#2.4-Rede-2-%E2%80%94-discretiza%C3%A7%C3%A3o-autom%C3%A1tica-executada-pelo-Netica">¶</a></h3><p>A Rede 2 foi discretizada pelo comando <strong>Modify &gt; Auto-Discretize Nodes</strong> do Netica Application 7.01, com <strong>dois intervalos por variável e 20% de arredondamento</strong>, usando somente <code>netica/treino_discretizacao.cas</code> (21 casos, quatro entradas, sem desfecho). A semântica é <code>[inferior, superior)</code>: o limite inferior pertence ao intervalo, o superior não (exceto a última faixa). Os níveis foram lidos do arquivo salvo pelo próprio Netica:</p>
 <ul>
 <li>NIF: <code>[−60, −25)</code> e <code>[−25, −10]</code></li>
 <li>RR: <code>[13, 30)</code> e <code>[30, 46]</code></li>
 <li>VT: <code>[120, 350)</code> e <code>[350, 950]</code></li>
 <li>RSBI: <code>[10, 90)</code> e <code>[90, 270]</code></li>
 </ul>
-<p>O limiar de RSBI 90 é a mediana arredondada (mediana amostral = 86), preservando a partição 11/10. A auditoria abaixo mostra que nenhuma faixa ficou desbalanceada e que os 9 casos de teste não foram usados.</p>
+<p>O corte de RSBI 90 foi uma saída do Netica, cuja opção de arredondamento foi fixada em 20% antes da avaliação. A mediana do treino (86) aparece apenas como estatística descritiva. O Python lê os níveis da rede nativa, sem conter cortes alternativos. Os hashes e a comparação das entradas com o treino são verificados antes de gerar os artefatos.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4888507f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=64c9e3b3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8717,6 +8718,8 @@ $$</p>
 <span class="n">display</span><span class="p">(</span><span class="n">audit</span><span class="p">)</span>
 <span class="n">compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">TAB</span> <span class="o">/</span> <span class="s2">"03_comparacao_limiares.csv"</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">compare</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"**Execução real no Netica 7.01 — rede aprendida e compilada.**"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ROOT</span> <span class="o">/</span> <span class="s2">"netica/evidencias/05_rede_aprendida.png"</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8863,10 +8866,22 @@ $$</p>
 </div>
 </div>
 </div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<p><strong>Execução real no Netica 7.01 — rede aprendida e compilada.</strong></p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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368iXGTKHQD5GsxAEkXREw9t8u0OtllzljoICiPKHQD9TpctAAAgGIEEAAAIRiABAACCEUj6z6c/d3VNN+5Zc5Z++nNXX3jxx2fNWVrz54EHtzti0J4HHtxeXZreuPLCr13z3eTduybu/fTnrn7jygtnzVl64cUf33Tr5oYf+fb3fly9tORHACAmkPSf0049IYqi8S13xj/GL048ftl/uejdt6y//rvXXRVF0ZWf+ugt66+/Zf318+Ye4ohBJ5LSdN65Z7/9/A996epvxNOft/SMhx957NOf/PDtm76/6Peee+lffa76I7dv+v7tm77/1jedefaq96/75c0OIwA0M7B32RpgS485KoqiDTfftmTxkVEU3b7lziiKjl/+4vjdAw/cP4qi+YeOxe8CHUpK05LFR15y8XsuuOjy8859U9z2eMrJy5+74LAoij7wp+d+4E/Prf5IPP3AA/aLoui3d92TlFAAoIYWkr70icsv/sdvfCd+/b0frv3E5Rc7JtAD2x/aceYZp0RRFLc9vvqs87/9vR8nzZWJ++7fNr7lzk23bv7Gtd+PouiE45c5dADQjBaSvnTaqSdc8tErHnhw+8yZ+1715a+v/+nXHRPokjhdxK2RV33569es/kw8/a7N/7L6//vns1e9P/7x76/66/989qvj1xdcdPmZZ5zyne//JL58ELeTAAANCSR9Ke619Zs7J6p/BLrhgosuT17//VV//ZpXnRq/njf3kLin1l0T937zuh+8/fwPPf+o359/6FgURdes/kwy24UXf/ydf/zhb675rCMJAA3pstWvPnH5xTet23jTuo36a0FXXbP6M088tOn+O38WRdE99z5QP8NzFxy26i2vjaJo+0MP17+7bOnRcVMJANCQFpJ+ddqpJxy34s1RFOmvBT1w4AH7f/e6q1591vknHr/s+OUv3nTr5kv/6nNvfdOZx7746CiKvv29n0RR9MKjF8cz33f/trsm7o2i6OGHH73gosvPf+ebHUAAaEYg6VdJNy39taA3XrHi+PPf+eZTzjjn/jt/tvSYoy78k7d9859+8PbzPxRF0SUXvye+y3Z8962kl9eZZ5xy5ac++qY3nOHoAUAzAkkfe+KhTfUT5809pOF0oFX1pemzV/zlZ6/4y/j1K1Yc/4oVxyc/TlsAlU0AaMgYEgAAIBiBBAAACEYgAQAAghFIAACA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Ol5Ulk813AAAgMISSKBTV37qo5+44ovx6+ctPeMFz18U36r4y3//zThFnHLGOR/683fff+fPFi6Y//kvromiaObMfaMo+uY//eCP3vLaSy5+z9mr3v/DH/3srz9+8Xe+/5NvXveD+FN//T//7rxzz77/zp9d8tErvnHt97N8quEGAAAUmUACndp/v2dHUfTIo49tunVzFEUnHL8siqI3vv6Vl3z0imSeW/9j/IEHtp937psu/cifJhNf9cqTlyw+8pSTl0dRtOJlL12y+MhPXH7xT3/2r1EUzZt7yDfXfPY1rzr1wAP2v+Ti92zcdFuWT6VsAABAMRnUDp26594Hoig68ID9tz/0cNxGkbz1wIPb58095LvXXfXqs86Pp3z3uqteseL4+PWznjU7iqJnzZ4VRdGBB+4fRdH++z87+eyXrv7Gt7/3kyiKvvP9n5z/zjcn01M+1WwDfEcAQGEJJNCRRx597JKPXnHJxe+JouiQOQdFUXT7pu/X3HTrFSuOf+KhTQ88uP1b3/mXV591fpZnz//LT9ddcNHld23+l3lzD7nw4o9n3JhmGwAAUFi6bEE77rt/2/iWO9f98uZ3/vGHoyh617lnR1G09Jijoij64Y9+9sijj33p6m/EQWJ8y53xoPN5cw+Zf+hYxuX/7ne74rWs++XNV33563ff80CWTzXcAACAIhNIoB0XXHT5i477w1POOGfFy15a3SJxy/rrN2667dAjX7Z14r6/vOR9URQtWXzkW9905gf+y3+fNWfp93649pb112dZ/stPesklF7/nuBVvvvU/xuOPfOnqb2T5YP0GAAAUWWn16tU33njjlVde6VhQxBO0VMrSwYk+MmvO0kql4jgAwIC59tprzzrrrOzzX3fddcuXL1+wYIEWEgAAIBiBBAAACEYgAQAAghFIAACAYDyHhKKbNWepgwAAMKgEEorOXbaymDVn6c9v+Mcsc5502lszztnSzC3N6fsCABK6bMFwyZ5GWpq5pcUCACS0kNCX6vtx9V1DSs0uJNufTK/fo2YfaUnwFhIAgGoCCf1qALpyNYwc1cmkfobO91oLCQBQKAIJg6OmbaFhU0P9xJQpDZc27cfz0qXEpYUEACgUgYSB0rB5IXld/SJ+3axFomE4qZ84bYNGuoyRadqPxLIPFm9pWHk887RhQxoBANojkNCvGkaFlCkN3502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" width="1000"/>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f3c18836">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5a48e1ac">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8876,7 +8891,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=05f89e53">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=33ebf593">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8910,18 +8925,18 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cbd30ac1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8bf311ab">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>A captura de tela do Netica fornecida como referência exibe <code>Desmame</code> com 56,5% de fracasso e 43,5% de sucesso. Isso é exatamente o resultado da suavização de Laplace com 12 fracassos e 9 sucessos: $13/23=56,5\\%$ e $10/23=43,5\\%$. Da mesma forma, a distribuição marginal de NIF (47,8%/52,2%) corresponde a 10/11 casos suavizados. Esse teste de consistência apoia a reconstrução dos cortes e do uso de $\\alpha=1$.</p>
+<p>A execução nativa agora obtém <code>Desmame</code> com 56,5% de fracasso e 43,5% de sucesso, também observado na captura original do professor. Para aprender com Laplace $\\alpha=1$, o Netica inicia cada linha com duas probabilidades de 0,5 e experiência 2, acrescentando as contagens dos 21 casos pelo método <code>ReviseCPTsByCaseFile_bn</code>. Os nove casos de teste só são usados depois dessa aprendizagem, sem inserir o desfecho como evidência.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=693e229d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=34d4f8f6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8931,7 +8946,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=760886fb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7029b345">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9062,16 +9077,16 @@ $$</p>
 <tr>
 <th>3</th>
 <td>Rede 2 (Netica)</td>
-<td>&gt; −25</td>
-<td>0.714</td>
-<td>0.273</td>
+<td>&lt; −25</td>
+<td>0.286</td>
+<td>0.727</td>
 </tr>
 <tr>
 <th>4</th>
 <td>Rede 2 (Netica)</td>
-<td>≤ −25</td>
-<td>0.286</td>
-<td>0.727</td>
+<td>≥ −25</td>
+<td>0.714</td>
+<td>0.273</td>
 </tr>
 </tbody>
 </table>
@@ -9155,7 +9170,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=77482b8b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=496410f2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9165,7 +9180,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=08175533">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=702760ac">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9612,7 +9627,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9af772df">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a267801b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9836,7 +9851,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c7e8aed2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1c12fda9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9846,7 +9861,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=19bbf26b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b8754720">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10082,7 +10097,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bd147dec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b2eb2324">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10092,7 +10107,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6fd1d1e7">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7be15072">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10125,7 +10140,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e90c81c8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=15770a29">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10296,7 +10311,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2d13046f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=872b138a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10306,7 +10321,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=073b06c7">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f3fa198e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10340,7 +10355,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e1fcb2ea">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=811293b3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10350,7 +10365,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2d00b856">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0dcf0a53">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10591,7 +10606,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4b436bec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3d522303">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10602,7 +10617,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4dfc63ee">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=23a6050b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10616,7 +10631,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3c97c463">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d16f4d78">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10769,7 +10784,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=529acf26">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bfcf3ef6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10803,7 +10818,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e0b4e26b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ec546e27">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10813,7 +10828,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0fc4b80d">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f8e61387">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10935,7 +10950,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f28d494e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8e91b1a4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10946,7 +10961,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=36204c54">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3d1f1e7a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10994,7 +11009,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf700786">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4bd691bd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11004,7 +11019,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=23a35174">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4f7cbaa2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11210,7 +11225,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0021e264">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b169f21b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11221,7 +11236,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=207c5b66">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=13811bc3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11238,7 +11253,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1e42d63c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7fbc1911">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11498,7 +11513,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e9b692e2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=273b84ea">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11508,7 +11523,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=211f253b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=47fd0415">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11542,7 +11557,7 @@ $$</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=46a74cc3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b7bb5cd5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11552,7 +11567,7 @@ $$</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c5c36de2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7e692dc7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11608,7 +11623,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9748b315">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5c64d697">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11618,7 +11633,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=de1895b9">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=90984ce6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12043,7 +12058,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0c327af4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a98a915a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12053,7 +12068,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=20988eb4">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9d3ed2ee">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12087,7 +12102,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1e8a60c8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f3f8643b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12097,7 +12112,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=485c6c48">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=770bd82c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12130,7 +12145,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b76ebf49">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=12bd4d03">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12288,7 +12303,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2322db40">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f15e32aa">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12299,7 +12314,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e0e3092f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c72c0e6a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12310,7 +12325,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c729f31b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=da8b63a7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12320,7 +12335,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9806297f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cbc85dd4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12354,7 +12369,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9d20e469">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c85fbdf5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12364,7 +12379,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=629d7333">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=02530dc4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12398,7 +12413,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6ce2c00d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef23dc07">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12408,7 +12423,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=172a7641">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=649ed018">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12426,7 +12441,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=341266c0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2d786ebc">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12742,7 +12757,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4294afd5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=381e89ef">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12752,7 +12767,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=60eb46c5">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=519f6314">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13068,7 +13083,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=06059ef6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2ee243b7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13078,7 +13093,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9c7ca921">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2aa145d0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13451,7 +13466,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dd6d8a52">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a786cfe7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13462,7 +13477,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cc7fafcc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d5b9bc4c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13472,7 +13487,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4d176a92">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fc5f37ff">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13593,7 +13608,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bcc6107b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bcb305fe">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13665,7 +13680,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 <li>Variáveis medidas em um único momento, sem tendência temporal.</li>
 <li>Não há informações de sedação, balanço hídrico, comorbidades, força de tosse, PaO₂/FiO₂ ou modo ventilatório.</li>
 <li>A definição de sucesso/fracasso e o protocolo de interrupção não são detalhados na base.</li>
-<li>A Rede 2 reproduz uma execução de referência do Netica; pequenas diferenças de versão/suavização podem alterar as CPTs.</li>
+<li>A Rede 2 foi discretizada pelo Netica 7.01 e aprendida pelo Netica C API 5.04; versões e opções diferentes podem alterar os resultados. O leave-one-out mantém os cortes fixos e não valida novamente a discretização em cada dobra.</li>
 <li>O limiar fuzzy de 60 foi adotado por política conservadora; outros serviços podem adotar 50 ou 70, com trade-offs distintos.</li>
 <li>Não foi feita validação externa nem análise de curvas de decisão.</li>
 </ol>
@@ -13675,7 +13690,7 @@ RSBI: mínimo da cobertura máxima = 0.500; pontos sem cobertura = 0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0f4fb2c8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=733b61f6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13699,7 +13714,7 @@ jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class=
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=eaddc672">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=79c35e9b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13711,6 +13726,8 @@ jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class=
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Naive Bayes manual x sklearn (erro absoluto máximo):"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"  Rede 1:"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="o">.</span><span class="n">nb_validation_against_sklearn</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="w"> </span><span class="s1">'clinical'</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"  Rede 2:"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="o">.</span><span class="n">nb_validation_against_sklearn</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="w"> </span><span class="s1">'netica'</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Netica nativo x Python (ambas as redes, treino e teste):"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">validate_against_netica</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Fuzzy manual x scikit-fuzzy:"</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">validate_fuzzy_against_skfuzzy</span><span class="p">(</span><span class="n">full</span><span class="p">,</span> <span class="p">[</span><span class="s2">"TE1"</span><span class="p">,</span> <span class="s2">"TE3"</span><span class="p">,</span> <span class="s2">"TR10"</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Regras:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">FUZZY_RULES</span><span class="p">),</span> <span class="s2">"| consequentes:"</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s1">'consequent'</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">w</span><span class="o">.</span><span class="n">FUZZY_RULES</span><span class="p">])</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
@@ -13734,8 +13751,92 @@ jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class=
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  Rede 1: 3.33e-16
-  Rede 2: 3.33e-16
-Fuzzy manual x scikit-fuzzy:
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  Rede 2: 3.33e-16
+Netica nativo x Python (ambas as redes, treino e teste):
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Rede</th>
+<th>Conjunto</th>
+<th>Casos</th>
+<th>Erro máximo |P(S) Netica − Python|</th>
+<th>Classes concordantes</th>
+<th>Tolerância</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>treino</td>
+<td>21</td>
+<td>0.000</td>
+<td>21</td>
+<td>0.000</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1</td>
+<td>teste</td>
+<td>9</td>
+<td>0.000</td>
+<td>9</td>
+<td>0.000</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2</td>
+<td>treino</td>
+<td>21</td>
+<td>0.000</td>
+<td>21</td>
+<td>0.000</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2</td>
+<td>teste</td>
+<td>9</td>
+<td>0.000</td>
+<td>9</td>
+<td>0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Fuzzy manual x scikit-fuzzy:
 </pre>
 </div>
 </div>
@@ -13803,7 +13904,7 @@ Fuzzy manual x scikit-fuzzy:
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=69b3e3bc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=93af63c7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13846,9 +13947,9 @@ Fuzzy manual x scikit-fuzzy:
 </tr>
 <tr>
 <td>Discretização automática da Rede 2 via Netica</td>
-<td><strong>Cumprido com ressalva</strong></td>
-<td>Seção 2.4 e <code>netica/</code></td>
-<td>Netica não foi executado neste ambiente; os cortes da execução de referência foram reproduzidos, auditados no treino e exportados em <code>.dne</code></td>
+<td><strong>Cumprido</strong></td>
+<td>Seção 2.4 e <code>netica/evidencias/</code></td>
+<td>Auto-Discretize Nodes executado no Netica 7.01 com 21 casos; rede nativa, capturas e hashes</td>
 </tr>
 <tr>
 <td>Avaliação das redes no treino e no teste</td>
@@ -13932,7 +14033,7 @@ Fuzzy manual x scikit-fuzzy:
 <td>Relatório em PDF com gráficos e tabelas</td>
 <td><strong>Cumprido</strong></td>
 <td><code>report/</code></td>
-<td>34 páginas</td>
+<td>Regenerado com autoria e evidências Netica</td>
 </tr>
 <tr>
 <td>Código-fonte e artefatos</td>
@@ -13941,24 +14042,24 @@ Fuzzy manual x scikit-fuzzy:
 <td>Reproduzível por <code>run_all.sh</code></td>
 </tr>
 <tr>
-<td>Uso explícito dos vídeos indicados</td>
-<td><strong>Cumprido com ressalva</strong></td>
-<td>Referências</td>
-<td>Os cortes são compatíveis com a base de conhecimento e a literatura; os vídeos não são citados individualmente</td>
+<td>Envio de PDF e arquivos por e-mail</td>
+<td><strong>Pendente de envio</strong></td>
+<td>Pacote de entrega</td>
+<td>Disponibilidade dos arquivos não comprova envio</td>
 </tr>
 </tbody>
 </table>
 <h3 id="7.1-Ressalvas-que-merecem-transpar%C3%AAncia">7.1 Ressalvas que merecem transparência<a class="anchor-link" href="#7.1-Ressalvas-que-merecem-transpar%C3%AAncia">¶</a></h3><ol>
-<li><strong>Netica:</strong> o software é proprietário e não estava disponível. A Rede 2 foi reconstruída com os mesmos cortes da execução de referência, auditada no treino e exportada para <code>.dne</code>. Se o professor exigir uma captura de tela produzida pelo Netica, basta abrir o <code>.dne</code> e usar <code>Cases &gt; Process Cases</code>; o roteiro está em <code>netica/README_NETICA.md</code>.</li>
+<li><strong>Netica:</strong> a execução nativa está registrada. O Netica Application 7.01 produz os cortes e o Netica C API 5.04 aprende a Rede 2 e infere as probabilidades. O notebook verifica a concordância com o Python nos 30 casos de cada rede, com tolerância de 10⁻⁶.</li>
 <li><strong>Vídeos:</strong> o conteúdo clínico foi fundamentado na base de conhecimento, no artigo de Ashutosh et al. (1992), em Yang &amp; Tobin (1991), no III Consenso, em Silva et al. (2015), Hess &amp; Kacmarek e Dräger. Os vídeos indicados no enunciado não são citados um a um.</li>
 <li><strong>Amostra:</strong> o teste tem apenas 9 casos; os intervalos de confiança são largos e não há validação externa. O caso TR1 mostra que as quatro variáveis não explicam todos os desfechos.</li>
 </ol>
-<h3 id="7.2-Conclus%C3%A3o-da-conformidade">7.2 Conclusão da conformidade<a class="anchor-link" href="#7.2-Conclus%C3%A3o-da-conformidade">¶</a></h3><p>Todos os itens do enunciado foram cobertos. As duas ressalvas são de <strong>ferramenta</strong> (Netica) e de <strong>rastreabilidade das fontes em vídeo</strong>, não de ausência de modelo, avaliação ou documentação. O projeto entrega as duas redes, o FIS, os três exemplos, o relatório e os arquivos reprodutíveis.</p>
+<h3 id="7.2-Conclus%C3%A3o-da-conformidade">7.2 Conclusão da conformidade<a class="anchor-link" href="#7.2-Conclus%C3%A3o-da-conformidade">¶</a></h3><p>Os requisitos técnicos de modelagem, discretização via Netica, avaliação e documentação estão implementados e verificados. O envio por e-mail é uma etapa de entrega separada e permanece pendente. Os vídeos são materiais de contextualização; o enunciado não exige a citação individual de todos eles.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=21487030">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=863101b0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>

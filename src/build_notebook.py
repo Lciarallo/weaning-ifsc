@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from pathlib import Path
+import sys
 
 import nbformat as nbf
 from nbclient import NotebookClient
+from jupyter_client import KernelManager
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -25,6 +27,7 @@ cells.append(md(r"""
 ### Duas redes Naive Bayes e um sistema de inferência fuzzy Mamdani
 
 **Disciplina:** Sistemas Probabilísticos e Difusos — IFSC  
+**Autor:** Luiz Eduardo do Nascimento Ciarallo<br>
 **Professor:** Cesar Alberto Penz  
 **Base de dados:** Ashutosh *et al.*, *Critical Care Medicine*, 1992 (21 casos de treino + 9 de teste)  
 **Data:** outubro de 2026
@@ -53,7 +56,7 @@ O notebook segue exatamente os itens do trabalho e exibe **as 19 figuras uma a u
 
 **Mapa das figuras:** 1 distribuições; 2 topologia; 3 matrizes NB; 4 métricas NB; 5 divergência entre redes; 6 cortes de discretização; 7 funções de pertinência; 8 regras; 9 superfície NIF×RR; 10 superfície VT×RSBI; 11 saída fuzzy nos 30 casos; 12 matrizes fuzzy; 13–18 casos TE5/TR10/TE3 (entrada e saída); 19 comparação final.
 
-> **Ressalva metodológica importante:** o Netica é proprietário e não foi executado neste ambiente. Os limiares automáticos da execução de referência foram reproduzidos e auditados apenas com o treino, e a rede equivalente foi exportada em `.dne`. O item 2(a) é, portanto, atendido em conteúdo e rastreabilidade, mas não inclui uma captura de tela gerada nesta máquina. Isso está explicitado na Seção 2.4 e no checklist final.
+> **Execução nativa comprovada:** os cortes da Rede 2 foram gerados pelo Netica Application 7.01, com dois estados, 20% de arredondamento e apenas os 21 casos de treino. A rede foi aprendida pelo Netica C API 5.04; ambas as redes foram avaliadas pelo motor nativo e confrontadas com o Python. Capturas reais, rede, casos, log e hashes estão em `netica/evidencias/`.
 """))
 
 cells.append(md(r"""
@@ -195,16 +198,16 @@ cells.append(md(r"""
 """))
 
 cells.append(md(r"""
-### 2.4 Rede 2 — discretização automática no estilo Netica
+### 2.4 Rede 2 — discretização automática executada pelo Netica
 
-A Rede 2 reproduz a execução de referência do Netica com **dois intervalos por variável**, obtidos exclusivamente do treino. A semântica é `[inferior, superior)`: o limite inferior pertence ao intervalo, o superior não (exceto a última faixa). Os cortes são medianas ou medianas arredondadas:
+A Rede 2 foi discretizada pelo comando **Modify > Auto-Discretize Nodes** do Netica Application 7.01, com **dois intervalos por variável e 20% de arredondamento**, usando somente `netica/treino_discretizacao.cas` (21 casos, quatro entradas, sem desfecho). A semântica é `[inferior, superior)`: o limite inferior pertence ao intervalo, o superior não (exceto a última faixa). Os níveis foram lidos do arquivo salvo pelo próprio Netica:
 
 - NIF: `[−60, −25)` e `[−25, −10]`
 - RR: `[13, 30)` e `[30, 46]`
 - VT: `[120, 350)` e `[350, 950]`
 - RSBI: `[10, 90)` e `[90, 270]`
 
-O limiar de RSBI 90 é a mediana arredondada (mediana amostral = 86), preservando a partição 11/10. A auditoria abaixo mostra que nenhuma faixa ficou desbalanceada e que os 9 casos de teste não foram usados.
+O corte de RSBI 90 foi uma saída do Netica, cuja opção de arredondamento foi fixada em 20% antes da avaliação. A mediana do treino (86) aparece apenas como estatística descritiva. O Python lê os níveis da rede nativa, sem conter cortes alternativos. Os hashes e a comparação das entradas com o treino são verificados antes de gerar os artefatos.
 """))
 
 cells.append(code(r"""
@@ -212,6 +215,8 @@ audit = pd.read_csv(TAB / "04_auditoria_netica.csv")
 display(audit)
 compare = pd.read_csv(TAB / "03_comparacao_limiares.csv")
 display(compare)
+display(Markdown("**Execução real no Netica 7.01 — rede aprendida e compilada.**"))
+display(Image(filename=str(ROOT / "netica/evidencias/05_rede_aprendida.png"), width=1000))
 """))
 
 cells.append(md(r"""
@@ -224,7 +229,7 @@ display(Image(filename=str(FIG / "fig06_limiares.png"), width=1050))
 """))
 
 cells.append(md(r"""
-A captura de tela do Netica fornecida como referência exibe `Desmame` com 56,5% de fracasso e 43,5% de sucesso. Isso é exatamente o resultado da suavização de Laplace com 12 fracassos e 9 sucessos: $13/23=56,5\\%$ e $10/23=43,5\\%$. Da mesma forma, a distribuição marginal de NIF (47,8%/52,2%) corresponde a 10/11 casos suavizados. Esse teste de consistência apoia a reconstrução dos cortes e do uso de $\\alpha=1$.
+A execução nativa agora obtém `Desmame` com 56,5% de fracasso e 43,5% de sucesso, também observado na captura original do professor. Para aprender com Laplace $\\alpha=1$, o Netica inicia cada linha com duas probabilidades de 0,5 e experiência 2, acrescentando as contagens dos 21 casos pelo método `ReviseCPTsByCaseFile_bn`. Os nove casos de teste só são usados depois dessa aprendizagem, sem inserir o desfecho como evidência.
 """))
 
 cells.append(md(r"""
@@ -693,7 +698,7 @@ cells.append(md(r"""
 2. Variáveis medidas em um único momento, sem tendência temporal.
 3. Não há informações de sedação, balanço hídrico, comorbidades, força de tosse, PaO₂/FiO₂ ou modo ventilatório.
 4. A definição de sucesso/fracasso e o protocolo de interrupção não são detalhados na base.
-5. A Rede 2 reproduz uma execução de referência do Netica; pequenas diferenças de versão/suavização podem alterar as CPTs.
+5. A Rede 2 foi discretizada pelo Netica 7.01 e aprendida pelo Netica C API 5.04; versões e opções diferentes podem alterar os resultados. O leave-one-out mantém os cortes fixos e não valida novamente a discretização em cada dobra.
 6. O limiar fuzzy de 60 foi adotado por política conservadora; outros serviços podem adotar 50 ou 70, com trade-offs distintos.
 7. Não foi feita validação externa nem análise de curvas de decisão.
 
@@ -731,6 +736,8 @@ cells.append(code(r"""
 print("Naive Bayes manual x sklearn (erro absoluto máximo):")
 print("  Rede 1:", f"{w.nb_validation_against_sklearn(train, 'clinical'):.2e}")
 print("  Rede 2:", f"{w.nb_validation_against_sklearn(train, 'netica'):.2e}")
+print("Netica nativo x Python (ambas as redes, treino e teste):")
+display(w.validate_against_netica())
 print("Fuzzy manual x scikit-fuzzy:")
 display(w.validate_fuzzy_against_skfuzzy(full, ["TE1", "TE3", "TR10"]).round(6))
 print("Regras:", len(w.FUZZY_RULES), "| consequentes:", pd.Series([r['consequent'] for r in w.FUZZY_RULES]).value_counts().to_dict())
@@ -747,7 +754,7 @@ A tabela abaixo confronta o que foi pedido com o que está efetivamente entregue
 | Duas redes Naive Bayes | **Cumprido** | Seções 2.1–2.6 | Rede 1 clínica e Rede 2 Netica |
 | Variáveis NIF, RR, VT e RSBI | **Cumprido** | Seções 1 e 2 | As quatro variáveis nas duas redes |
 | Discretização da Rede 1 por conhecimento especialista | **Cumprido** | Seção 2.3 e Figura 6 | 12 faixas justificadas |
-| Discretização automática da Rede 2 via Netica | **Cumprido com ressalva** | Seção 2.4 e `netica/` | Netica não foi executado neste ambiente; os cortes da execução de referência foram reproduzidos, auditados no treino e exportados em `.dne` |
+| Discretização automática da Rede 2 via Netica | **Cumprido** | Seção 2.4 e `netica/evidencias/` | Auto-Discretize Nodes executado no Netica 7.01 com 21 casos; rede nativa, capturas e hashes |
 | Avaliação das redes no treino e no teste | **Cumprido** | Seções 2.6–2.7 | Tabelas caso a caso e matrizes |
 | Probabilidades de sucesso e fracasso por caso | **Cumprido** | Seção 2.6 | Tabelas completas |
 | Comparação entre as duas redes | **Cumprido** | Seções 2.7–2.10 e Figura 5 | Acurácia, sensibilidade, especificidade, Brier e certeza |
@@ -761,19 +768,19 @@ A tabela abaixo confronta o que foi pedido com o que está efetivamente entregue
 | Exemplo de fracasso | **Cumprido** | Seção 4.2 (TR10) | Figuras 15–16 |
 | Exemplo crítico/duvidoso | **Cumprido** | Seção 4.3 (TE3) | Figuras 17–18 |
 | Fuzzificação, regras ativadas e defuzzificação dos exemplos | **Cumprido** | Seções 4.1–4.3 | Tabelas e polígono agregado |
-| Relatório em PDF com gráficos e tabelas | **Cumprido** | `report/` | 34 páginas |
+| Relatório em PDF com gráficos e tabelas | **Cumprido** | `report/` | Regenerado com autoria e evidências Netica |
 | Código-fonte e artefatos | **Cumprido** | `src/`, `netica/`, `fuzzy/`, `tables/`, `figures/` | Reproduzível por `run_all.sh` |
-| Uso explícito dos vídeos indicados | **Cumprido com ressalva** | Referências | Os cortes são compatíveis com a base de conhecimento e a literatura; os vídeos não são citados individualmente |
+| Envio de PDF e arquivos por e-mail | **Pendente de envio** | Pacote de entrega | Disponibilidade dos arquivos não comprova envio |
 
 ### 7.1 Ressalvas que merecem transparência
 
-1. **Netica:** o software é proprietário e não estava disponível. A Rede 2 foi reconstruída com os mesmos cortes da execução de referência, auditada no treino e exportada para `.dne`. Se o professor exigir uma captura de tela produzida pelo Netica, basta abrir o `.dne` e usar `Cases > Process Cases`; o roteiro está em `netica/README_NETICA.md`.
+1. **Netica:** a execução nativa está registrada. O Netica Application 7.01 produz os cortes e o Netica C API 5.04 aprende a Rede 2 e infere as probabilidades. O notebook verifica a concordância com o Python nos 30 casos de cada rede, com tolerância de 10⁻⁶.
 2. **Vídeos:** o conteúdo clínico foi fundamentado na base de conhecimento, no artigo de Ashutosh et al. (1992), em Yang & Tobin (1991), no III Consenso, em Silva et al. (2015), Hess & Kacmarek e Dräger. Os vídeos indicados no enunciado não são citados um a um.
 3. **Amostra:** o teste tem apenas 9 casos; os intervalos de confiança são largos e não há validação externa. O caso TR1 mostra que as quatro variáveis não explicam todos os desfechos.
 
 ### 7.2 Conclusão da conformidade
 
-Todos os itens do enunciado foram cobertos. As duas ressalvas são de **ferramenta** (Netica) e de **rastreabilidade das fontes em vídeo**, não de ausência de modelo, avaliação ou documentação. O projeto entrega as duas redes, o FIS, os três exemplos, o relatório e os arquivos reprodutíveis.
+Os requisitos técnicos de modelagem, discretização via Netica, avaliação e documentação estão implementados e verificados. O envio por e-mail é uma etapa de entrega separada e permanece pendente. Os vídeos são materiais de contextualização; o enunciado não exige a citação individual de todos eles.
 """))
 
 cells.append(md(r"""
@@ -794,7 +801,9 @@ out.parent.mkdir(exist_ok=True)
 nbf.write(nb, out)
 print("Notebook escrito:", out)
 
-client = NotebookClient(nb, timeout=900, kernel_name="python3", resources={"metadata": {"path": str(ROOT)}})
+manager = KernelManager(kernel_name="python3")
+manager.kernel_spec.argv = [sys.executable, "-m", "ipykernel_launcher", "-f", "{connection_file}"]
+client = NotebookClient(nb, km=manager, timeout=900, resources={"metadata": {"path": str(ROOT)}})
 client.execute()
 nbf.write(nb, out)
 print("Notebook executado e salvo.")

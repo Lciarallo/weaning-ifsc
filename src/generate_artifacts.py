@@ -36,6 +36,8 @@ def build_case_table(df, pred1, pred2):
 
 def main():
     train, test, full = w.load_data()
+    native_validation = w.validate_against_netica()
+    w.save_table(native_validation, "22_validacao_netica")
 
     # ------------------------------------------------------------------ NB
     models = {
@@ -252,6 +254,7 @@ def main():
             "rede1_max_abs_erro": w.nb_validation_against_sklearn(train, "clinical"),
             "rede2_max_abs_erro": w.nb_validation_against_sklearn(train, "netica"),
         },
+        "validacao_netica": native_validation.to_dict("records"),
         "fuzzy_sklearn": w.validate_fuzzy_against_skfuzzy(full, ["TE1", "TE3", "TR10"]).to_dict("records"),
         "fuzzy_pred": fuzzy_pred.to_dict("records"),
         "nb_train": nb_train.to_dict("records"),

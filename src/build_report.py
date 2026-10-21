@@ -259,7 +259,7 @@ def fig_div():
 
 
 def fig_lim():
-    return fig("lim", "fig06_limiares.png", "Cortes de discretização da Rede 1 (linhas tracejadas) e da Rede 2 (linha cheia) sobre a distribuição dos casos de treino e teste. Os cortes automáticos são medianas/medianas arredondadas do treino.", width="98%")
+    return fig("lim", "fig06_limiares.png", "Cortes de discretização da Rede 1 (linhas tracejadas) e da Rede 2 (linha cheia) sobre os casos de treino e teste. Os cortes automáticos foram produzidos pelo Netica 7.01 com dois estados e 20% de arredondamento, usando somente o treino.", width="98%")
 
 
 def fig_mf():
@@ -316,6 +316,7 @@ parts.append(f"""
   <h1 class="title">Apoio à decisão na interrupção da ventilação mecânica</h1>
   <div class="subtitle">Duas redes Naive Bayes e um sistema de inferência fuzzy Mamdani aplicados ao desmame ventilatório</div>
   <div class="meta">
+    <b>Autor:</b> Luiz Eduardo do Nascimento Ciarallo<br>
     <b>Disciplina:</b> Sistemas Probabilísticos e Difusos<br>
     <b>Professor:</b> Cesar Alberto Penz<br>
     <b>Curso:</b> Especialização em Computação Aplicada à Indústria<br>
@@ -323,7 +324,7 @@ parts.append(f"""
     <b>Data:</b> outubro de 2026
   </div>
   <div class="abstract">
-    <b>Resumo.</b> Este trabalho desenvolve e compara modelos probabilísticos e difusos para apoiar a decisão de interromper a ventilação mecânica. A base contém 21 tentativas de treinamento (9 sucessos e 12 fracassos) e 9 de teste (3 fracassos e 6 sucessos), descritas por pico negativo da pressão inspiratória (NIF), frequência respiratória (RR), volume tidal (VT) e o índice de respiração rápida e superficial (RSBI). Foram construídas duas redes Naive Bayes: a Rede 1 usa cortes clínicos (NIF −30/−20 cm.H₂O; RR 20/30 resp/min; VT 350/600 mL; RSBI 105/150 resp/min/L); a Rede 2 usa dois intervalos automáticos no estilo Netica (cortes −25, 30, 350 e 90). Um sistema Mamdani com quatro entradas, 81 regras, implicação pelo mínimo, agregação pelo máximo e defuzzificação pelo centroide foi avaliado nos 30 casos. A Rede 1 obteve 90,0% de acurácia na base completa (27/30), sensibilidade de 86,7% e especificidade de 93,3%; no teste, 9/9. A Rede 2 obteve 83,3% (25/30) e 77,8% no teste, com especificidade de 33,3%, apesar de maior confiança média. O sistema fuzzy, com limiar conservador de 60/100, obteve 86,7% (26/30), sensibilidade de 80,0% e especificidade de 93,3%, com 9/9 no teste. Os três estudos de caso — TE5 (sucesso claro), TR10 (fracasso claro) e TE3 (crítico) — detalham fuzzificação, regras ativadas, agregação e centroide. Conclui-se que a discretização especialista preserva melhor a informação clínica e que o fuzzy torna a incerteza explícita; nenhum modelo substitui a avaliação clínica.
+    <b>Resumo.</b> Este trabalho desenvolve e compara modelos probabilísticos e difusos para apoiar a decisão de interromper a ventilação mecânica. A base contém 21 tentativas de treinamento (9 sucessos e 12 fracassos) e 9 de teste (3 fracassos e 6 sucessos), descritas por pico negativo da pressão inspiratória (NIF), frequência respiratória (RR), volume tidal (VT) e o índice de respiração rápida e superficial (RSBI). Foram construídas duas redes Naive Bayes: a Rede 1 usa cortes clínicos (NIF −30/−20 cm.H₂O; RR 20/30 resp/min; VT 350/600 mL; RSBI 105/150 resp/min/L); a Rede 2 usa dois intervalos automáticos obtidos pelo Netica (cortes −25, 30, 350 e 90). Um sistema Mamdani com quatro entradas, 81 regras, implicação pelo mínimo, agregação pelo máximo e defuzzificação pelo centroide foi avaliado nos 30 casos. A Rede 1 obteve 90,0% de acurácia na base completa (27/30), sensibilidade de 86,7% e especificidade de 93,3%; no teste, 9/9. A Rede 2 obteve 83,3% (25/30) e 77,8% no teste, com especificidade de 33,3%, apesar de maior confiança média. O sistema fuzzy, com limiar conservador de 60/100, obteve 86,7% (26/30), sensibilidade de 80,0% e especificidade de 93,3%, com 9/9 no teste. Os três estudos de caso — TE5 (sucesso claro), TR10 (fracasso claro) e TE3 (crítico) — detalham fuzzificação, regras ativadas, agregação e centroide. Conclui-se que a discretização especialista preserva melhor a informação clínica e que o fuzzy torna a incerteza explícita; nenhum modelo substitui a avaliação clínica.
   </div>
   <div class="foot">Relatório técnico-científico · versão reprodutível · notebook, scripts, redes Netica e FIS incluídos nos artefatos.</div>
 </section>
@@ -339,7 +340,7 @@ parts.append(f"""
   <li>3. Modelagem probabilística: duas redes Naive Bayes</li>
   <li class="lvl2">3.1 Topologia, hipótese de independência e redundância entre RR, VT e RSBI</li>
   <li class="lvl2">3.2 Discretização por conhecimento clínico (Rede 1)</li>
-  <li class="lvl2">3.3 Discretização automática no estilo Netica (Rede 2)</li>
+  <li class="lvl2">3.3 Discretização automática executada pelo Netica (Rede 2)</li>
   <li class="lvl2">3.4 Probabilidades condicionais e suavização de Laplace</li>
   <li class="lvl2">3.5 Resultados no treino e no teste</li>
   <li class="lvl2">3.6 Matrizes de confusão, métricas e calibração</li>
@@ -392,7 +393,7 @@ parts.append(f"""
 
 <h2>1.3 Objetivos</h2>
 <ol>
-<li>Construir duas redes Naive Bayes para estimar P(Sucesso | NIF, RR, VT, RSBI), uma com discretização baseada em conhecimento clínico e outra com limiares automáticos no estilo Netica, estimando todas as probabilidades exclusivamente com os 21 casos de treino.</li>
+<li>Construir duas redes Naive Bayes para estimar P(Sucesso | NIF, RR, VT, RSBI), uma com discretização baseada em conhecimento clínico e outra com limiares automáticos obtidos pelo Netica, estimando todas as probabilidades exclusivamente com os 21 casos de treino.</li>
 <li>Avaliar as redes caso a caso no treino e no teste, construir matrizes de confusão e comparar acurácia, sensibilidade, especificidade e grau de certeza.</li>
 <li>Projetar um sistema de inferência fuzzy Mamdani com quatro entradas, funções de pertinência justificadas pela literatura, base de regras completa e defuzzificação por centroide.</li>
 <li>Avaliar o FIS nos 30 casos e demonstrar detalhadamente fuzzificação, regras ativadas e defuzzificação em três casos representativos: sucesso claro, fracasso claro e caso crítico/duvidoso.</li>
@@ -446,8 +447,8 @@ parts.append(f"""
 <ul>
 <li><b>Treino:</b> apenas os 21 casos foram usados para definir os limiares automáticos da Rede 2, estimar priors, estimar CPTs e realizar a validação leave-one-out.</li>
 <li><b>Teste:</b> os 9 casos foram mantidos fora de qualquer decisão de projeto e usados somente na avaliação final. O mesmo vale para as 30 observações na análise do fuzzy: as funções de pertinência e as regras foram definidas por conhecimento clínico, não por ajuste aos dados.</li>
-<li><b>Rede 2:</b> os cortes automáticos foram extraídos da execução de referência do Netica e auditados contra os quantis do treino; a auditoria confirma partições 10/11 ou 11/10 e nenhuma participação do teste.</li>
-<li><b>Validação interna:</b> leave-one-out no treino, refazendo priors e CPTs em cada dobra, para avaliar estabilidade e redundância. O teste não é usado nessa etapa.</li>
+<li><b>Rede 2:</b> os cortes foram produzidos pelo Netica 7.01 a partir do arquivo com as quatro entradas dos 21 casos de treino. Rede nativa, capturas e hashes permitem verificar a execução e sua entrada.</li>
+<li><b>Validação interna:</b> leave-one-out no treino, refazendo priors e CPTs em cada dobra, para avaliar estabilidade e redundância. Os cortes da Rede 2 ficam fixos; portanto, essa análise é condicional à discretização e não é uma validação aninhada de todo o processo. O teste não é usado nessa etapa.</li>
 </ul>
 <p>As métricas adotadas são:</p>
 <div class="formula">
@@ -509,7 +510,7 @@ t4 = tab(
 a_rows = []
 for _, r in audit.iterrows():
     a_rows.append([r["Variável"], n(r["Corte adotado"], 0), n(r["Mediana treino"], 0), str(int(r["n faixa inferior"])), str(int(r["n faixa superior"])), str(int(r["Diferença"])), e(r["Intervalos"])])
-t5 = simple_table("audit_netica", "Auditoria antileakage dos cortes automáticos da Rede 2, calculada exclusivamente com os 21 casos de treino.", ["Variável", "Corte", "Mediana treino", "n inferior", "n superior", "|dif.|", "Intervalos"], a_rows, source="Fonte: elaboração própria. Nenhuma estatística do teste foi utilizada.", cls="tiny keep", numeric_from=1, note="O corte de RSBI (90) é a mediana arredondada (86), preservando a partição 11/10 da amostra de treino.")
+t5 = simple_table("audit_netica", "Descrição no treino dos cortes automáticos efetivamente produzidos pelo Netica 7.01.", ["Variável", "Corte", "Mediana treino", "n inferior", "n superior", "|dif.|", "Intervalos"], a_rows, source="Fonte: Netica Application 7.01, Auto-Discretize Nodes, dois estados e 20% de arredondamento; somente 21 casos de treino.", cls="tiny keep", numeric_from=1, note="A mediana é descritiva: os cortes foram lidos do arquivo nativo salvo pelo Netica, não estimados em Python.")
 
 # Tabela 6 — comparação de limiares
 cmp_rows = [[r["Variável"], e(r["Rede 1 (clínica)"]), e(r["Rede 2 (Netica)"]), e(r["Efeito"])] for _, r in compare.iterrows()]
@@ -604,14 +605,14 @@ parts.append(f"""
 <p>O NIF é a variável com sinal negativo: quanto mais negativo, maior a força. Por isso, “Forte” é ≤ −30, “Limítrofe” é −30 a −20 e “Fraco” é &gt; −20. A faixa −30 a −20 é uma zona de incerteza deliberada: a literatura usa −30 como critério de força e > −30 (sobretudo > −20) como preditor de falha, mas não há um único ponto universal. O mesmo raciocínio se aplica ao RSBI: 105 é o corte clássico, mas valores entre 105 e 150 não são equivalentes a valores muito altos; por isso a faixa limítrofe.</p>
 {fig_lim()}
 
-<h2>3.3 Discretização automática no estilo Netica (Rede 2)</h2>
-<p>A Rede 2 usa dois intervalos por variável, com cortes automáticos extraídos da execução de referência do Netica. Como o Netica é um software proprietário e não estava disponível no ambiente de execução, os limiares e as CPTs foram reproduzidos em Python, auditados e exportados para um arquivo <span class="mono">.dne</span> que pode ser aberto no Netica. A Tabela [[tab:audit_netica]] mostra que cada corte produz uma partição 10/11 ou 11/10 no treino, e a Tabela [[tab:cmp_limiares]] compara os cortes com os da Rede 1.</p>
+<h2>3.3 Discretização automática executada pelo Netica (Rede 2)</h2>
+<p>A Rede 2 foi discretizada automaticamente no <b>Netica Application 7.01</b>, pelo comando <i>Modify → Auto-Discretize Nodes</i>, com <b>dois estados e 20% de arredondamento</b>. A única entrada foi <span class="mono">netica/treino_discretizacao.cas</span>: quatro variáveis, 21 casos de treino e nenhum desfecho. A rede com os níveis gerados foi salva pelo próprio Netica em <span class="mono">netica/evidencias/02_discretizacao_automatica.dne</span>. O Python lê esses níveis, sem cortes alternativos. A Tabela [[tab:audit_netica]] descreve a distribuição resultante no treino; a Tabela [[tab:cmp_limiares]] compara os cortes com os da Rede 1.</p>
 {t5}
 {t6}
 <p>Três diferenças são particularmente importantes. Primeiro, o corte de NIF em −25 cai dentro da zona de incerteza clínica e elimina a distinção entre “forte” e “limítrofe”. Segundo, o VT é dividido apenas em “baixo” e “não baixo”, de modo que um VT de 350 mL (limite) passa a ser tratado como favorável, enquanto um VT de 900 mL não recebe nenhum crédito adicional. Terceiro, o RSBI é cortado em 90, abaixo do clássico 105; isso reclassifica RSBI 90–104 como desfavorável, mas também torna a rede sensível ao arredondamento da mediana amostral (86).</p>
 <div class="box neutral">
 <h4>Sobre a reprodutibilidade do Netica</h4>
-<p>O arquivo <span class="mono">netica/Weaning_Rede2_Netica.dne</span> contém a topologia, os estados, as priors e as CPTs estimadas no treino. Os casos de treino e teste já discretizados estão em <span class="mono">netica/casos_*.csv</span>; o roteiro em <span class="mono">netica/README_NETICA.md</span> descreve como usar <i>Process Cases</i> e <i>Test With Cases</i>. A reprodução numérica em Python é validada contra <span class="mono">sklearn.CategoricalNB</span> com as mesmas priors suavizadas (erro máximo da ordem de 10<sup>−16</sup>).</p>
+<p>A Rede 2 foi aprendida e salva pelo <b>Netica C API 5.04 Linux</b>, com contagem dos 21 casos e um pseudocaso por estado (Laplace α = 1). Ambas as redes foram compiladas e avaliadas pelo motor Netica: o desfecho nunca é inserido como evidência. As probabilidades dos 30 casos de cada rede concordam com o Python dentro de 10<sup>−6</sup>, com todas as classes iguais. Capturas reais do Netica 7.01, casos, log da API, rede nativa e hashes SHA-256 estão em <span class="mono">netica/evidencias/</span>. O Apêndice C mostra a evidência e o roteiro em <span class="mono">netica/README_NETICA.md</span> permite repetir a execução. A comparação adicional com <span class="mono">sklearn.CategoricalNB</span> usa as mesmas priors suavizadas.</p>
 </div>
 
 <h2>3.4 Probabilidades condicionais e suavização de Laplace</h2>
@@ -636,7 +637,7 @@ parts.append(f"""
 </div>
 
 <h2>3.7 Limiar de decisão e assimetria de riscos</h2>
-<p>O limiar padrão de 50% é o ponto que maximiza a acurácia balanceada, mas não incorpora custos. Em desmame, um falso positivo pode ser fatal; um falso negativo geralmente pode ser corrigido com reavaliação. A Tabela [[tab:th_nb]] mostra o efeito de exigir 60%, 75% ou 90% de probabilidade para liberar. Para a Rede 1, as posteriores são extremas e o limiar tem pouco efeito até 75%; para a Rede 2, subir o limiar melhora a especificidade no teste, mas cria falsos negativos. Para a Rede 2, o limiar de 90% chega a 100% de acerto no teste, mas isso é um artefato de uma amostra minúscula e não deve ser adotado como regra.</p>
+<p>O limiar padrão de 50% escolhe a classe de maior probabilidade posterior; ele não garante máxima acurácia balanceada e não incorpora custos assimétricos. A Tabela [[tab:th_nb]] mostra o efeito de exigir 60%, 75% ou 90% de probabilidade. Para a Rede 1, o limiar tem pouco efeito até 75%; para a Rede 2, subir o limiar altera o compromisso entre erros. O acerto de 100% da Rede 2 no teste com limiar de 90% é uma observação posterior sobre nove casos e não deve orientar a escolha do limiar.</p>
 {t11}
 
 <h2>3.8 Comparação crítica e análise dos casos de fronteira</h2>
@@ -834,7 +835,7 @@ for _, r in final.iterrows():
     fin_rows.append([e(r["Modelo"]), pct(r["Acurácia"]), pct(r["Sensibilidade"]), pct(r["Especificidade"]), pct(r["PPV"]), pct(r["NPV"]), pct(r["F1"]), str(int(r["TN"])), str(int(r["FP"])), str(int(r["FN"])), str(int(r["TP"]))])
 t29 = simple_table("final", "Comparação final dos três modelos na base completa (n = 30), com a classe positiva Sucesso.", ["Modelo", "Acurácia", "Sens.", "Espec.", "PPV", "NPV", "F1", "TN", "FP", "FN", "TP"], fin_rows, source="Fonte: elaboração própria. O Fuzzy usa a política conservadora de liberar apenas com potencial ≥ 60.", cls="tiny keep")
 qual = [
-    ["Saída", "Probabilidade calibrada de sucesso", "Probabilidade calibrada de sucesso", "Potencial graduado (0–100) + faixa de cautela"],
+    ["Saída", "Probabilidade posterior de sucesso, sem calibração independente", "Probabilidade posterior de sucesso, sem calibração independente", "Potencial graduado (0–100) + faixa de cautela"],
     ["Transparência", "CPTs e priors auditáveis; leitura por variável", "CPTs e priors auditáveis; duas faixas por variável", "81 regras linguísticas e funções de pertinência"],
     ["Incerteza no limiar", "Posteriores extremas; pode parecer mais segura do que é", "Posteriores extremas; pior calibração (Brier 0,137)", "Transições graduadas; incerteza explícita"],
     ["Independência", "Hipótese violada por RR/VT/RSBI", "Hipótese violada por RR/VT/RSBI", "Não exige independência, mas reforça o padrão respiratório"],
@@ -871,7 +872,7 @@ parts.append(f"""
 <li><b>Variáveis estáticas:</b> cada caso tem uma única medida; não há tendência temporal, resposta a um teste de respiração espontânea, gasometria, relação PaO₂/FiO₂, força de tosse ou avaliação de secreção.</li>
 <li><b>Independência condicional:</b> RR, VT e RSBI são dependentes; as posteriores podem ser excessivamente extremas. A validação leave-one-out mostra instabilidade com o conjunto completo.</li>
 <li><b>Definição do desfecho:</b> o critério de sucesso/fracasso e o protocolo de reintubação não estão detalhados na base; o caso TR1 sugere que variáveis omitidas podem ser decisivas.</li>
-<li><b>Discretização automática:</b> a Rede 2 reproduz uma execução de referência do Netica, mas versões, opções de suavização e arredondamento podem alterar as CPTs. O arquivo <span class="mono">.dne</span> e a auditoria permitem rastrear a reconstrução.</li>
+<li><b>Discretização automática:</b> a execução usa Netica Application 7.01, dois estados e 20% de arredondamento; outras opções podem produzir cortes diferentes. A rede nativa e os hashes registram as opções efetivamente usadas.</li>
 <li><b>Limiar fuzzy:</b> 60 é uma escolha de política; 50, 55 ou 70 produziriam outros trade-offs. O limiar não foi ajustado no teste, mas também não foi validado prospectivamente.</li>
 <li><b>Ausência de validação externa:</b> não há coorte independente, análise de curvas de decisão, calibração prospectiva ou comparação com o julgamento de especialistas.</li>
 </ol>
@@ -930,7 +931,7 @@ val_rows = [
     ["Naive Bayes manual × sklearn.CategoricalNB", "Rede 1", "3,3 × 10<sup>−16</sup>", "Mesmas priors suavizadas e α = 1."],
     ["Naive Bayes manual × sklearn.CategoricalNB", "Rede 2", "3,3 × 10<sup>−16</sup>", "Mesmas priors suavizadas e α = 1."],
     ["Mamdani manual × scikit-fuzzy", "TE1, TE3, TR10", "&lt; 10<sup>−5</sup>", "Diferença máxima no centroide; mesma base de regras."],
-    ["Auditoria antileakage", "Rede 2", "—", "Partições 10/11 ou 11/10 apenas no treino."],
+    ["Auditoria da entrada Netica", "Rede 2", "—", "SHA-256 e igualdade das quatro entradas com os 21 casos de treino."],
 ]
 t33 = simple_table("validacao", "Testes de validação numérica e de integridade implementados no projeto.", ["Teste", "Escopo", "Erro/diferença", "Observação"], val_rows, source="Fonte: elaboração própria. Resultados reproduzidos por src/generate_artifacts.py.", cls="tiny keep")
 
@@ -990,7 +991,7 @@ python src/build_report.py</div>
 
 <h2>C.3 Validações</h2>
 {t33}
-<p>Os testes garantem que a implementação manual não introduziu erros silenciosos. A comparação com <span class="mono">sklearn.CategoricalNB</span> usa as mesmas priors suavizadas; a comparação com <span class="mono">scikit-fuzzy</span> usa a mesma base de 81 regras e os mesmos parâmetros. A auditoria antileakage verifica que os cortes automáticos produzem partições equilibradas no treino; nenhuma estatística do teste é usada.</p>
+<p>As verificações confrontam implementações: <span class="mono">sklearn.CategoricalNB</span> usa as mesmas priors suavizadas e <span class="mono">scikit-fuzzy</span> usa a mesma base de 81 regras. A validação nativa do Netica, na próxima seção, verifica ambas as redes. Os hashes e a comparação do arquivo de entrada com os 21 casos originais permitem auditar a fonte da discretização; o teste só participa da avaliação posterior.</p>
 
 <div class="pagebreak"></div>
 <h2>C.4 Trechos centrais do código</h2>
@@ -1001,6 +1002,33 @@ python src/build_report.py</div>
 <h4>Declaração de escopo</h4>
 <p>Este é um trabalho acadêmico de modelagem sobre uma base histórica e pequena. Os resultados não constituem recomendação clínica individual e não substituem protocolos institucionais, avaliação médica ou testes de respiração espontânea. Qualquer uso em pacientes exige validação prospectiva, aprovação ética e governança clínica.</p>
 </div>
+""")
+
+native_validation = w.validate_against_netica()
+native_rows = [
+    [str(int(r["Rede"])), e(r["Conjunto"]), str(int(r["Casos"])),
+     f'{r["Erro máximo |P(S) Netica − Python|"]:.3e}', str(int(r["Classes concordantes"]))]
+    for _, r in native_validation.iterrows()
+]
+native_table = simple_table(
+    "netica_nativo", "Concordância entre o motor Netica e a implementação Python.",
+    ["Rede", "Conjunto", "Casos", "Erro máximo em P(S)", "Classes iguais"], native_rows,
+    source="Fonte: execução real do Netica C API 5.04; src/netica_native.c e netica/evidencias/execucao_api.log.",
+    cls="tiny keep", note="Tolerância 10⁻⁶; o gabarito não é inserido como evidência durante a inferência."
+)
+native_figure = fig(
+    "netica_real", str(ROOT / "netica/evidencias/05_rede_aprendida.png"),
+    "Execução real no Netica Application 7.01: rede aprendida e compilada, com os níveis automáticos e priors de 56,5%/43,5%.",
+    source="Fonte: captura desta execução; versão limitada oficial, sem chave de licença.", width="85%"
+)
+parts.append(f"""
+<div class="pagebreak"></div>
+<h2>C.5 Evidência da discretização e da inferência no Netica</h2>
+<p>O Netica Application 7.01 foi executado via Wine em uma tela Xvfb isolada. O procedimento foi <i>Modify → Auto-Discretize Nodes</i>, com dois estados e 20% de arredondamento. A única fonte dos histogramas foi <span class="mono">netica/treino_discretizacao.cas</span>, com as quatro entradas dos 21 casos de treino. Os cortes efetivamente salvos foram NIF −25, RR 30, VT 350 e RSBI 90. Nenhum corte foi escolhido para melhorar o desempenho no teste.</p>
+{native_figure}
+{native_table}
+<p>Para repetir: abrir <span class="mono">netica/evidencias/01_entradas_continuas.dne</span>, selecionar os quatro nós, executar o procedimento acima com o arquivo de treino e salvar os níveis. Depois executar <span class="mono">python scripts/validar_netica.py --api-dir CAMINHO_NETICA_API</span>. O programa C aprende a Rede 2 a partir dos níveis nativos e avalia ambas as redes. A fonte oficial, os parâmetros, os arquivos e os hashes estão em <span class="mono">netica/evidencias/execucao.json</span>.</p>
+<p>Os arquivos FIS e FCL também foram aceitos pelo importador do fuzzylite 4.0. O pacote <span class="mono">Entrega_Weaning_IFSC_Luiz_Ciarallo.zip</span> reúne o relatório, o notebook, os modelos, os dados, o código e as evidências. A geração desse pacote não comprova o envio por e-mail, que permanece uma etapa de encaminhamento.</p>
 """)
 
 # ---------------------------------------------------------------------------
@@ -1052,7 +1080,7 @@ def build_html() -> str:
 <head>
 <meta charset="utf-8">
 <title>Apoio à decisão na interrupção da ventilação mecânica — Naive Bayes e Fuzzy</title>
-<meta name="author" content="Trabalho acadêmico — IFSC — Sistemas Probabilísticos e Difusos">
+<meta name="author" content="Luiz Eduardo do Nascimento Ciarallo">
 <meta name="description" content="Relatório técnico-científico: redes Naive Bayes e sistema de inferência fuzzy Mamdani para desmame ventilatório.">
 <style>{CSS}</style>
 </head>
@@ -1064,7 +1092,10 @@ def build_html() -> str:
 
 
 def chrome_print(html_path: Path, pdf_path: Path):
-    chrome = shutil.which("google-chrome") or shutil.which("chromium-browser") or shutil.which("chromium")
+    chrome = os.environ.get("CHROME_BIN") or shutil.which("google-chrome") or shutil.which("chromium-browser") or shutil.which("chromium")
+    if chrome is None:
+        candidates = sorted((Path.home() / ".cache/ms-playwright").glob("chromium-*/chrome-linux64/chrome"))
+        chrome = str(candidates[-1]) if candidates else None
     if chrome is None:
         raise RuntimeError("Chromium/Google Chrome não encontrado para gerar o PDF.")
     cmd = [
@@ -1116,7 +1147,7 @@ def add_page_decorations(pdf_path: Path):
         writer.add_page(page)
     writer.add_metadata({
         "/Title": "Apoio à decisão na interrupção da ventilação mecânica — Naive Bayes e Fuzzy",
-        "/Author": "Trabalho acadêmico — IFSC — Sistemas Probabilísticos e Difusos",
+        "/Author": "Luiz Eduardo do Nascimento Ciarallo",
         "/Subject": "Redes Naive Bayes e sistema de inferência fuzzy Mamdani para desmame ventilatório",
         "/Keywords": "desmame ventilatório; Naive Bayes; lógica fuzzy; Mamdani; IFSC",
     })

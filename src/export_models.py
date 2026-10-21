@@ -15,23 +15,16 @@ ASCII_NET1 = {
     "VT": {"Baixo": "Baixo", "Adequado": "Adequado", "Elevado": "Elevado"},
     "RSBI": {"Favorável": "Favoravel", "Limítrofe": "Limitrofe", "Desfavorável": "Desfavoravel"},
 }
-NET2_ASCII = {
-    "NIF": {"≤ −25": "ate_-25", "> −25": "maior_-25"},
-    "RR": {"< 30": "ate_30", "≥ 30": "maior_30"},
-    "VT": {"< 350": "ate_350", "≥ 350": "maior_350"},
-    "RSBI": {"< 90": "ate_90", "≥ 90": "maior_90"},
-}
-
 
 def _states_for(model: w.NaiveBayesModel, var: str) -> list[str]:
     if model.method == "clinical":
         return [ASCII_NET1[var][s] for s in model.states[var]]
-    return [NET2_ASCII[var][s] for s in model.states[var]]
+    raise ValueError("A Rede 2 deve ser salva pelo Netica nativo")
 
 
 def _dne(model: w.NaiveBayesModel, title: str) -> str:
     lines = ["// ~->[DNET-1]->~", f"// Rede Naive Bayes — {title}", "// Gerada para inspeção/uso no Netica; CPTs estimadas SOMENTE com os 21 casos de treino.", ""]
-    lines += [f"bnet {title} {{", ""]
+    lines += [f"bnet {title} {{", "visual V1 {defdispform = BELIEFBARS;};", ""]
     # pai
     lines += [
         "node Desmame {",
@@ -41,10 +34,11 @@ def _dne(model: w.NaiveBayesModel, title: str) -> str:
         "  states = (Fracasso, Sucesso);",
         "  parents = ();",
         f"  probs = ({model.priors['Fracasso']:.8f}, {model.priors['Sucesso']:.8f});",
+        "  visual V1 {center = (300, 500);};",
         "};",
         "",
     ]
-    for var in w.VARIABLES:
+    for i, var in enumerate(w.VARIABLES):
         states = _states_for(model, var)
         lines += [
             f"node {var} {{",
@@ -59,67 +53,40 @@ def _dne(model: w.NaiveBayesModel, title: str) -> str:
         p_s = [model.likelihoods[var]["Sucesso"][s] for s in model.states[var]]
         lines.append("    ((" + ", ".join(f"{x:.8f}" for x in p_f) + "),   // Desmame = Fracasso")
         lines.append("     (" + ", ".join(f"{x:.8f}" for x in p_s) + "));  // Desmame = Sucesso")
-        lines += ["};", ""]
-    lines += ["}", ""]
+        lines += [f"  visual V1 {{center = ({150 + 300 * (i % 2)}, {100 + 200 * (i // 2)});}};", "};", ""]
+    lines += ["};", ""]
     return "\n".join(lines)
 
 
 def export_netica(train: pd.DataFrame):
     models = {
         "Weaning_Rede1_Clinica": w.fit_naive_bayes(train, "clinical"),
-        "Weaning_Rede2_Netica": w.fit_naive_bayes(train, "netica"),
     }
+    # A Rede 2 é um arquivo nativo aprendido pelo Netica. Nunca sobrescrevê-lo
+    # com uma exportação Python apresentada como execução do programa.
+    w.verify_netica_evidence()
     for name, model in models.items():
         (w.NETICA_DIR / f"{name}.dne").write_text(_dne(model, name), encoding="utf-8")
     # Casos discretizados (ASCII) para "Process Cases".
     for method, name in [("clinical", "Rede1"), ("netica", "Rede2")]:
-        model = models["Weaning_Rede1_Clinica" if method == "clinical" else "Weaning_Rede2_Netica"]
-        rec = w.discretize(train, method).copy()
+        rec = w.discretize(train, method).copy() if method == "clinical" else train[list(w.VARIABLES)].copy()
         rec.insert(0, "IDnum", train["IDnum"].to_numpy())
         rec["Desmame"] = train["Resultado"].astype(str).to_numpy()
-        for var in w.VARIABLES:
-            rec[var] = rec[var].map(lambda s, v=var: ASCII_NET1[v][s] if method == "clinical" else NET2_ASCII[v][s])
+        if method == "clinical":
+            for var in w.VARIABLES:
+                rec[var] = rec[var].map(ASCII_NET1[var])
         rec.to_csv(w.NETICA_DIR / f"casos_treino_{name}.csv", index=False)
     # Casos de teste, sem o desfecho (para inferência), e com desfecho (auditoria).
     _, test, _ = w.load_data()
     for method, name in [("clinical", "Rede1"), ("netica", "Rede2")]:
-        rec = w.discretize(test, method).copy()
+        rec = w.discretize(test, method).copy() if method == "clinical" else test[list(w.VARIABLES)].copy()
         rec.insert(0, "IDnum", test["IDnum"].to_numpy())
-        for var in w.VARIABLES:
-            rec[var] = rec[var].map(lambda s, v=var: ASCII_NET1[v][s] if method == "clinical" else NET2_ASCII[v][s])
+        if method == "clinical":
+            for var in w.VARIABLES:
+                rec[var] = rec[var].map(ASCII_NET1[var])
         rec.to_csv(w.NETICA_DIR / f"casos_teste_{name}_sem_desfecho.csv", index=False)
         rec["Desmame"] = test["Resultado"].astype(str).to_numpy()
         rec.to_csv(w.NETICA_DIR / f"casos_teste_{name}_com_desfecho.csv", index=False)
-    (w.NETICA_DIR / "README_NETICA.md").write_text(
-        """# Uso dos modelos no Netica
-
-Arquivos:
-
-- `Weaning_Rede1_Clinica.dne`: rede com discretização por conhecimento clínico (3 faixas por variável).
-- `Weaning_Rede2_Netica.dne`: rede com dois intervalos automáticos por variável, reproduzindo a execução de referência do Netica.
-- `casos_treino_Rede1.csv` e `casos_treino_Rede2.csv`: os 21 casos já discretizados (rótulos ASCII), com a coluna `Desmame` (gabarito).
-- `casos_teste_*_sem_desfecho.csv`: 9 casos para `Cases > Process Cases` (inferência cega).
-- `casos_teste_*_com_desfecho.csv`: 9 casos para `Cases > Test With Cases` (auditoria).
-
-As CPTs e as priors já estão gravadas nos arquivos `.dne`, estimadas exclusivamente
-com os 21 casos de treino e suavização de Laplace (alpha = 1). Para reproduzir:
-
-1. Abra o `.dne` no Netica (File > Open).
-2. Compile a rede (Network > Compile).
-3. Para inferência: Cases > Process Cases > escolha o CSV sem desfecho.
-4. Para métricas: Cases > Test With Cases > escolha o CSV com desfecho.
-5. Confira as crenças em `Desmame` no painel de nós.
-
-Os cortes da Rede 2 são `[−60,−25) | [−25,−10]`, `[13,30) | [30,46]`,
-`[120,350) | [350,950]` e `[10,90) | [90,270]`. Eles foram obtidos apenas
-com o treino (medianas/medianas arredondadas; partições 10/11 ou 11/10).
-Nenhum valor da base de teste foi usado para defini-los.
-
-A inspeção do `.dne` é opcional: toda a inferência do relatório foi replicada
-em Python (`src/weaning_lib.py`) e validada contra `sklearn.CategoricalNB`.
-""",
-        encoding="utf-8",
-    )
 
 
 def export_fis():
@@ -174,28 +141,25 @@ def export_fis():
     ascii_term = lambda s: (s.replace("í", "i").replace("á", "a").replace("é", "e").replace("ó", "o").replace("ú", "u").replace("â", "a").replace("ê", "e").replace("ô", "o").replace("ç", "c").replace(" ", "_"))
     for var in w.VARIABLES:
         fcl.append(f"FUZZIFY {var}")
+        fcl.append(f"  RANGE := ({w.FUZZY_RANGES[var][0]:g} .. {w.FUZZY_RANGES[var][1]:g});")
         for term in w.FUZZY_TERMS[var]:
             kind, params, label = w.FUZZY_MFS[var][term]
-            if kind == "trap":
-                fcl.append(f"  TERM {ascii_term(label)} := trapmf ({', '.join(f'{p:g}' for p in params)});")
-            else:
-                fcl.append(f"  TERM {ascii_term(label)} := trimf ({', '.join(f'{p:g}' for p in params)});")
+            mf = "Trapezoid" if kind == "trap" else "Triangle"
+            fcl.append(f"  TERM {ascii_term(label)} := {mf} {' '.join(f'{p:g}' for p in params)};")
         fcl += ["END_FUZZIFY", ""]
-    fcl += ["DEFUZZIFY Potencial"]
+    fcl += ["DEFUZZIFY Potencial", "  RANGE := (0 .. 100);"]
     for term in terms_out:
         kind, params, label = w.FUZZY_MFS["OUT"][term]
-        if kind == "trap":
-            fcl.append(f"  TERM {ascii_term(label)} := trapmf ({', '.join(f'{p:g}' for p in params)});")
-        else:
-            fcl.append(f"  TERM {ascii_term(label)} := trimf ({', '.join(f'{p:g}' for p in params)});")
-    fcl += ["  METHOD : COG;", "  DEFAULT := 0;", "END_DEFUZZIFY", "", "RULEBLOCK regras", "  AND : MIN;", "  ACT : MIN;", "  ACCU : MAX;"]
+        mf = "Trapezoid" if kind == "trap" else "Triangle"
+        fcl.append(f"  TERM {ascii_term(label)} := {mf} {' '.join(f'{p:g}' for p in params)};")
+    fcl += ["  METHOD : COG;", "  ACCU : MAX;", "  DEFAULT := 0;", "END_DEFUZZIFY", "", "RULEBLOCK regras", "  AND : MIN;", "  ACT : MIN;"]
     for rule in w.FUZZY_RULES:
         fcl.append(
-            f"  RULE {rule['id']} : IF NIF IS {ascii_term(w.TERM_DISPLAY[rule['terms']['NIF']])} "
-            f"AND RR IS {ascii_term(w.TERM_DISPLAY[rule['terms']['RR']])} "
-            f"AND VT IS {ascii_term(w.TERM_DISPLAY[rule['terms']['VT']])} "
-            f"AND RSBI IS {ascii_term(w.TERM_DISPLAY[rule['terms']['RSBI']])} "
-            f"THEN Potencial IS {ascii_term(w.TERM_DISPLAY[rule['consequent']])};"
+            f"  RULE {rule['id']} : if NIF is {ascii_term(w.TERM_DISPLAY[rule['terms']['NIF']])} "
+            f"and RR is {ascii_term(w.TERM_DISPLAY[rule['terms']['RR']])} "
+            f"and VT is {ascii_term(w.TERM_DISPLAY[rule['terms']['VT']])} "
+            f"and RSBI is {ascii_term(w.TERM_DISPLAY[rule['terms']['RSBI']])} "
+            f"then Potencial is {ascii_term(w.TERM_DISPLAY[rule['consequent']])};"
         )
     fcl += ["END_RULEBLOCK", "", "END_FUNCTION_BLOCK", ""]
     (w.FUZZY_DIR / "weaning_mamdani.fcl").write_text("\n".join(fcl), encoding="utf-8")

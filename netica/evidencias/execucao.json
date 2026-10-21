@@ -1,0 +1,74 @@
+{
+  "executed_at_utc": "2026-10-21T00:19:02.605189+00:00",
+  "discretization": {
+    "software": "Netica Application 7.01",
+    "mode": "Limited Mode",
+    "command": "Modify > Auto-Discretize Nodes",
+    "states": 2,
+    "rounding_percent": 20,
+    "training_rows": 21,
+    "input": "netica/treino_discretizacao.cas",
+    "output": "netica/evidencias/02_discretizacao_automatica.dne",
+    "data_sources": [
+      "data/weaning_train.csv"
+    ],
+    "levels": {
+      "NIF": [
+        -60.0,
+        -25.0,
+        -10.0
+      ],
+      "RR": [
+        13.0,
+        30.0,
+        46.0
+      ],
+      "VT": [
+        120.0,
+        350.0,
+        950.0
+      ],
+      "RSBI": [
+        10.0,
+        90.0,
+        270.0
+      ]
+    }
+  },
+  "learning": {
+    "software": "Netica C API 5.04 Linux x86_64",
+    "method": "ReviseCPTsByCaseFile_bn",
+    "alpha": 1,
+    "initial_experience_per_row": 2,
+    "training_rows": 21
+  },
+  "sources": [
+    "https://www.norsys.com/download.html",
+    "https://www.norsys.com/netica_c_api.htm",
+    "https://www.norsys.com/WebHelp/NETICA/X_Discretize_or_Combine.htm"
+  ],
+  "sha256": {
+    "data/weaning_train.csv": "4f0db791e0709a94e2db6e45b8d3c9689f7feaf58871e64cfd2e415e4dd6c387",
+    "netica/treino_discretizacao.cas": "d569886d05aae737142fa5f60fb709f7dd9bdcb97ead254858c8280c1a96ed95",
+    "netica/evidencias/01_entradas_continuas.dne": "fc5d0d6fc718f44834a84c95f538c080d2484ef064a189fd31783ac6fd0c2f9b",
+    "netica/evidencias/02_discretizacao_automatica.dne": "30274a9588631f58101f3198e4a25a78cbab180b8d807b496c9358cce43adb86",
+    "netica/Weaning_Rede2_Netica.dne": "4d73510ef995f509f7ff195fd059658e17f2d3bae7a6375c69c26afbbae5196b",
+    "src/netica_native.c": "c445f6c61ea372fd7dbf534a3cc2c003ec960ec262c656f703afbf9277cb0027",
+    "netica/evidencias/01_selecao_treino.png": "6bd4000d01634f7a6a7a40cc403a0f441fe29dfbba4ec40644b5e0ebbe0948e1",
+    "netica/evidencias/02_dois_estados.png": "2aef5f7d1551785debfbbdc67f536a9704e674bebeff1ea52642bf2dceb12b3b",
+    "netica/evidencias/03_arredondamento_20.png": "3104e5e4ec7cc67dab4365bb8128c84571314de947169cfb20125a289891dc1f",
+    "netica/evidencias/04_cortes_gerados.png": "c291f900f1442bc3351c50aaf45c6358a70bb6a9a99c5a1676042e5e51d5ff5d",
+    "netica/evidencias/05_rede_aprendida.png": "03bdbd84ebbb89b54e09bea6e983ef75471f68fa2da990c41a1ffffe036202fa",
+    "netica/evidencias/rede1_treino_probabilidades.csv": "2e0484459a2d3df94f1c4e68fb3b39878f4ba30e6010a12b64f4f3ac68273cf4",
+    "netica/evidencias/rede1_teste_probabilidades.csv": "eb465cea078308d17f33860d611ce11927315c7eed296f1de27368ff4d9aafef",
+    "netica/evidencias/rede2_treino_probabilidades.csv": "b64bb834b4892677008b63854e4ad3964f87018945511c22d06c8f4d4bef5937",
+    "netica/evidencias/rede2_teste_probabilidades.csv": "6cfd64b6186265e0dedfb6115f9bf098ef263408fa8ba156b6b4f405ee376f0d",
+    "netica/Weaning_Rede1_Clinica.dne": "0ef7bedb217570f2f0d33b4a30187f5f107aaa39e5f71cc580904792eff20f7f",
+    "data/weaning_test.csv": "5408d52a38bcb3712e224093cfb0cc748b13cbd0baaaa8e18ab5e730feaa5118"
+  },
+  "evaluation": {
+    "training_rows": 21,
+    "test_rows": 9,
+    "target_entered_as_evidence": false
+  }
+}

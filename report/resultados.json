@@ -397,6 +397,40 @@
     "rede1_max_abs_erro": 3.3306690738754696e-16,
     "rede2_max_abs_erro": 3.3306690738754696e-16
   },
+  "validacao_netica": [
+    {
+      "Rede": 1,
+      "Conjunto": "treino",
+      "Casos": 21,
+      "Erro máximo |P(S) Netica − Python|": 2.9243281352009376e-08,
+      "Classes concordantes": 21,
+      "Tolerância": 1e-06
+    },
+    {
+      "Rede": 1,
+      "Conjunto": "teste",
+      "Casos": 9,
+      "Erro máximo |P(S) Netica − Python|": 6.32837571235001e-08,
+      "Classes concordantes": 9,
+      "Tolerância": 1e-06
+    },
+    {
+      "Rede": 2,
+      "Conjunto": "treino",
+      "Casos": 21,
+      "Erro máximo |P(S) Netica − Python|": 9.869690253960783e-08,
+      "Classes concordantes": 21,
+      "Tolerância": 1e-06
+    },
+    {
+      "Rede": 2,
+      "Conjunto": "teste",
+      "Casos": 9,
+      "Erro máximo |P(S) Netica − Python|": 2.257435592623036e-08,
+      "Classes concordantes": 9,
+      "Tolerância": 1e-06
+    }
+  ],
   "fuzzy_sklearn": [
     {
       "Caso": "TE1",

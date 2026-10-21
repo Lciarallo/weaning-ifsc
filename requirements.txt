@@ -13,3 +13,4 @@ ipykernel>=7
 nbconvert>=7.17
 reportlab>=5.0
 pypdf>=6.0
+tabulate>=0.9
