@@ -15,7 +15,10 @@ Autor: projeto acadêmico IFSC — Sistemas Probabilísticos e Difusos.
 from __future__ import annotations
 
 import itertools
+import hashlib
+import json
 import math
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable
@@ -105,13 +108,6 @@ CLINICAL_STATE_ORDER = {
     "RSBI": ["Favorável", "Limítrofe", "Desfavorável"],
 }
 
-NETICA_STATE_ORDER = {
-    "NIF": ["≤ −25", "> −25"],
-    "RR": ["< 30", "≥ 30"],
-    "VT": ["< 350", "≥ 350"],
-    "RSBI": ["< 90", "≥ 90"],
-}
-
 CLINICAL_DISPLAY = {
     "NIF": {"Forte": "Forte (≤ −30)", "Limítrofe": "Limítrofe (−30 a −20)", "Fraco": "Fraco (> −20)"},
     "RR": {"Normal": "Normal (≤ 20)", "Limítrofe": "Limítrofe (20–30)", "Elevada": "Elevada (> 30)"},
@@ -119,20 +115,57 @@ CLINICAL_DISPLAY = {
     "RSBI": {"Favorável": "Favorável (< 105)", "Limítrofe": "Limítrofe (105–150)", "Desfavorável": "Desfavorável (> 150)"},
 }
 
-# Rede 2 — dois intervalos automáticos no estilo Netica, reproduzidos da
-# execução de referência. A semântica dos intervalos é [inferior, superior):
-# - NIF: [−60,−25) e [−25,−10]
-# - RR:  [13,30) e [30,46]
-# - VT:  [120,350) e [350,950]
-# - RSBI:[10,90) e [90,270]
-# Os cortes são medianas (ou mediana arredondada) da base de TREINO; a
-# auditoria abaixo confirma que cada partição é 10/11 ou 11/10 nos 21 casos.
-NETICA_CUTS = {"NIF": -25.0, "RR": 30.0, "VT": 350.0, "RSBI": 90.0}
+def load_netica_levels() -> dict[str, tuple[float, float, float]]:
+    """Lê os níveis salvos pelo Netica Application após Auto-Discretize Nodes.
+
+    Não estima medianas nem contém cortes alternativos. Se a evidência não
+    existir, a execução falha em vez de simular uma execução do Netica.
+    """
+    path = NETICA_DIR / "evidencias" / "02_discretizacao_automatica.dne"
+    content = path.read_text(encoding="utf-8")
+    levels = {}
+    for var in VARIABLES:
+        match = re.search(rf"node\s+{var}\s*\{{.*?levels\s*=\s*\(([^)]+)\)", content, re.S)
+        if match is None:
+            raise ValueError(f"Netica não forneceu níveis para {var}")
+        values = tuple(float(x.strip()) for x in match[1].split(","))
+        if len(values) != 3 or not values[0] < values[1] < values[2]:
+            raise ValueError(f"Esperados dois intervalos crescentes para {var}: {values}")
+        levels[var] = values
+    return levels
+
+
+def verify_netica_evidence() -> dict:
+    """Confere hashes, 21 entradas de treino e ausência do teste no arquivo de cortes."""
+    evidence = json.loads((NETICA_DIR / "evidencias" / "execucao.json").read_text())
+    for filename, expected in evidence["sha256"].items():
+        actual = hashlib.sha256((ROOT / filename).read_bytes()).hexdigest()
+        if actual != expected:
+            raise ValueError(f"Evidência Netica alterada: {filename}; refaça a execução nativa")
+    train = pd.read_csv(DATA_DIR / "weaning_train.csv")
+    cases = pd.read_csv(NETICA_DIR / "treino_discretizacao.cas", sep="\t")
+    if len(cases) != 21 or list(cases.columns) != list(VARIABLES):
+        raise ValueError("Discretização deve receber apenas as quatro entradas dos 21 casos de treino")
+    if not np.array_equal(cases.to_numpy(), train[list(VARIABLES)].to_numpy()):
+        raise ValueError("Casos de discretização divergem do treino original")
+    return evidence
+
+
+NETICA_LEVELS = load_netica_levels()
+NETICA_CUTS = {v: values[1] for v, values in NETICA_LEVELS.items()}
+
+
+def _netica_number(value: float) -> str:
+    return f"{value:g}".replace("-", "−")
+
+
+NETICA_STATE_ORDER = {
+    var: [f"< {_netica_number(cut)}", f"≥ {_netica_number(cut)}"]
+    for var, cut in NETICA_CUTS.items()
+}
 NETICA_INTERVALS = {
-    "NIF": ("[−60, −25)", "[−25, −10]"),
-    "RR": ("[13, 30)", "[30, 46]"),
-    "VT": ("[120, 350)", "[350, 950]"),
-    "RSBI": ("[10, 90)", "[90, 270]"),
+    var: (f"[{_netica_number(low)}, {_netica_number(cut)})", f"[{_netica_number(cut)}, {_netica_number(high)}]")
+    for var, (low, cut, high) in NETICA_LEVELS.items()
 }
 
 
@@ -167,16 +200,7 @@ def clinical_state(var: str, x: float) -> str:
 
 def netica_state(var: str, x: float) -> str:
     """Estado da Rede 2, com intervalos semiabertos [a,b)."""
-    cut = NETICA_CUTS[var]
-    if var == "NIF":
-        return "≤ −25" if x < cut else "> −25"
-    if var == "RR":
-        return "< 30" if x < cut else "≥ 30"
-    if var == "VT":
-        return "< 350" if x < cut else "≥ 350"
-    if var == "RSBI":
-        return "< 90" if x < cut else "≥ 90"
-    raise KeyError(var)
+    return NETICA_STATE_ORDER[var][0 if x < NETICA_CUTS[var] else 1]
 
 
 def discretize(df: pd.DataFrame, method: str) -> pd.DataFrame:
@@ -189,7 +213,8 @@ def discretize(df: pd.DataFrame, method: str) -> pd.DataFrame:
 
 
 def audit_netica_thresholds(train: pd.DataFrame) -> pd.DataFrame:
-    """Auditoria antileakage dos cortes automáticos usando SOMENTE o treino."""
+    """Descreve no treino os cortes já produzidos pelo Netica; não os estima."""
+    verify_netica_evidence()
     rows = []
     for var in VARIABLES:
         values = train[var]
@@ -312,7 +337,8 @@ def cross_validate_naive_bayes(df: pd.DataFrame, features: Iterable[str], method
     """Validação leave-one-out no TREINO, refazendo priors e CPTs em cada dobra.
 
     Usada apenas como análise de estabilidade/seleção de variáveis; não toca
-    nos 9 casos de teste.
+    nos 9 casos de teste. Os cortes ficam fixos: não é uma validação aninhada
+    da discretização automática.
     """
     features = tuple(features)
     y = df["Resultado"].astype(str).to_numpy()
@@ -436,18 +462,44 @@ def nb_validation_against_sklearn(train: pd.DataFrame, method: str) -> float:
     return float(np.max(np.abs(p_sk - p_manual)))
 
 
+def validate_against_netica(tolerance: float = 1e-6) -> pd.DataFrame:
+    """Compara probabilidades reais do motor Netica com a implementação Python."""
+    verify_netica_evidence()
+    train, test, _ = load_data()
+    rows = []
+    for number, method in ((1, "clinical"), (2, "netica")):
+        model = fit_naive_bayes(train, method)
+        for split, df in (("treino", train), ("teste", test)):
+            native = pd.read_csv(NETICA_DIR / "evidencias" / f"rede{number}_{split}_probabilidades.csv")
+            if native["IDnum"].tolist() != df["IDnum"].tolist():
+                raise ValueError(f"Casos Netica fora de ordem: Rede {number}, {split}")
+            python = model.predict(df)
+            delta = float(np.max(np.abs(native["p_sucesso"].to_numpy() - python["p_sucesso"].to_numpy())))
+            if delta > tolerance:
+                raise ValueError(f"Netica/Python divergem: Rede {number}, {split}, diferença {delta}")
+            native_classes = np.where(native["p_sucesso"] >= 0.5, "Sucesso", "Fracasso")
+            if not np.array_equal(native_classes, python["predito"].to_numpy()):
+                raise ValueError(f"Classes Netica/Python divergem: Rede {number}, {split}")
+            rows.append({"Rede": number, "Conjunto": split, "Casos": len(df),
+                         "Erro máximo |P(S) Netica − Python|": delta,
+                         "Classes concordantes": len(df), "Tolerância": tolerance})
+    return pd.DataFrame(rows)
+
+
 # ---------------------------------------------------------------------------
 # 4. Sistema Fuzzy Mamdani
 # ---------------------------------------------------------------------------
 # Universos e funções de pertinência (parâmetros exatos no relatório).
 FUZZY_RANGES = {"NIF": (-60.0, 0.0), "RR": (5.0, 60.0), "VT": (100.0, 1000.0), "RSBI": (0.0, 300.0), "OUT": (0.0, 100.0)}
 
+# linspace garante extremos exatos; arange acumulava erro e deixava o último
+# ponto do NIF em +8,5e-13 (fora do universo) e o da RR em 59,9999.
 FUZZY_UNIVERSES = {
-    "NIF": np.arange(-60.0, 0.0 + 0.1, 0.1),
-    "RR": np.arange(5.0, 60.0 + 0.1, 0.1),
-    "VT": np.arange(100.0, 1000.0 + 1.0, 1.0),
-    "RSBI": np.arange(0.0, 300.0 + 0.1, 0.1),
-    "OUT": np.arange(0.0, 100.0 + 0.01, 0.01),
+    "NIF": np.linspace(-60.0, 0.0, 601),
+    "RR": np.linspace(5.0, 60.0, 551),
+    "VT": np.linspace(100.0, 1000.0, 901),
+    "RSBI": np.linspace(0.0, 300.0, 3001),
+    "OUT": np.linspace(0.0, 100.0, 10001),
 }
 
 # (tipo, parâmetros, rótulo exibido)
@@ -754,7 +806,7 @@ def skfuzzy_predict(x: dict[str, float]) -> float:
 
 def validate_fuzzy_against_skfuzzy(df: pd.DataFrame, sample_ids: Iterable[str] | None = None) -> pd.DataFrame:
     if sample_ids is None:
-        sample_ids = ["T1", "T3", "T9"]
+        sample_ids = ["TE1", "TE3", "TR10"]
     rows = []
     for id_ in sample_ids:
         r = df.loc[df["ID"] == id_].iloc[0]

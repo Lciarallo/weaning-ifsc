@@ -23,10 +23,10 @@ Rede 1 (clínica),RSBI,Fracasso,Desfavorável,0.26666666666666666
 Rede 1 (clínica),RSBI,Sucesso,Favorável,0.75
 Rede 1 (clínica),RSBI,Sucesso,Limítrofe,0.16666666666666666
 Rede 1 (clínica),RSBI,Sucesso,Desfavorável,0.08333333333333333
-Rede 2 (Netica),NIF,Fracasso,≤ −25,0.2857142857142857
-Rede 2 (Netica),NIF,Fracasso,> −25,0.7142857142857143
-Rede 2 (Netica),NIF,Sucesso,≤ −25,0.7272727272727273
-Rede 2 (Netica),NIF,Sucesso,> −25,0.2727272727272727
+Rede 2 (Netica),NIF,Fracasso,< −25,0.2857142857142857
+Rede 2 (Netica),NIF,Fracasso,≥ −25,0.7142857142857143
+Rede 2 (Netica),NIF,Sucesso,< −25,0.7272727272727273
+Rede 2 (Netica),NIF,Sucesso,≥ −25,0.2727272727272727
 Rede 2 (Netica),RR,Fracasso,< 30,0.21428571428571427
 Rede 2 (Netica),RR,Fracasso,≥ 30,0.7857142857142857
 Rede 2 (Netica),RR,Sucesso,< 30,0.8181818181818182

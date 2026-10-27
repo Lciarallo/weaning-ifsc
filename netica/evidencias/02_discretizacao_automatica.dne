@@ -1,0 +1,84 @@
+// ~->[DNET-1]->~
+
+// File created by an unlicensed user using Netica 7.01 on Oct 21, 2026 at 00:08:51 UTC.
+
+bnet Weaning_Discretizacao_Treino {
+autoupdate = FALSE;
+whenchanged = 1792541308;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	ShowLinkStrengths = 1;
+	windowposn = (29, 29, 865, 501);
+	resolution = 72;
+	drawingbounds = (1080, 720);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0x00e1e1e1;};
+	NodeSet Nature {BuiltIn = 1; Color = 0x00f8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0x00d3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0x00c8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0x00ffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0x00ffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0x00dee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0x00f0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0x00ffffff;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		};
+	};
+
+node NIF {
+	discrete = FALSE;
+	levels = (-60, -25, -10);
+	kind = NATURE;
+	parents = ();
+	whenchanged = 1792541308;
+	visual V1 {
+		center = (150, 100);
+		height = 1;
+		};
+	};
+
+node RR {
+	discrete = FALSE;
+	levels = (13, 30, 46);
+	kind = NATURE;
+	parents = ();
+	whenchanged = 1792541308;
+	visual V1 {
+		center = (450, 100);
+		height = 2;
+		};
+	};
+
+node VT {
+	discrete = FALSE;
+	levels = (120, 350, 950);
+	kind = NATURE;
+	parents = ();
+	whenchanged = 1792541308;
+	visual V1 {
+		center = (150, 300);
+		height = 3;
+		};
+	};
+
+node RSBI {
+	discrete = FALSE;
+	levels = (10, 90, 270);
+	kind = NATURE;
+	parents = ();
+	whenchanged = 1792541308;
+	visual V1 {
+		center = (450, 300);
+		height = 4;
+		};
+	};
+};

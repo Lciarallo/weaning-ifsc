@@ -27,3 +27,8 @@ O limiar 60 é uma escolha de política clínica conservadora; 50 é mantido com
 ## Validação
 
 A implementação manual em `src/weaning_lib.py` foi comparada ao `scikit-fuzzy` em TE1, TE3 e TR10; a diferença máxima no centroide foi inferior a 10⁻⁵. O notebook executa essa validação.
+
+As exportações FCL e FIS foram aceitas pelo importador real do fuzzylite 4.0.
+O FCL usa `Triangle`/`Trapezoid`, universos explícitos e `ACCU : MAX` no bloco
+`DEFUZZIFY`, conforme os exemplos fornecidos com essa versão. O registro está
+em `validacao_fuzzylite.json`. Não foi executado MATLAB/Octave neste ambiente.

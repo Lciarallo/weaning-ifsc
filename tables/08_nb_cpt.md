@@ -24,10 +24,10 @@
 | Rede 1 (clínica) | RSBI       | Sucesso  | Favorável    |                0.750 |
 | Rede 1 (clínica) | RSBI       | Sucesso  | Limítrofe    |                0.167 |
 | Rede 1 (clínica) | RSBI       | Sucesso  | Desfavorável |                0.083 |
-| Rede 2 (Netica)  | NIF        | Fracasso | ≤ −25        |                0.286 |
-| Rede 2 (Netica)  | NIF        | Fracasso | > −25        |                0.714 |
-| Rede 2 (Netica)  | NIF        | Sucesso  | ≤ −25        |                0.727 |
-| Rede 2 (Netica)  | NIF        | Sucesso  | > −25        |                0.273 |
+| Rede 2 (Netica)  | NIF        | Fracasso | < −25        |                0.286 |
+| Rede 2 (Netica)  | NIF        | Fracasso | ≥ −25        |                0.714 |
+| Rede 2 (Netica)  | NIF        | Sucesso  | < −25        |                0.727 |
+| Rede 2 (Netica)  | NIF        | Sucesso  | ≥ −25        |                0.273 |
 | Rede 2 (Netica)  | RR         | Fracasso | < 30         |                0.214 |
 | Rede 2 (Netica)  | RR         | Fracasso | ≥ 30         |                0.786 |
 | Rede 2 (Netica)  | RR         | Sucesso  | < 30         |                0.818 |

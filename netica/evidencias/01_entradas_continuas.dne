@@ -1,0 +1,37 @@
+// ~->[DNET-1]->~
+bnet Weaning_Discretizacao_Treino {
+autoupdate = FALSE;
+AutoCompile = FALSE;
+visual V1 {
+ defdispform = BELIEFBARS;
+ showtitle = TRUE;
+};
+node NIF {
+kind = NATURE;
+discrete = FALSE;
+chance = CHANCE;
+parents = ();
+visual V1 {center = (150, 100);};
+};
+node RR {
+kind = NATURE;
+discrete = FALSE;
+chance = CHANCE;
+parents = ();
+visual V1 {center = (450, 100);};
+};
+node VT {
+kind = NATURE;
+discrete = FALSE;
+chance = CHANCE;
+parents = ();
+visual V1 {center = (150, 300);};
+};
+node RSBI {
+kind = NATURE;
+discrete = FALSE;
+chance = CHANCE;
+parents = ();
+visual V1 {center = (450, 300);};
+};
+};
