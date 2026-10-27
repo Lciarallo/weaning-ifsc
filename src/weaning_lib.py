@@ -492,12 +492,14 @@ def validate_against_netica(tolerance: float = 1e-6) -> pd.DataFrame:
 # Universos e funções de pertinência (parâmetros exatos no relatório).
 FUZZY_RANGES = {"NIF": (-60.0, 0.0), "RR": (5.0, 60.0), "VT": (100.0, 1000.0), "RSBI": (0.0, 300.0), "OUT": (0.0, 100.0)}
 
+# linspace garante extremos exatos; arange acumulava erro e deixava o último
+# ponto do NIF em +8,5e-13 (fora do universo) e o da RR em 59,9999.
 FUZZY_UNIVERSES = {
-    "NIF": np.arange(-60.0, 0.0 + 0.1, 0.1),
-    "RR": np.arange(5.0, 60.0 + 0.1, 0.1),
-    "VT": np.arange(100.0, 1000.0 + 1.0, 1.0),
-    "RSBI": np.arange(0.0, 300.0 + 0.1, 0.1),
-    "OUT": np.arange(0.0, 100.0 + 0.01, 0.01),
+    "NIF": np.linspace(-60.0, 0.0, 601),
+    "RR": np.linspace(5.0, 60.0, 551),
+    "VT": np.linspace(100.0, 1000.0, 901),
+    "RSBI": np.linspace(0.0, 300.0, 3001),
+    "OUT": np.linspace(0.0, 100.0, 10001),
 }
 
 # (tipo, parâmetros, rótulo exibido)
@@ -804,7 +806,7 @@ def skfuzzy_predict(x: dict[str, float]) -> float:
 
 def validate_fuzzy_against_skfuzzy(df: pd.DataFrame, sample_ids: Iterable[str] | None = None) -> pd.DataFrame:
     if sample_ids is None:
-        sample_ids = ["T1", "T3", "T9"]
+        sample_ids = ["TE1", "TE3", "TR10"]
     rows = []
     for id_ in sample_ids:
         r = df.loc[df["ID"] == id_].iloc[0]

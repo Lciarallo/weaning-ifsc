@@ -283,7 +283,7 @@ def fig_fuzzy30():
 
 
 def fig_fuzzy_conf():
-    return fig("fuzzy_conf", "fig12_fuzzy_confusao.png", "Matrizes de confusão do sistema Fuzzy na base completa com limiares 50 e 60. O limiar conservador elimina um falso positivo no teste, ao custo de manter três falsos negativos no treino.", width="64%")
+    return fig("fuzzy_conf", "fig12_fuzzy_confusao.png", "Matrizes de confusão do sistema Fuzzy na base completa com limiares 50 e 60. O limiar conservador elimina o falso positivo do teste (TE3); os três falsos negativos do treino são os mesmos nos dois limiares.", width="64%")
 
 
 def fig_case(cid):
@@ -574,7 +574,7 @@ crit_comments = {
     "TR1": "Todos os critérios favoráveis; fracasso real. Limite das quatro variáveis.",
     "TR4": "NIF, RR e VT no limite; redes retêm, mas com confiança distinta.",
     "TR13": "VT baixo e RR limítrofe; sucesso real. A Rede 1 erra.",
-    "TR14": "VT baixo e RSBI limítrofe; sucesso real. Ambas erram.",
+    "TR14": "VT baixo, NIF limítrofe e RSBI 97, próximo do corte 105; sucesso real. Ambas erram.",
     "TR16": "VT 250 e RSBI 120; sucesso real. A Rede 2 erra com alta confiança.",
     "TE1": "NIF fraco e RSBI favorável; fracasso real. A Rede 2 erra.",
     "TE3": "Caso crítico: NIF/RR limítrofes, VT baixo, RSBI favorável; fracasso real.",
@@ -637,7 +637,7 @@ parts.append(f"""
 </div>
 
 <h2>3.7 Limiar de decisão e assimetria de riscos</h2>
-<p>O limiar padrão de 50% escolhe a classe de maior probabilidade posterior; ele não garante máxima acurácia balanceada e não incorpora custos assimétricos. A Tabela [[tab:th_nb]] mostra o efeito de exigir 60%, 75% ou 90% de probabilidade. Para a Rede 1, o limiar tem pouco efeito até 75%; para a Rede 2, subir o limiar altera o compromisso entre erros. O acerto de 100% da Rede 2 no teste com limiar de 90% é uma observação posterior sobre nove casos e não deve orientar a escolha do limiar.</p>
+<p>O limiar padrão de 50% escolhe a classe de maior probabilidade posterior; ele não garante máxima acurácia balanceada e não incorpora custos assimétricos. A Tabela [[tab:th_nb]] mostra o efeito de exigir 60%, 75% ou 90% de probabilidade. Para a Rede 1, o limiar não altera os resultados até 75%. Na Rede 2, subir o limiar para 60–75% não elimina nenhum falso positivo e acrescenta um falso negativo (TR13, 59,2%); a partir de 80%, TE1 (77,2%) deixa de ser liberado, mas TR1 (95,8%) e TE3 (90,6%) continuam como falsos positivos. Mesmo com limiar de 90%, a Rede 2 acerta 8/9 no teste; essa é uma observação posterior sobre nove casos e não deve orientar a escolha do limiar.</p>
 {t11}
 
 <h2>3.8 Comparação crítica e análise dos casos de fronteira</h2>
@@ -646,7 +646,7 @@ parts.append(f"""
 {fig_div()}
 <p><b>TR1</b> é o caso mais desconfortável: NIF −30, RR 17, VT 500 e RSBI 34, com fracasso real. Todas as quatro variáveis parecem favoráveis; a Rede 1 estima 90,6% de sucesso e a Rede 2, 95,8%. O erro é irredutível com essas entradas e sugere que há fatores não medidos (força de tosse, secreção, estado mental, reserva cardiorrespiratória, critério de reintubação) ou que o rótulo incorpora um evento tardio. Esse caso é o principal argumento contra o uso autônomo do modelo.</p>
 <p><b>TR16</b> mostra o efeito da perda de resolução: NIF −30, RR 30, VT 250 e RSBI 120; a Rede 1 estima 76,7% de sucesso (acerta), enquanto a Rede 2 estima 10,9% (erra). O VT baixo e o RSBI 120, combinados em duas faixas, dominam a verossimilhança da Rede 2. <b>TE1</b> é o espelho: NIF −15, RR 25, VT 450 e RSBI 56; a Rede 1 estima 29,7% (retém corretamente), a Rede 2 estima 77,2% (libera incorretamente). <b>TE3</b> combina NIF e RR limítrofes, VT baixo e RSBI favorável; a Rede 1 fica em 44,2% (retém), a Rede 2 em 90,6% (libera), e o desfecho real é fracasso — o caso é detalhado na Seção 4.7.</p>
-<p>A comparação, portanto, não é “qual rede tem a maior acurácia média”, mas “qual delas erra de forma mais segura”. A Rede 1 erra principalmente em TR13, TR14 e TR1; a Rede 2 erra em TR1, TR14, TR16, TE1 e TE3, com confiança alta em vários deles. A Rede 1 é mais conservadora onde importa.</p>
+<p>A comparação, portanto, não é “qual rede tem a maior acurácia média”, mas “qual delas erra de forma mais segura”. A Rede 1 erra apenas em TR1, TR13 e TR14; a Rede 2 erra em TR1, TR14, TR16, TE1 e TE3, com confiança alta em vários deles. A Rede 1 é mais conservadora onde importa.</p>
 
 <h2>3.9 Robustez e redundância: validação leave-one-out</h2>
 <p>A validação leave-one-out refaz priors e CPTs em cada dobra e mantém a discretização fixa. A Tabela [[tab:loo]] mostra que o conjunto completo tem 76,2% de acurácia LOO na Rede 1, contra 85,7% para NIF+RR+VT e para NIF isolado. Na Rede 2, o conjunto completo tem 81,0%, contra 71,4% para NIF+RR+VT e 76,2% para NIF isolado. O resultado não é uma demonstração de que “menos variáveis é melhor”; é a constatação de que, com 21 casos, a inclusão de três variáveis dependentes aumenta a variância das estimativas. O desempenho no teste da Rede 1 (9/9) mostra que o modelo completo ainda é útil, mas a análise reforça a necessidade de validação externa e de modelos mais parcimoniosos ou regularizados.</p>
@@ -776,7 +776,7 @@ parts.append(f"""
 </ul>
 
 <h2>4.3 Base de regras, completude e consistência</h2>
-<p>A base tem $3^4 = 81$ regras, uma para cada combinação de termos. A pontuação de favorabilidade é: NIF Forte +2, Limítrofe 0, Fraco −2; RR Adequada +2, Limítrofe 0, Elevada −2; VT Adequado +1, Baixo −1, Elevado 0; RSBI Favorável +2, Limítrofe 0, Desfavorável −2. A soma varia de −7 a +7 e é convertida em consequente por uma função determinística: ≥ 6 Muito Alto; 4–5 Alto; 2–3 Moderado; −2 a 1 Baixo; ≤ −3 Muito Baixo. A Tabela [[tab:regras_rep]] traz uma amostra das regras; a Figura [[fig:regras]] resume a distribuição dos consequentes e a pontuação, e a base completa, no formato SE…ENTÃO, está no Apêndice A.</p>
+<p>A base tem 3<sup>4</sup> = 81 regras, uma para cada combinação de termos. A pontuação de favorabilidade é: NIF Forte +2, Limítrofe 0, Fraco −2; RR Adequada +2, Limítrofe 0, Elevada −2; VT Adequado +1, Baixo −1, Elevado 0; RSBI Favorável +2, Limítrofe 0, Desfavorável −2. A soma varia de −7 a +7 e é convertida em consequente por uma função determinística: ≥ 6 Muito Alto; 4–5 Alto; 2–3 Moderado; −2 a 1 Baixo; ≤ −3 Muito Baixo. A Tabela [[tab:regras_rep]] traz uma amostra das regras; a Figura [[fig:regras]] resume a distribuição dos consequentes e a pontuação, e a base completa, no formato SE…ENTÃO, está no Apêndice A.</p>
 <p>Os pesos refletem a hierarquia clínica: NIF, RR e RSBI são os preditores principais; VT entra com peso menor porque já está embutido no RSBI e porque volumes elevados não são necessariamente melhores. A função de pontuação é uma forma compacta e auditável de gerar uma base consistente: não existem duas regras com os mesmos antecedentes e consequentes diferentes. A base é completa porque todas as 81 combinações estão presentes; além disso, cada universo é coberto por pelo menos um termo com μ &gt; 0 em toda a malha, de modo que qualquer entrada ativa pelo menos uma regra. Em 2.000 avaliações aleatórias, nenhuma saída ficou indefinida.</p>
 {t16}
 {fig_regras()}
@@ -785,10 +785,10 @@ parts.append(f"""
 <p>O limiar operacional adotado é <b>60/100</b>. A justificativa é a assimetria de riscos: só se recomenda liberar quando o potencial é alto; a faixa 40–60 é explicitamente de cautela (não liberar, reavaliar) e abaixo de 40 a recomendação é de fracasso/manutenção. O limiar 50 é mantido como referência para mostrar o efeito da política. A Tabela [[tab:fuzzy30tab]] apresenta os 30 casos, a Figura [[fig:fuzzy30]] os posiciona em relação aos limiares e a Tabela [[tab:met_fuzzy]] consolida as métricas.</p>
 {t17}
 {fig_fuzzy30()}
-<p>Com limiar 60, o FIS acerta 17/21 no treino, 9/9 no teste e 26/30 na base completa. A sensibilidade é 80,0%, a especificidade 93,3%, o PPV 92,3%, o NPV 82,4% e o F1 85,7%. Há apenas um falso positivo (TR1) e três falsos negativos (TR13, TR14 e TR16). Com limiar 50, o acerto cai para 25/30 porque TE3 (potencial 52,28) passa a ser liberado, embora tenha fracassado; a especificidade cai para 86,7%. O limiar 60, portanto, compra segurança clínica ao custo de três liberações adiadas.</p>
+<p>Com limiar 60, o FIS acerta 17/21 no treino, 9/9 no teste e 26/30 na base completa. A sensibilidade é 80,0%, a especificidade 93,3%, o PPV 92,3%, o NPV 82,4% e o F1 85,7%. Há apenas um falso positivo (TR1) e três falsos negativos (TR13, TR14 e TR16). Com limiar 50, o acerto cai para 25/30 porque TE3 (potencial 52,28) passa a ser liberado, embora tenha fracassado; a especificidade cai para 86,7%. Nesta amostra, o limiar 60 elimina esse falso positivo sem acrescentar falsos negativos: os três adiamentos (TR13, TR14 e TR16) ocorrem também com o limiar 50. Como TE3 pertence ao teste, esse ganho é uma observação posterior e não uma validação do limiar.</p>
 {fig_fuzzy_conf()}
 {t18}
-<p>Os três falsos negativos merecem leitura clínica. TR13 (NIF −24, RR 24, VT 300, RSBI 80) e TR14 (NIF −23, RR 29, VT 300, RSBI 97) são pacientes com VT baixo, mas NIF e RSBI não tão ruins; o sistema os mantém em cautela/fracasso. TR16 (NIF −30, RR 30, VT 250, RSBI 120) tem VT muito baixo e RSBI limítrofe, apesar de NIF limítrofe; o sistema prefere não liberar. Em uma política conservadora, esses erros são aceitáveis: o paciente permanece no ventilador e é reavaliado, em vez de ser extubado e precisar de reintubação. O único falso positivo, TR1, é o caso paradoxal já discutido.</p>
+<p>Os três falsos negativos merecem leitura clínica. TR13 (NIF −24, RR 24, VT 300, RSBI 80) e TR14 (NIF −23, RR 29, VT 300, RSBI 97) são pacientes com VT baixo, mas NIF e RSBI não tão ruins; o sistema os mantém em cautela/fracasso. TR16 (NIF −30, RR 30, VT 250, RSBI 120) tem VT muito baixo, RR no pico de “Limítrofe” e RSBI limítrofe; o NIF −30 fica no cruzamento entre “Forte” e “Limítrofe” (μ = 0,5 em cada) e não compensa esses sinais, de modo que o sistema prefere não liberar. Em uma política conservadora, esses erros são aceitáveis: o paciente permanece no ventilador e é reavaliado, em vez de ser extubado e precisar de reintubação. O único falso positivo, TR1, é o caso paradoxal já discutido.</p>
 <div class="box warn">
 <h4>Leitura do limiar</h4>
 <p>A escolha de 60 não é uma verdade estatística. Se o serviço priorizar redução de tempo de ventilação, um limiar de 50 ou 55 pode ser preferível; se priorizar segurança, 60–70 é mais adequado. O importante é que o limiar seja definido <i>a priori</i>, documentado e auditado, e que a faixa de cautela seja usada para reavaliação e teste de respiração espontânea, não para liberação automática.</p>
@@ -818,7 +818,7 @@ parts.append(f"""
 <h2>4.7 Estudo de caso 3: TE3 — crítico/duvidoso</h2>
 <p>O caso TE3 é o mais importante para a discussão. Paciente do teste com NIF −28 cm.H₂O, RR 24 resp/min, VT 310 mL e RSBI 77 resp/min/L; o desfecho real foi <b>fracasso</b>. Há conflito entre os sinais: NIF e RR estão na faixa limítrofe, VT está baixo e RSBI é favorável. A Rede 1 estima 44,2% de sucesso (retém), a Rede 2 estima 90,6% (libera) e o sistema fuzzy produz 52,28 (cautela). Este é o exemplo mais claro de por que a discretização e o tratamento da incerteza importam.</p>
 {t26}
-<p><b>Fuzzificação.</b> NIF −28 é 0,700 “Limítrofe” e 0,300 “Forte”. RR 24 é 0,750 “Adequada” e 0,250 “Limítrofe”. VT 310 é 0,900 “Baixo” e 0,057 “Adequado”. RSBI 77 é totalmente “Favorável” (1,000). O caso tem duas variáveis favoráveis (NIF, RSBI), uma mista (RR) e uma desfavorável (VT), exatamente o tipo de conflito que um corte rígido não resolve bem.</p>
+<p><b>Fuzzificação.</b> NIF −28 é 0,700 “Limítrofe” e 0,300 “Forte”. RR 24 é 0,750 “Adequada” e 0,250 “Limítrofe”. VT 310 é 0,900 “Baixo” e 0,057 “Adequado”. RSBI 77 é totalmente “Favorável” (1,000). O caso tem uma variável favorável (RSBI), duas mistas com predomínio de termos intermediários ou favoráveis (NIF e RR) e uma desfavorável (VT), exatamente o tipo de conflito que um corte rígido não resolve bem.</p>
 {t27}
 <p><b>Regras ativadas.</b> Oito regras disparam. A mais forte é R28 (NIF Limítrofe, RR Adequada, VT Baixo, RSBI Favorável → Moderado), com α = 0,700. Também disparam R55 (Alto, α = 0,300), R37 (Baixo, α = 0,250), R64 (Moderado, α = 0,250) e quatro regras com α = 0,057. Há consequentes conflitantes — Moderado, Alto, Baixo e Muito Alto —, o que produz uma região agregada multimodal. A agregação pelo máximo preserva essa diversidade e evita uma decisão artificialmente nítida.</p>
 {t28}
@@ -919,7 +919,7 @@ parts.append(f"""
 cpt_rows = []
 for _, r in cpt.iterrows():
     cpt_rows.append([e(r["Rede"]), e(r["Variável"]), e(r["Classe"]), e(r["Estado"]), n(r["P(estado | classe)"], 4)])
-t32 = simple_table("cpt", "Probabilidades condicionais completas das duas redes Naive Bayes, estimadas no treino com sucesso de Laplace (α = 1).", ["Rede", "Variável", "Classe", "Estado", "P(estado | classe)"], cpt_rows, source="Fonte: elaboração própria. As priors estão na Tabela [[tab:priors]].", cls="tiny", numeric_from=4)
+t32 = simple_table("cpt", "Probabilidades condicionais completas das duas redes Naive Bayes, estimadas no treino com suavização de Laplace (α = 1).", ["Rede", "Variável", "Classe", "Estado", "P(estado | classe)"], cpt_rows, source="Fonte: elaboração própria. As priors estão na Tabela [[tab:priors]].", cls="tiny", numeric_from=4)
 parts.append(f"""
 <h1 id="apendice-b" class="newpage">Apêndice B — Probabilidades condicionais das redes</h1>
 <p>As 40 linhas abaixo correspondem a todas as combinações de rede, variável, classe e estado. A soma das probabilidades de cada variável dentro de cada classe é 1. A suavização de Laplace foi aplicada com α = 1; as contagens brutas não são mostradas, mas podem ser recuperadas a partir das probabilidades e do tamanho de cada classe (12 fracassos e 9 sucessos).</p>
@@ -1036,6 +1036,18 @@ parts.append(f"""
 # ---------------------------------------------------------------------------
 def resolve_placeholders(text: str) -> str:
     import re
+
+    # Numera tabelas e figuras pela ordem em que aparecem no documento, não
+    # pela ordem em que foram construídas no script.
+    for prefix, label, cls, numbers in (("tab", "Tabela", "tablabel", TABNUM), ("fig", "Figura", "figlabel", FIGNUM)):
+        order = re.findall(rf'id="{prefix}-(\w+)"', text)
+        numbers.clear()
+        numbers.update({key: i for i, key in enumerate(order, start=1)})
+
+        def renumber(m, numbers=numbers, label=label, cls=cls):
+            return f'{m.group(1)}<span class="{cls}">{label} {numbers[m.group(2)]}</span>'
+
+        text = re.sub(rf'(id="{prefix}-(\w+)".*?)<span class="{cls}">{label} \d+</span>', renumber, text, flags=re.S)
 
     # Referências plurais: "Tabelas 20–22", "Tabelas 8 e 9", "Figuras 13–14".
     def plural_range(m):

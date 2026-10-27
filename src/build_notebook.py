@@ -157,13 +157,13 @@ cells.append(md(r"""
 A rede tem um nó pai `Desmame` (estados `Fracasso` e `Sucesso`) e quatro filhos: `NIF`, `RR`, `VT` e `RSBI`. A hipótese de independência condicional permite escrever
 
 $$
-P(C \\mid x_1,\\ldots,x_4) \\propto P(C)\\prod_{j=1}^{4}P(x_j \\mid C),
+P(C \mid x_1,\ldots,x_4) \propto P(C)\prod_{j=1}^{4}P(x_j \mid C),
 $$
 
-e a decisão é a classe de maior probabilidade posterior. As probabilidades são estimadas por máxima verossimilhança com **suavização de Laplace** ($\\alpha=1$):
+e a decisão é a classe de maior probabilidade posterior. As probabilidades são estimadas por máxima verossimilhança com **suavização de Laplace** ($\alpha=1$):
 
 $$
-P(x_j=s \\mid C=c)=\\frac{N_{cjs}+\\alpha}{N_c+\\alpha K_j}.
+P(x_j=s \mid C=c)=\frac{N_{cjs}+\alpha}{N_c+\alpha K_j}.
 $$
 
 A suavização evita probabilidades nulas em estados não observados no treino — situação provável com apenas 21 casos.
@@ -190,11 +190,12 @@ Os cortes foram definidos a partir da base de conhecimento da disciplina, do III
 
 cells.append(code(r"""
 clinical = pd.read_csv(TAB / "02_discretizacao_clinica.csv")
-display(clinical)
+with pd.option_context("display.max_colwidth", None):
+    display(clinical)
 """))
 
 cells.append(md(r"""
-**Justificativa dos cortes.** O limiar de NIF em −30 cm.H₂O é clássico para força muscular; a faixa −30 a −20 é explicitamente uma zona de incerteza, e valores acima de −20 (menos negativos) associam-se a falha. Para RR, 30 resp/min é o limite superir da faixa de sucesso em várias referências, enquanto 20 delimita a faixa de repouso. Para VT, 350 mL aproxima 5 mL/kg em um adulto de 70 kg e 315 mL é referência de sucesso. Para RSBI, 105 é o corte clássico; 150 delimita a faixa de alto risco. As transições entre estados não são “naturais”: são escolhas clínicas explícitas, e por isso a Rede 2 será comparada.
+**Justificativa dos cortes.** O limiar de NIF em −30 cm.H₂O é clássico para força muscular; a faixa −30 a −20 é explicitamente uma zona de incerteza, e valores acima de −20 (menos negativos) associam-se a falha. Para RR, 30 resp/min é o limite superior da faixa de sucesso em várias referências, enquanto 20 delimita a faixa de repouso. Para VT, 350 mL aproxima 5 mL/kg em um adulto de 70 kg e 315 mL é referência de sucesso. Para RSBI, 105 é o corte clássico; 150 delimita a faixa de alto risco. As transições entre estados não são “naturais”: são escolhas clínicas explícitas, e por isso a Rede 2 será comparada.
 """))
 
 cells.append(md(r"""
@@ -214,7 +215,8 @@ cells.append(code(r"""
 audit = pd.read_csv(TAB / "04_auditoria_netica.csv")
 display(audit)
 compare = pd.read_csv(TAB / "03_comparacao_limiares.csv")
-display(compare)
+with pd.option_context("display.max_colwidth", None):
+    display(compare)
 display(Markdown("**Execução real no Netica 7.01 — rede aprendida e compilada.**"))
 display(Image(filename=str(ROOT / "netica/evidencias/05_rede_aprendida.png"), width=1000))
 """))
@@ -229,13 +231,13 @@ display(Image(filename=str(FIG / "fig06_limiares.png"), width=1050))
 """))
 
 cells.append(md(r"""
-A execução nativa agora obtém `Desmame` com 56,5% de fracasso e 43,5% de sucesso, também observado na captura original do professor. Para aprender com Laplace $\\alpha=1$, o Netica inicia cada linha com duas probabilidades de 0,5 e experiência 2, acrescentando as contagens dos 21 casos pelo método `ReviseCPTsByCaseFile_bn`. Os nove casos de teste só são usados depois dessa aprendizagem, sem inserir o desfecho como evidência.
+A execução nativa obtém `Desmame` com 56,5% de fracasso e 43,5% de sucesso, também observado na captura original do professor. Para aprender com Laplace $\alpha=1$, o Netica inicia cada linha com duas probabilidades de 0,5 e experiência 2, acrescentando as contagens dos 21 casos pelo método `ReviseCPTsByCaseFile_bn`. Os nove casos de teste só são usados depois dessa aprendizagem, sem inserir o desfecho como evidência.
 """))
 
 cells.append(md(r"""
 ### 2.5 Probabilidades condicionais aprendidas
 
-A tabela completa de CPTs está em `tables/08_nb_cpt.csv`. Abaixo, as priors e as verossimilhanças das variáveis mais discriminativas.
+Abaixo, as priors e as tabelas de probabilidade condicional (CPTs) completas das quatro variáveis nas duas redes, estimadas apenas no treino com Laplace α = 1. Os mesmos valores estão em `tables/08_nb_cpt.csv`.
 """))
 
 cells.append(code(r"""
@@ -247,7 +249,7 @@ prior = pd.DataFrame([{"Rede": k, "P(Fracasso)": v.priors["Fracasso"], "P(Sucess
 display(prior)
 
 cpt = pd.read_csv(TAB / "08_nb_cpt.csv")
-for var in ["NIF", "RSBI"]:
+for var in w.VARIABLES:
     piv = cpt[cpt["Variável"] == var].pivot_table(index=["Rede","Estado"], columns="Classe", values="P(estado | classe)").reset_index()
     display(Markdown(f"**{var}**"))
     display(piv)
@@ -371,19 +373,20 @@ display(Image(filename=str(FIG / "fig04_metricas_nb.png"), width=1050))
 cells.append(md(r"""
 ### 2.8 Limiar de decisão e assimetria de riscos
 
-O limiar padrão de 50% maximiza a acurácia balanceada, mas não incorpora o custo assimétrico do erro. Liberar um paciente que fracassará (falso positivo) pode causar sofrimento, reintubação e aumento de mortalidade; atrasar a liberação (falso negativo) consome leito e aumenta exposição a infecções, mas é potencialmente reversível. Em uma política conservadora, pode-se exigir $P(\\text{Sucesso}) \\geq 60\\%$ ou $75\\%$ para liberar. A tabela de sensibilidade mostra o efeito no teste e na base completa.
+O limiar padrão de 50% escolhe a classe de maior probabilidade posterior; ele não garante a máxima acurácia balanceada e não incorpora o custo assimétrico do erro. Liberar um paciente que fracassará (falso positivo) pode causar sofrimento, reintubação e aumento de mortalidade; atrasar a liberação (falso negativo) consome leito e aumenta exposição a infecções, mas é potencialmente reversível. Em uma política conservadora, pode-se exigir $P(\text{Sucesso}) \geq 60\%$ ou $75\%$ para liberar. A tabela de sensibilidade mostra o efeito no teste e na base completa.
 """))
 
 cells.append(code(r"""
 th = pd.read_csv(TAB / "09_nb_limiares.csv")
-th_show = th[th["Conjunto"] == "Completa"].copy()
+th_show = th[th["Conjunto"].isin(["Teste", "Completa"])].copy()
 for c in ["acuracia","sensibilidade","especificidade"]:
     th_show[c] = (th_show[c] * 100).round(1)
-display(th_show[["Rede","Limiar","acuracia","sensibilidade","especificidade","fp","fn"]].rename(columns={"acuracia":"Acurácia (%)","sensibilidade":"Sensibilidade (%)","especificidade":"Especificidade (%)","fp":"FP","fn":"FN"}))
+with pd.option_context("display.max_rows", None):
+    display(th_show[["Rede","Conjunto","Limiar","acuracia","sensibilidade","especificidade","fp","fn"]].rename(columns={"acuracia":"Acurácia (%)","sensibilidade":"Sensibilidade (%)","especificidade":"Especificidade (%)","fp":"FP","fn":"FN"}))
 """))
 
 cells.append(md(r"""
-Para a Rede 1, o limiar conservador quase não altera os resultados, porque as posteriores são extremas (a maioria fica abaixo de 45% ou acima de 75%). Para a Rede 2, subir o limiar para 75% melhora a especificidade no teste, mas ao custo de falsos negativos. A escolha do limiar é, portanto, uma decisão de política clínica e não deve ser feita olhando apenas a acurácia.
+Para a Rede 1, o limiar conservador não altera os resultados até 75%, porque as posteriores são extremas (a maioria fica abaixo de 45% ou acima de 75%). Para a Rede 2, subir o limiar para 60–75% não elimina nenhum falso positivo e acrescenta um falso negativo (TR13); só a partir de 80% o TE1 deixa de ser liberado, enquanto TR1 e TE3 continuam como falsos positivos. A escolha do limiar é, portanto, uma decisão de política clínica e não deve ser feita olhando apenas a acurácia.
 """))
 
 cells.append(md(r"""
@@ -391,7 +394,7 @@ cells.append(md(r"""
 
 - **Convergem** quando o paciente é inequívoco: NIF muito negativo, RR baixo, VT alto e RSBI baixo geram evidência forte em ambas as redes. Exemplos: TR15, TR17, TR20, TE7, TE9.
 - **Divergem** nos casos de fronteira, em que a perda de resolução da Rede 2 muda a contagem de verossimilhança. TR4 (NIF −22, RR 30, VT 350, RSBI 86) recebe 44,2% na Rede 1 e 17,0% na Rede 2: ambas retêm, mas com confiança distinta. TR16 (NIF −30, RR 30, VT 250, RSBI 120) é mais dramático: 76,7% na Rede 1 (sucesso) contra 10,9% na Rede 2 (fracasso), com desfecho real de sucesso. TE1 (NIF −15, RR 25, VT 450, RSBI 56) vai de 29,7% (fracasso) na Rede 1 para 77,2% (sucesso) na Rede 2, e o desfecho real é fracasso.
-- **TE3** é o caso mais didático: NIF −28 e RR 24 são limitrofes, VT 310 é baixo e RSBI 77 é favorável. A Rede 1 fica em 44,2% (fracasso), a Rede 2 em 90,6% (sucesso) e o sistema fuzzy em 52,3 (cautela). O desfecho real é fracasso. A Rede 2 erra por comprimir NIF, RR e VT em apenas duas faixas e multiplicar evidências favoráveis.
+- **TE3** é o caso mais didático: NIF −28 e RR 24 são limítrofes, VT 310 é baixo e RSBI 77 é favorável. A Rede 1 fica em 44,2% (fracasso), a Rede 2 em 90,6% (sucesso) e o sistema fuzzy em 52,3 (cautela). O desfecho real é fracasso. A Rede 2 erra por comprimir NIF, RR e VT em apenas duas faixas e multiplicar evidências favoráveis.
 """))
 
 cells.append(code(r"""
@@ -420,7 +423,7 @@ display(loo.rename(columns={"Acurácia LOO":"Acurácia (%)","Sensibilidade LOO":
 """))
 
 cells.append(md(r"""
-O conjunto completo tem 76,2% de acurácia LOO na Rede 1, contra 85,7% para NIF+RR+VT e para NIF isolado. Isso não prova que “NIF sozinho é melhor”; prova que, com 21 casos, as quatro variáveis produzem muitas células de CPT e a redundância aumenta a variância. A Rede 1 mantém as quatro variáveis por fidelidade ao escopo e porque o desempenho no teste foi excelente, mas a análise é um alerta contra concluir que “mais variáveis sempre melhora”.
+O conjunto completo tem 76,2% de acurácia LOO na Rede 1, contra 85,7% para NIF+RR+VT e para NIF isolado. Isso não prova que “NIF sozinho é melhor”; prova que, com 21 casos, as quatro variáveis produzem muitas células de CPT e a redundância aumenta a variância. A Rede 1 mantém as quatro variáveis por fidelidade ao escopo do trabalho; o bom desempenho no teste é uma observação posterior, não um critério de escolha. A análise é um alerta contra concluir que “mais variáveis sempre melhora”.
 """))
 
 cells.append(md(r"""
@@ -436,7 +439,7 @@ O FIS tem quatro entradas e uma saída `Potencial_Desmame` (0–100). O método 
 | Conectivo OU | máximo (`max`) | não utilizado nas regras (todas conjuntivas) |
 | Implicação | mínimo (`min`) | corte do consequente em α |
 | Agregação | máximo (`max`) | união das regiões recortadas |
-| Defuzzificação | centroide (COA) | $y^* = \\int y\\,\\mu_{agg}(y)dy / \\int \\mu_{agg}(y)dy$ |
+| Defuzzificação | centroide (COA) | $y^* = \int y\,\mu_{agg}(y)dy / \int \mu_{agg}(y)dy$ |
 
 A implementação manual foi validada contra `scikit-fuzzy` (diferença máxima inferior a 10⁻⁵ no centroide).
 """))
@@ -474,9 +477,10 @@ A pontuação é convertida em: ≥6 Muito Alto; 4–5 Alto; 2–3 Moderado; −
 cells.append(code(r"""
 rules = pd.read_csv(TAB / "12_fuzzy_regras.csv")
 print(f"Total de regras: {len(rules)}")
-display(rules[["Regra","NIF","RR","VT","RSBI","Consequente"]])
-display(Markdown("**Base completa no formato SE…ENTÃO:**"))
-display(rules[["Regra","SE...ENTÃO"]])
+with pd.option_context("display.max_rows", None, "display.max_colwidth", None):
+    display(rules[["Regra","NIF","RR","VT","RSBI","Pontuação","Consequente"]])
+    display(Markdown("**Base completa no formato SE…ENTÃO:**"))
+    display(rules[["Regra","SE...ENTÃO"]])
 """))
 
 cells.append(md(r"""
@@ -501,19 +505,23 @@ for var in w.VARIABLES:
     mus = np.vstack([plotting._mf_array(var, t) for t in w.FUZZY_TERMS[var]])
     mx = mus.max(axis=0)
     print(f"{var}: mínimo da cobertura máxima = {mx.min():.3f}; pontos sem cobertura = {(mx <= 1e-12).sum()}")
+    assert (mx > 1e-12).all(), f"{var} tem pontos sem cobertura"
 
 # Amostra de 2.000 pontos: nenhuma saída ausente/NaN
 rng = np.random.default_rng(42)
 for _ in range(2000):
     x = {
-        "NIF": rng.uniform(-60, -0.1),
+        "NIF": rng.uniform(-60, 0),
         "RR": rng.uniform(5, 60),
         "VT": rng.uniform(100, 1000),
         "RSBI": rng.uniform(0, 300),
     }
     val = w.mamdani_evaluate(x).centroid
     assert np.isfinite(val)
-print("2.000 avaliações aleatórias: todas com regra ativada e saída finita.")
+# Cantos do espaço de entrada (extremos de cada universo)
+for corner in itertools.product(*(w.FUZZY_RANGES[v] for v in w.VARIABLES)):
+    assert np.isfinite(w.mamdani_evaluate(dict(zip(w.VARIABLES, corner))).centroid)
+print("2.000 avaliações aleatórias e 16 cantos do domínio: todas com regra ativada e saída finita.")
 """))
 
 cells.append(md(r"""
@@ -561,7 +569,7 @@ display(show[["Conjunto","Limiar","acuracia","sensibilidade","especificidade","p
 """))
 
 cells.append(md(r"""
-**Resultado.** Com limiar 60, o FIS acerta 17/21 no treino, 9/9 no teste e 26/30 na base completa. A sensibilidade é 80,0% e a especificidade 93,3%; há apenas um falso positivo (TR1) e três falsos negativos (TR13, TR14 e TR16). O falso positivo é o caso paradoxal em que todos os indicadores são favoráveis, mas o desfecho real foi fracasso. Os falsos negativos são pacientes com VT baixo e parâmetros limitrofes, mantidos em cautela — coerente com a política conservadora.
+**Resultado.** Com limiar 60, o FIS acerta 17/21 no treino, 9/9 no teste e 26/30 na base completa. A sensibilidade é 80,0% e a especificidade 93,3%; há apenas um falso positivo (TR1) e três falsos negativos (TR13, TR14 e TR16). O falso positivo é o caso paradoxal em que todos os indicadores são favoráveis, mas o desfecho real foi fracasso. Os falsos negativos são pacientes com VT baixo e parâmetros limítrofes, mantidos em cautela — coerente com a política conservadora.
 """))
 
 cells.append(md(r"""
@@ -595,66 +603,68 @@ Os três casos foram escolhidos para cobrir: sucesso claro, fracasso claro e sit
 """))
 
 cells.append(code(r"""
-case_specs = [
-    ("TE5", "Caso 1 — Sucesso claro", "Paciente de teste, todos os indicadores favoráveis; o sistema confirma o desfecho."),
-    ("TR10", "Caso 2 — Fracasso claro", "Paciente com padrão respiratório rápido e superficial extremo; todas as regras ativadas levam a Muito Baixo."),
-    ("TE3", "Caso 3 — Crítico/duvidoso", "NIF e RR limitrofes, VT baixo e RSBI favorável; as redes divergem e o caso real é fracasso."),
-]
-"""))
-
-cells.append(code(r"""
-case = full.loc[full.ID == "TE5"].iloc[0]
-x = {v: float(case[v]) for v in w.VARIABLES}
-res = w.mamdani_evaluate(x)
-display(Markdown(f"### Caso 1 — TE5 (real: **{case['Resultado']}**) — {x}"))
-display(w.fuzzify_dataframe(res).round(4))
-display(pd.DataFrame(res.activations)[["Regra","NIF","RR","VT","RSBI","mu_NIF","mu_RR","mu_VT","mu_RSBI","alpha","Consequente"]].round(4))
-display(pd.DataFrame([w.defuzz_summary(res)]).round(4))
-display(Markdown("**Figura 13 — TE5: fuzzificação das quatro entradas.**"))
-display(Image(filename=str(FIG / "fig13_caso1_entradas.png"), width=1000))
-display(Markdown("**Figura 14 — TE5: agregação Mamdani, região recortada e centroide.**"))
-display(Image(filename=str(FIG / "fig14_caso1_saida.png"), width=1000))
-"""))
-
-cells.append(md(r"""
-**Caso 1 — interpretação.** NIF −48 é forte (μ=1,000); RR 24 é predominantemente adequada (0,750) com 0,250 de limitrofe; VT 380 é 0,200 baixo e 0,457 adequado; RSBI 63 é totalmente favorável. Quatro regras disparam. A regra 58 (Forte, Adequada, Adequado, Favorável → Muito Alto) tem α=0,457 e domina a agregação. O centroide é **74,37**, acima de 60: recomendação de sucesso. O desfecho real foi sucesso, e as duas redes Naive Bayes também acertaram (89,4% e 95,8%).
-"""))
-
-cells.append(code(r"""
-case = full.loc[full.ID == "TR10"].iloc[0]
-x = {v: float(case[v]) for v in w.VARIABLES}
-res = w.mamdani_evaluate(x)
-display(Markdown(f"### Caso 2 — TR10 (real: **{case['Resultado']}**) — {x}"))
-display(w.fuzzify_dataframe(res).round(4))
-display(pd.DataFrame(res.activations)[["Regra","NIF","RR","VT","RSBI","mu_NIF","mu_RR","mu_VT","mu_RSBI","alpha","Consequente"]].round(4))
-display(pd.DataFrame([w.defuzz_summary(res)]).round(4))
-display(Markdown("**Figura 15 — TR10: fuzzificação das quatro entradas.**"))
-display(Image(filename=str(FIG / "fig15_caso2_entradas.png"), width=1000))
-display(Markdown("**Figura 16 — TR10: agregação Mamdani, região recortada e centroide.**"))
-display(Image(filename=str(FIG / "fig16_caso2_saida.png"), width=1000))
+# Fuzzificação, regras ativadas, agregação e centroide de um caso (Figuras 11+2k e 12+2k).
+def show_case(case_id, k):
+    case = full.loc[full.ID == case_id].iloc[0]
+    x = {v: float(case[v]) for v in w.VARIABLES}
+    res = w.mamdani_evaluate(x)
+    entradas = ", ".join(f"{v} = {x[v]:g}" for v in w.VARIABLES)
+    display(Markdown(f"**Entradas:** {entradas} · **desfecho real:** {case['Resultado']}"))
+    display(Markdown("**Fuzzificação** — pertinência de cada entrada a cada termo linguístico:"))
+    display(w.fuzzify_dataframe(res).round(4))
+    act = pd.DataFrame(res.activations)
+    for col in ["NIF", "RR", "VT", "RSBI", "Consequente"]:
+        act[col] = act[col].map(w.TERM_DISPLAY)
+    display(Markdown(f"**Regras ativadas** — {len(act)} regras com α = min(μ) > 0:"))
+    display(act[["Regra","NIF","RR","VT","RSBI","mu_NIF","mu_RR","mu_VT","mu_RSBI","alpha","Consequente"]].round(4))
+    display(Markdown("**Agregação (máximo) e defuzzificação (centroide):**"))
+    display(pd.DataFrame([w.defuzz_summary(res)]).round(4))
+    display(Markdown(f"**Figura {11 + 2 * k} — {case_id}: fuzzificação das quatro entradas.**"))
+    display(Image(filename=str(FIG / f"fig{11 + 2 * k}_caso{k}_entradas.png"), width=1000))
+    display(Markdown(f"**Figura {12 + 2 * k} — {case_id}: agregação Mamdani, região recortada e centroide.**"))
+    display(Image(filename=str(FIG / f"fig{12 + 2 * k}_caso{k}_saida.png"), width=1000))
 """))
 
 cells.append(md(r"""
-**Caso 2 — interpretação.** NIF −20 divide-se igualmente entre fraco e limitrofe; RR 33 é 0,625 limitrofe e 0,375 elevada; VT 124 é totalmente baixo; RSBI 266 é totalmente desfavorável. As quatro regras ativadas têm consequente Muito Baixo; a maior força é 0,500. A região agregada é o trapézio Muito Baixo cortado em 0,5, e o centroide é **13,21**: recomendação de fracasso, coerente com o desfecho. As redes Naive Bayes também acertaram com probabilidades de sucesso de 1,0% e 1,8%.
+### 4.1 Caso 1 — TE5: sucesso claro
+
+Paciente de teste com todos os indicadores favoráveis ou adequados; o sistema deve confirmar a liberação.
 """))
 
 cells.append(code(r"""
-case = full.loc[full.ID == "TE3"].iloc[0]
-x = {v: float(case[v]) for v in w.VARIABLES}
-res = w.mamdani_evaluate(x)
-display(Markdown(f"### Caso 3 — TE3 (real: **{case['Resultado']}**) — {x}"))
-display(w.fuzzify_dataframe(res).round(4))
-act = pd.DataFrame(res.activations)[["Regra","NIF","RR","VT","RSBI","mu_NIF","mu_RR","mu_VT","mu_RSBI","alpha","Consequente"]].round(4)
-display(act)
-display(pd.DataFrame([w.defuzz_summary(res)]).round(4))
-display(Markdown("**Figura 17 — TE3: fuzzificação das quatro entradas.**"))
-display(Image(filename=str(FIG / "fig17_caso3_entradas.png"), width=1000))
-display(Markdown("**Figura 18 — TE3: agregação Mamdani, região recortada e centroide.**"))
-display(Image(filename=str(FIG / "fig18_caso3_saida.png"), width=1000))
+show_case("TE5", 1)
 """))
 
 cells.append(md(r"""
-**Caso 3 — interpretação.** O paciente tem NIF −28 (0,700 limitrofe e 0,300 forte), RR 24 (0,750 adequada e 0,250 limitrofe), VT 310 (0,900 baixo e 0,057 adequado) e RSBI 77 (totalmente favorável). Há oito regras ativadas, com consequentes conflitantes: a regra 28 (Moderado) tem α=0,700, mas regras de Alto, Baixo e Muito Alto também disparam com forças menores. A agregação produz uma região multimodal; o centroide é **52,28**, dentro da faixa de cautela (40–60). A recomendação é **não liberar e reavaliar**. O desfecho real foi fracasso. A Rede 1 também prediz fracasso (44,2%), mas a Rede 2 prediz sucesso com 90,6% — uma divergência clinicamente perigosa que ilustra o risco da discretização excessivamente grosseira.
+**Caso 1 — interpretação.** NIF −48 é forte (μ=1,000); RR 24 é predominantemente adequada (0,750) com 0,250 de limítrofe; VT 380 é 0,200 baixo e 0,457 adequado; RSBI 63 é totalmente favorável. Quatro regras disparam. A regra 58 (Forte, Adequada, Adequado, Favorável → Muito Alto) tem α=0,457 e domina a agregação. O centroide é **74,37**, acima de 60: recomendação de sucesso. O desfecho real foi sucesso, e as duas redes Naive Bayes também acertaram (89,4% e 95,8%).
+"""))
+
+cells.append(md(r"""
+### 4.2 Caso 2 — TR10: fracasso claro
+
+Paciente com padrão respiratório rápido e superficial extremo; todas as regras ativadas devem levar a Muito Baixo.
+"""))
+
+cells.append(code(r"""
+show_case("TR10", 2)
+"""))
+
+cells.append(md(r"""
+**Caso 2 — interpretação.** NIF −20 divide-se igualmente entre fraco e limítrofe; RR 33 é 0,625 limítrofe e 0,375 elevada; VT 124 é totalmente baixo; RSBI 266 é totalmente desfavorável. As quatro regras ativadas têm consequente Muito Baixo; a maior força é 0,500. A região agregada é o trapézio Muito Baixo cortado em 0,5, e o centroide é **13,21**: recomendação de fracasso, coerente com o desfecho. As redes Naive Bayes também acertaram com probabilidades de sucesso de 1,0% e 1,8%.
+"""))
+
+cells.append(md(r"""
+### 4.3 Caso 3 — TE3: crítico/duvidoso
+
+NIF e RR em transição, VT baixo e RSBI favorável: sinais conflitantes, redes divergentes e desfecho real de fracasso.
+"""))
+
+cells.append(code(r"""
+show_case("TE3", 3)
+"""))
+
+cells.append(md(r"""
+**Caso 3 — interpretação.** O paciente tem NIF −28 (0,700 limítrofe e 0,300 forte), RR 24 (0,750 adequada e 0,250 limítrofe), VT 310 (0,900 baixo e 0,057 adequado) e RSBI 77 (totalmente favorável). Há oito regras ativadas, com consequentes conflitantes: a regra 28 (Moderado) tem α=0,700, mas regras de Alto, Baixo e Muito Alto também disparam com forças menores. A agregação produz uma região multimodal; o centroide é **52,28**, dentro da faixa de cautela (40–60). A recomendação é **não liberar e reavaliar**. O desfecho real foi fracasso. A Rede 1 também prediz fracasso (44,2%), mas a Rede 2 prediz sucesso com 90,6% — uma divergência clinicamente perigosa que ilustra o risco da discretização excessivamente grosseira.
 """))
 
 cells.append(md(r"""
@@ -722,7 +732,7 @@ Arquivos principais:
 - `fuzzy/weaning_mamdani.fis` e `fuzzy/weaning_mamdani.fcl` — modelo para MATLAB/Octave e fuzzylite.
 - `report/Relatorio_Weaning_Bayes_Fuzzy.pdf` — relatório técnico.
 
-Para reproduzir:
+Para reproduzir tudo (tabelas, figuras, modelos, notebook, PDF e pacote de entrega): `./run_all.sh`. Passo a passo:
 
 ```bash
 python src/generate_artifacts.py
@@ -737,9 +747,14 @@ print("Naive Bayes manual x sklearn (erro absoluto máximo):")
 print("  Rede 1:", f"{w.nb_validation_against_sklearn(train, 'clinical'):.2e}")
 print("  Rede 2:", f"{w.nb_validation_against_sklearn(train, 'netica'):.2e}")
 print("Netica nativo x Python (ambas as redes, treino e teste):")
-display(w.validate_against_netica())
+val = w.validate_against_netica()
+val["Erro máximo |P(S) Netica − Python|"] = val["Erro máximo |P(S) Netica − Python|"].map("{:.2e}".format)
+val["Tolerância"] = val["Tolerância"].map("{:.0e}".format)
+display(val)
 print("Fuzzy manual x scikit-fuzzy:")
-display(w.validate_fuzzy_against_skfuzzy(full, ["TE1", "TE3", "TR10"]).round(6))
+fz = w.validate_fuzzy_against_skfuzzy(full, ["TE1", "TE3", "TR10"])
+fz["Diferença absoluta"] = fz["Diferença absoluta"].map("{:.1e}".format)
+display(fz)
 print("Regras:", len(w.FUZZY_RULES), "| consequentes:", pd.Series([r['consequent'] for r in w.FUZZY_RULES]).value_counts().to_dict())
 """))
 
