@@ -32,7 +32,7 @@ visual V1 {
 		};
 	};
 
-node Desmame {
+node Resultado {
 	kind = NATURE;
 	discrete = TRUE;
 	chance = CHANCE;
@@ -53,13 +53,13 @@ node NIF {
 	discrete = FALSE;
 	chance = CHANCE;
 	levels = (-60, -25, -10);
-	parents = (Desmame);
+	parents = (Resultado);
 	probs = 
-		// -60 to -25   -25 to -10    // Desmame  
+		// -60 to -25   -25 to -10    // Resultado  
 		  (0.2857143,   0.7142857,    // Fracasso 
 		   0.7272727,   0.2727273);   // Sucesso  ;
 	numcases = 
-		                 // Desmame  
+		                 // Resultado  
 		  (14,           // Fracasso 
 		   11);          // Sucesso  ;
 	visual V1 {
@@ -73,13 +73,13 @@ node RR {
 	discrete = FALSE;
 	chance = CHANCE;
 	levels = (13, 30, 46);
-	parents = (Desmame);
+	parents = (Resultado);
 	probs = 
-		// 13 to 30     30 to 46      // Desmame  
+		// 13 to 30     30 to 46      // Resultado  
 		  (0.2142857,   0.7857143,    // Fracasso 
 		   0.8181818,   0.1818182);   // Sucesso  ;
 	numcases = 
-		                 // Desmame  
+		                 // Resultado  
 		  (14,           // Fracasso 
 		   11);          // Sucesso  ;
 	visual V1 {
@@ -93,13 +93,13 @@ node VT {
 	discrete = FALSE;
 	chance = CHANCE;
 	levels = (120, 350, 950);
-	parents = (Desmame);
+	parents = (Resultado);
 	probs = 
-		// 120 to 350   350 to 950    // Desmame  
+		// 120 to 350   350 to 950    // Resultado  
 		  (0.5714286,   0.4285714,    // Fracasso 
 		   0.3636364,   0.6363636);   // Sucesso  ;
 	numcases = 
-		                 // Desmame  
+		                 // Resultado  
 		  (14,           // Fracasso 
 		   11);          // Sucesso  ;
 	visual V1 {
@@ -113,13 +113,13 @@ node RSBI {
 	discrete = FALSE;
 	chance = CHANCE;
 	levels = (10, 90, 270);
-	parents = (Desmame);
+	parents = (Resultado);
 	probs = 
-		// 10 to 90     90 to 270     // Desmame  
+		// 10 to 90     90 to 270     // Resultado  
 		  (0.3571429,   0.6428571,    // Fracasso 
 		   0.7272727,   0.2727273);   // Sucesso  ;
 	numcases = 
-		                 // Desmame  
+		                 // Resultado  
 		  (14,           // Fracasso 
 		   11);          // Sucesso  ;
 	visual V1 {
@@ -127,5 +127,5 @@ node RSBI {
 		height = 4;
 		};
 	};
-ElimOrder = (NIF, RR, VT, Desmame, RSBI);
+ElimOrder = (NIF, RR, VT, Resultado, RSBI);
 };

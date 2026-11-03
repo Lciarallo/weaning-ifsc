@@ -1,0 +1,10 @@
+IDnum	NIF	RR	VT	RSBI	Resultado
+1	Fraco	Limitrofe	Adequado	Favoravel	Fracasso
+2	Limitrofe	Elevada	Adequado	Favoravel	Fracasso
+3	Limitrofe	Limitrofe	Baixo	Favoravel	Fracasso
+4	Forte	Limitrofe	Adequado	Favoravel	Sucesso
+5	Forte	Limitrofe	Adequado	Favoravel	Sucesso
+6	Forte	Limitrofe	Adequado	Favoravel	Sucesso
+7	Forte	Normal	Elevado	Favoravel	Sucesso
+8	Forte	Limitrofe	Adequado	Favoravel	Sucesso
+9	Forte	Normal	Adequado	Favoravel	Sucesso
