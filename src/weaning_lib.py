@@ -6,9 +6,9 @@ Contém:
   * carga e discretização das bases de treino/teste;
   * implementação auditável de Naive Bayes discreto com suavização de Laplace;
   * métricas de classificação e análise de limiar;
-  * Sistema de Inferência Fuzzy Mamdani (4 entradas, 5 termos de saída,
-    81 regras), com inferência manual (para inspeção) e validação via
-    scikit-fuzzy.
+  * Sistema de Inferência Fuzzy Mamdani (4 entradas, saída Resultado com
+    Fracasso e Sucesso, base enxuta e completa de 12 regras), com inferência
+    manual (para inspeção) e validação via scikit-fuzzy e fuzzylite 4.0.
 
 Autor: projeto acadêmico IFSC — Sistemas Probabilísticos e Difusos.
 """
@@ -63,6 +63,27 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         df["Resultado"] = pd.Categorical(df["Resultado"], CLASSES, ordered=True)
         df["ID"] = df["Base"].map({"Treino": "TR", "Teste": "TE"}) + df["IDnum"].astype(str)
     return train, test, full
+
+
+def verify_discipline_files() -> dict[str, bool]:
+    """Confere linha a linha os arquivos originais da disciplina contra data/weaning_*.csv."""
+    train, test, _ = load_data()
+    orig = ROOT / "references" / "originais"
+    tr_orig = pd.read_csv(orig / "Respira_DB_Treinamento.txt", sep="\t")
+    te_orig = pd.read_csv(orig / "Respira_DB_Teste.txt", sep="\t")
+    tr_pc = pd.read_csv(orig / "Respira_DB_Treinamento_Process_Cases.txt", sep="\t")
+    te_pc = pd.read_csv(orig / "Respira_DB_Teste_Process_Cases.txt", sep="\t")
+    cols_full = ["IDnum", "NIF", "VT", "RR", "RSBI", "Resultado"]
+    cols_pc = ["IDnum", "NIF", "VT", "RR", "RSBI"]
+    checks = {
+        "Respira_DB_Treinamento.txt": bool(tr_orig[cols_full].equals(train[cols_full].assign(Resultado=train["Resultado"].astype(str)))),
+        "Respira_DB_Teste.txt": bool(te_orig[cols_full].equals(test[cols_full].assign(Resultado=test["Resultado"].astype(str)))),
+        "Respira_DB_Treinamento_Process_Cases.txt": bool(tr_pc[cols_pc].equals(train[cols_pc])),
+        "Respira_DB_Teste_Process_Cases.txt": bool(te_pc[cols_pc].equals(test[cols_pc])),
+    }
+    if not all(checks.values()):
+        raise ValueError(f"Divergência nos arquivos da disciplina: {checks}")
+    return checks
 
 
 def descriptive_table(full: pd.DataFrame) -> pd.DataFrame:
@@ -397,12 +418,14 @@ def confusion_and_metrics(y_true: Iterable[str], y_pred: Iterable[str], p_succes
     sens = tp / (tp + fn + eps)
     spec = tn / (tn + fp + eps)
     acc = (tp + tn) / (tp + tn + fp + fn + eps)
+    bal_acc = 0.5 * (sens + spec)
     ppv = tp / (tp + fp + eps)
     npv = tn / (tn + fn + eps)
     f1 = 2 * tp / (2 * tp + fp + fn + eps)
     out = {
         "tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp),
-        "acuracia": float(acc), "sensibilidade": float(sens), "especificidade": float(spec),
+        "acuracia": float(acc), "acuracia_balanceada": float(bal_acc),
+        "sensibilidade": float(sens), "especificidade": float(spec),
         "ppv": float(ppv), "npv": float(npv), "f1": float(f1),
     }
     if p_success is not None:
@@ -420,6 +443,7 @@ def metrics_row(name: str, split: str, m: dict) -> dict:
         "Modelo": name,
         "Conjunto": split,
         "Acurácia": m["acuracia"],
+        "Acurácia bal.": m["acuracia_balanceada"],
         "Sensibilidade": m["sensibilidade"],
         "Especificidade": m["especificidade"],
         "PPV": m["ppv"],
@@ -525,11 +549,8 @@ FUZZY_MFS = {
         "RSBI_Desfavoravel": ("trap", [120, 150, 300, 300], "Desfavorável"),
     },
     "OUT": {
-        "MB": ("trap", [0, 0, 15, 30], "Muito Baixo"),
-        "B": ("tri", [15, 30, 45], "Baixo"),
-        "M": ("tri", [35, 50, 65], "Moderado"),
-        "A": ("tri", [55, 70, 85], "Alto"),
-        "MA": ("trap", [70, 85, 100, 100], "Muito Alto"),
+        "Fracasso": ("trap", [0, 0, 35, 65], "Fracasso"),
+        "Sucesso": ("trap", [35, 65, 100, 100], "Sucesso"),
     },
 }
 
@@ -540,7 +561,7 @@ FUZZY_TERMS = {
     "RSBI": ["RSBI_Favoravel", "RSBI_Limitrofe", "RSBI_Desfavoravel"],
 }
 FUZZY_WEIGHTS = {
-    "NIF": {"NIF_Fraco": -2, "NIF_Limitrofe": 0, "NIF_Forte": 2},
+    "NIF": {"NIF_Fraco": -2, "NIF_Limitrofe": 0, "NIF_Forte": 3},
     "RR": {"RR_Adequada": 2, "RR_Limitrofe": 0, "RR_Elevada": -2},
     "VT": {"VT_Baixo": -1, "VT_Adequado": 1, "VT_Elevado": 0},
     "RSBI": {"RSBI_Favoravel": 2, "RSBI_Limitrofe": 0, "RSBI_Desfavoravel": -2},
@@ -552,40 +573,42 @@ TERM_DISPLAY = {
 TERM_DISPLAY["NIF_Limitrofe"] = "Limítrofe"
 TERM_DISPLAY["RR_Limitrofe"] = "Limítrofe"
 TERM_DISPLAY["RSBI_Limitrofe"] = "Limítrofe"
+TERM_DISPLAY["Qualquer"] = "—"
+TERM_DISPLAY[None] = "—"
 
-# Limiar operacional conservador: só recomenda liberação com potencial >= 60.
+# Limiar operacional conservador: só recomenda liberação com Resultado >= 60 (ou >= 50 no ponto médio).
 FUZZY_CUT = 60.0
 FUZZY_GRAY_LOW = 40.0
 
-# 81 regras: todas as combinações 3 x 3 x 3 x 3.
-# A pontuação soma os pesos dos termos; a função abaixo converte a pontuação
-# em um dos cinco consequentes. A base é funcional (uma única saída por
-# combinação de antecedentes), portanto consistente.
-FUZZY_RULES: list[dict] = []
+# Base enxuta e completa de 12 regras clínicas Mamdani (4 de Sucesso e 8 de Fracasso).
+# Cobertura integral das 81 combinações do espaço 3x3x3x3 usando cláusulas parciais (wildcards None).
+_COMPACT_RULE_SPECS = [
+    # Regras de Sucesso (4 regras)
+    (1, {"NIF": "NIF_Forte", "RR": "RR_Adequada", "VT": None, "RSBI": "RSBI_Favoravel"}, 7, "Sucesso"),
+    (2, {"NIF": "NIF_Forte", "RR": "RR_Limitrofe", "VT": None, "RSBI": "RSBI_Favoravel"}, 5, "Sucesso"),
+    (3, {"NIF": "NIF_Forte", "RR": "RR_Adequada", "VT": None, "RSBI": "RSBI_Limitrofe"}, 5, "Sucesso"),
+    (4, {"NIF": "NIF_Limitrofe", "RR": "RR_Adequada", "VT": "VT_Adequado", "RSBI": "RSBI_Favoravel"}, 5, "Sucesso"),
+    # Regras de Fracasso (8 regras)
+    (5, {"NIF": "NIF_Fraco", "RR": None, "VT": None, "RSBI": None}, -2, "Fracasso"),
+    (6, {"NIF": None, "RR": "RR_Elevada", "VT": None, "RSBI": None}, -2, "Fracasso"),
+    (7, {"NIF": None, "RR": None, "VT": None, "RSBI": "RSBI_Desfavoravel"}, -2, "Fracasso"),
+    (8, {"NIF": "NIF_Limitrofe", "RR": None, "VT": "VT_Baixo", "RSBI": None}, -1, "Fracasso"),
+    (9, {"NIF": "NIF_Limitrofe", "RR": None, "VT": "VT_Elevado", "RSBI": None}, 0, "Fracasso"),
+    (10, {"NIF": "NIF_Limitrofe", "RR": "RR_Limitrofe", "VT": None, "RSBI": None}, 0, "Fracasso"),
+    (11, {"NIF": "NIF_Limitrofe", "RR": None, "VT": None, "RSBI": "RSBI_Limitrofe"}, 0, "Fracasso"),
+    (12, {"NIF": None, "RR": "RR_Limitrofe", "VT": None, "RSBI": "RSBI_Limitrofe"}, 0, "Fracasso"),
+]
+
+FUZZY_RULES: list[dict] = [
+    {"id": rid, "terms": terms, "score": score, "consequent": cons}
+    for rid, terms, score, cons in _COMPACT_RULE_SPECS
+]
 
 
 def _score_to_consequent(score: int) -> str:
-    if score >= 6:
-        return "MA"
     if score >= 4:
-        return "A"
-    if score >= 2:
-        return "M"
-    if score >= -2:
-        return "B"
-    return "MB"
-
-
-for _i, _combo in enumerate(itertools.product(*(FUZZY_TERMS[v] for v in VARIABLES)), start=1):
-    _score = int(sum(FUZZY_WEIGHTS[v][t] for v, t in zip(VARIABLES, _combo)))
-    FUZZY_RULES.append(
-        {
-            "id": _i,
-            "terms": dict(zip(VARIABLES, _combo)),
-            "score": _score,
-            "consequent": _score_to_consequent(_score),
-        }
-    )
+        return "Sucesso"
+    return "Fracasso"
 
 
 def fuzzy_mu(var: str, term: str, x: float) -> float:
@@ -619,7 +642,8 @@ def mamdani_evaluate(x: dict[str, float], cutoff: float = 1e-9) -> FuzzyResult:
     agg = np.zeros_like(FUZZY_UNIVERSES["OUT"], dtype=float)
     activations = []
     for rule in FUZZY_RULES:
-        alpha = min(mus[v][rule["terms"][v]] for v in VARIABLES)
+        active_vars = [v for v in VARIABLES if rule["terms"].get(v) is not None]
+        alpha = min(mus[v][rule["terms"][v]] for v in active_vars)
         if alpha > cutoff:
             out_kind, out_params, _ = FUZZY_MFS["OUT"][rule["consequent"]]
             from skfuzzy import membership as mf
@@ -630,14 +654,14 @@ def mamdani_evaluate(x: dict[str, float], cutoff: float = 1e-9) -> FuzzyResult:
             activations.append(
                 {
                     "Regra": rule["id"],
-                    "NIF": rule["terms"]["NIF"],
-                    "RR": rule["terms"]["RR"],
-                    "VT": rule["terms"]["VT"],
-                    "RSBI": rule["terms"]["RSBI"],
-                    "mu_NIF": mus["NIF"][rule["terms"]["NIF"]],
-                    "mu_RR": mus["RR"][rule["terms"]["RR"]],
-                    "mu_VT": mus["VT"][rule["terms"]["VT"]],
-                    "mu_RSBI": mus["RSBI"][rule["terms"]["RSBI"]],
+                    "NIF": rule["terms"].get("NIF") or "Qualquer",
+                    "RR": rule["terms"].get("RR") or "Qualquer",
+                    "VT": rule["terms"].get("VT") or "Qualquer",
+                    "RSBI": rule["terms"].get("RSBI") or "Qualquer",
+                    "mu_NIF": mus["NIF"][rule["terms"]["NIF"]] if rule["terms"].get("NIF") else 1.0,
+                    "mu_RR": mus["RR"][rule["terms"]["RR"]] if rule["terms"].get("RR") else 1.0,
+                    "mu_VT": mus["VT"][rule["terms"]["VT"]] if rule["terms"].get("VT") else 1.0,
+                    "mu_RSBI": mus["RSBI"][rule["terms"]["RSBI"]] if rule["terms"].get("RSBI") else 1.0,
                     "alpha": alpha,
                     "Consequente": rule["consequent"],
                     "Score": rule["score"],
@@ -705,24 +729,14 @@ def fuzzy_metrics(pred: pd.DataFrame, cutoff: float | None = None) -> dict:
 def fuzzy_rule_dataframe() -> pd.DataFrame:
     rows = []
     for rule in FUZZY_RULES:
+        conds = [f"{v} é {TERM_DISPLAY[rule['terms'][v]]}" for v in VARIABLES if rule["terms"].get(v) is not None]
         rows.append(
             {
                 "Regra": rule["id"],
-                **{v: TERM_DISPLAY[rule["terms"][v]] for v in VARIABLES},
+                **{v: TERM_DISPLAY[rule["terms"].get(v)] for v in VARIABLES},
                 "Pontuação": rule["score"],
                 "Consequente": TERM_DISPLAY[rule["consequent"]],
-                "SE...ENTÃO": (
-                    "SE NIF é "
-                    + TERM_DISPLAY[rule["terms"]["NIF"]]
-                    + " E RR é "
-                    + TERM_DISPLAY[rule["terms"]["RR"]]
-                    + " E VT é "
-                    + TERM_DISPLAY[rule["terms"]["VT"]]
-                    + " E RSBI é "
-                    + TERM_DISPLAY[rule["terms"]["RSBI"]]
-                    + " ENTÃO Potencial é "
-                    + TERM_DISPLAY[rule["consequent"]]
-                ),
+                "SE...ENTÃO": "SE " + " E ".join(conds) + " ENTÃO Resultado é " + TERM_DISPLAY[rule["consequent"]],
             }
         )
     return pd.DataFrame(rows)
@@ -734,7 +748,7 @@ def membership_table() -> pd.DataFrame:
         for term, (kind, params, label) in FUZZY_MFS[var].items():
             rows.append(
                 {
-                    "Variável": "Potencial de desmame" if var == "OUT" else var,
+                    "Variável": "Resultado" if var == "OUT" else var,
                     "Termo": label,
                     "Tipo": "Trapezoidal" if kind == "trap" else "Triangular",
                     "Parâmetros [a,b,c(,d)]": ", ".join(f"{p:g}" for p in params),
@@ -778,18 +792,16 @@ def build_skfuzzy_system():
     for var in VARIABLES:
         for term, (kind, params, _) in FUZZY_MFS[var].items():
             antecedents[var][term] = mf.trimf(FUZZY_UNIVERSES[var], params) if kind == "tri" else mf.trapmf(FUZZY_UNIVERSES[var], params)
-    consequent = ctrl.Consequent(FUZZY_UNIVERSES["OUT"], "Potencial")
+    consequent = ctrl.Consequent(FUZZY_UNIVERSES["OUT"], "Resultado")
     for term, (kind, params, _) in FUZZY_MFS["OUT"].items():
         consequent[term] = mf.trimf(FUZZY_UNIVERSES["OUT"], params) if kind == "tri" else mf.trapmf(FUZZY_UNIVERSES["OUT"], params)
 
     rules = []
     for rule in FUZZY_RULES:
-        ant = (
-            antecedents["NIF"][rule["terms"]["NIF"]]
-            & antecedents["RR"][rule["terms"]["RR"]]
-            & antecedents["VT"][rule["terms"]["VT"]]
-            & antecedents["RSBI"][rule["terms"]["RSBI"]]
-        )
+        active_terms = [antecedents[v][rule["terms"][v]] for v in VARIABLES if rule["terms"].get(v) is not None]
+        ant = active_terms[0]
+        for t in active_terms[1:]:
+            ant = ant & t
         rules.append(ctrl.Rule(ant, consequent[rule["consequent"]]))
     system = ctrl.ControlSystem(rules)
     sim = ctrl.ControlSystemSimulation(system, flush_after_run=200)
@@ -801,7 +813,7 @@ def skfuzzy_predict(x: dict[str, float]) -> float:
     for var in VARIABLES:
         sim.input[var] = x[var]
     sim.compute()
-    return float(sim.output["Potencial"])
+    return float(sim.output["Resultado"])
 
 
 def validate_fuzzy_against_skfuzzy(df: pd.DataFrame, sample_ids: Iterable[str] | None = None) -> pd.DataFrame:

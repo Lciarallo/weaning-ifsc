@@ -1,83 +1,14 @@
-|   Regra | NIF       | RR        | VT       | RSBI         |   Pontuação | Consequente   | SE...ENTÃO                                                                                            |
-|--------:|:----------|:----------|:---------|:-------------|------------:|:--------------|:------------------------------------------------------------------------------------------------------|
-|       1 | Fraco     | Adequada  | Baixo    | Favorável    |           1 | Baixo         | SE NIF é Fraco E RR é Adequada E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Baixo                |
-|       2 | Fraco     | Adequada  | Baixo    | Limítrofe    |          -1 | Baixo         | SE NIF é Fraco E RR é Adequada E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Baixo                |
-|       3 | Fraco     | Adequada  | Baixo    | Desfavorável |          -3 | Muito Baixo   | SE NIF é Fraco E RR é Adequada E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo       |
-|       4 | Fraco     | Adequada  | Adequado | Favorável    |           3 | Moderado      | SE NIF é Fraco E RR é Adequada E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Moderado          |
-|       5 | Fraco     | Adequada  | Adequado | Limítrofe    |           1 | Baixo         | SE NIF é Fraco E RR é Adequada E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Baixo             |
-|       6 | Fraco     | Adequada  | Adequado | Desfavorável |          -1 | Baixo         | SE NIF é Fraco E RR é Adequada E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Baixo          |
-|       7 | Fraco     | Adequada  | Elevado  | Favorável    |           2 | Moderado      | SE NIF é Fraco E RR é Adequada E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Moderado           |
-|       8 | Fraco     | Adequada  | Elevado  | Limítrofe    |           0 | Baixo         | SE NIF é Fraco E RR é Adequada E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Baixo              |
-|       9 | Fraco     | Adequada  | Elevado  | Desfavorável |          -2 | Baixo         | SE NIF é Fraco E RR é Adequada E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Baixo           |
-|      10 | Fraco     | Limítrofe | Baixo    | Favorável    |          -1 | Baixo         | SE NIF é Fraco E RR é Limítrofe E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Baixo               |
-|      11 | Fraco     | Limítrofe | Baixo    | Limítrofe    |          -3 | Muito Baixo   | SE NIF é Fraco E RR é Limítrofe E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Muito Baixo         |
-|      12 | Fraco     | Limítrofe | Baixo    | Desfavorável |          -5 | Muito Baixo   | SE NIF é Fraco E RR é Limítrofe E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo      |
-|      13 | Fraco     | Limítrofe | Adequado | Favorável    |           1 | Baixo         | SE NIF é Fraco E RR é Limítrofe E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Baixo            |
-|      14 | Fraco     | Limítrofe | Adequado | Limítrofe    |          -1 | Baixo         | SE NIF é Fraco E RR é Limítrofe E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Baixo            |
-|      15 | Fraco     | Limítrofe | Adequado | Desfavorável |          -3 | Muito Baixo   | SE NIF é Fraco E RR é Limítrofe E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo   |
-|      16 | Fraco     | Limítrofe | Elevado  | Favorável    |           0 | Baixo         | SE NIF é Fraco E RR é Limítrofe E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Baixo             |
-|      17 | Fraco     | Limítrofe | Elevado  | Limítrofe    |          -2 | Baixo         | SE NIF é Fraco E RR é Limítrofe E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Baixo             |
-|      18 | Fraco     | Limítrofe | Elevado  | Desfavorável |          -4 | Muito Baixo   | SE NIF é Fraco E RR é Limítrofe E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo    |
-|      19 | Fraco     | Elevada   | Baixo    | Favorável    |          -3 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Muito Baixo           |
-|      20 | Fraco     | Elevada   | Baixo    | Limítrofe    |          -5 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Muito Baixo           |
-|      21 | Fraco     | Elevada   | Baixo    | Desfavorável |          -7 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo        |
-|      22 | Fraco     | Elevada   | Adequado | Favorável    |          -1 | Baixo         | SE NIF é Fraco E RR é Elevada E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Baixo              |
-|      23 | Fraco     | Elevada   | Adequado | Limítrofe    |          -3 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Muito Baixo        |
-|      24 | Fraco     | Elevada   | Adequado | Desfavorável |          -5 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo     |
-|      25 | Fraco     | Elevada   | Elevado  | Favorável    |          -2 | Baixo         | SE NIF é Fraco E RR é Elevada E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Baixo               |
-|      26 | Fraco     | Elevada   | Elevado  | Limítrofe    |          -4 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Muito Baixo         |
-|      27 | Fraco     | Elevada   | Elevado  | Desfavorável |          -6 | Muito Baixo   | SE NIF é Fraco E RR é Elevada E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo      |
-|      28 | Limítrofe | Adequada  | Baixo    | Favorável    |           3 | Moderado      | SE NIF é Limítrofe E RR é Adequada E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Moderado         |
-|      29 | Limítrofe | Adequada  | Baixo    | Limítrofe    |           1 | Baixo         | SE NIF é Limítrofe E RR é Adequada E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Baixo            |
-|      30 | Limítrofe | Adequada  | Baixo    | Desfavorável |          -1 | Baixo         | SE NIF é Limítrofe E RR é Adequada E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Baixo         |
-|      31 | Limítrofe | Adequada  | Adequado | Favorável    |           5 | Alto          | SE NIF é Limítrofe E RR é Adequada E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Alto          |
-|      32 | Limítrofe | Adequada  | Adequado | Limítrofe    |           3 | Moderado      | SE NIF é Limítrofe E RR é Adequada E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Moderado      |
-|      33 | Limítrofe | Adequada  | Adequado | Desfavorável |           1 | Baixo         | SE NIF é Limítrofe E RR é Adequada E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Baixo      |
-|      34 | Limítrofe | Adequada  | Elevado  | Favorável    |           4 | Alto          | SE NIF é Limítrofe E RR é Adequada E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Alto           |
-|      35 | Limítrofe | Adequada  | Elevado  | Limítrofe    |           2 | Moderado      | SE NIF é Limítrofe E RR é Adequada E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Moderado       |
-|      36 | Limítrofe | Adequada  | Elevado  | Desfavorável |           0 | Baixo         | SE NIF é Limítrofe E RR é Adequada E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Baixo       |
-|      37 | Limítrofe | Limítrofe | Baixo    | Favorável    |           1 | Baixo         | SE NIF é Limítrofe E RR é Limítrofe E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Baixo           |
-|      38 | Limítrofe | Limítrofe | Baixo    | Limítrofe    |          -1 | Baixo         | SE NIF é Limítrofe E RR é Limítrofe E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Baixo           |
-|      39 | Limítrofe | Limítrofe | Baixo    | Desfavorável |          -3 | Muito Baixo   | SE NIF é Limítrofe E RR é Limítrofe E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo  |
-|      40 | Limítrofe | Limítrofe | Adequado | Favorável    |           3 | Moderado      | SE NIF é Limítrofe E RR é Limítrofe E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Moderado     |
-|      41 | Limítrofe | Limítrofe | Adequado | Limítrofe    |           1 | Baixo         | SE NIF é Limítrofe E RR é Limítrofe E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Baixo        |
-|      42 | Limítrofe | Limítrofe | Adequado | Desfavorável |          -1 | Baixo         | SE NIF é Limítrofe E RR é Limítrofe E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Baixo     |
-|      43 | Limítrofe | Limítrofe | Elevado  | Favorável    |           2 | Moderado      | SE NIF é Limítrofe E RR é Limítrofe E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Moderado      |
-|      44 | Limítrofe | Limítrofe | Elevado  | Limítrofe    |           0 | Baixo         | SE NIF é Limítrofe E RR é Limítrofe E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Baixo         |
-|      45 | Limítrofe | Limítrofe | Elevado  | Desfavorável |          -2 | Baixo         | SE NIF é Limítrofe E RR é Limítrofe E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Baixo      |
-|      46 | Limítrofe | Elevada   | Baixo    | Favorável    |          -1 | Baixo         | SE NIF é Limítrofe E RR é Elevada E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Baixo             |
-|      47 | Limítrofe | Elevada   | Baixo    | Limítrofe    |          -3 | Muito Baixo   | SE NIF é Limítrofe E RR é Elevada E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Muito Baixo       |
-|      48 | Limítrofe | Elevada   | Baixo    | Desfavorável |          -5 | Muito Baixo   | SE NIF é Limítrofe E RR é Elevada E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo    |
-|      49 | Limítrofe | Elevada   | Adequado | Favorável    |           1 | Baixo         | SE NIF é Limítrofe E RR é Elevada E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Baixo          |
-|      50 | Limítrofe | Elevada   | Adequado | Limítrofe    |          -1 | Baixo         | SE NIF é Limítrofe E RR é Elevada E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Baixo          |
-|      51 | Limítrofe | Elevada   | Adequado | Desfavorável |          -3 | Muito Baixo   | SE NIF é Limítrofe E RR é Elevada E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo |
-|      52 | Limítrofe | Elevada   | Elevado  | Favorável    |           0 | Baixo         | SE NIF é Limítrofe E RR é Elevada E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Baixo           |
-|      53 | Limítrofe | Elevada   | Elevado  | Limítrofe    |          -2 | Baixo         | SE NIF é Limítrofe E RR é Elevada E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Baixo           |
-|      54 | Limítrofe | Elevada   | Elevado  | Desfavorável |          -4 | Muito Baixo   | SE NIF é Limítrofe E RR é Elevada E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo  |
-|      55 | Forte     | Adequada  | Baixo    | Favorável    |           5 | Alto          | SE NIF é Forte E RR é Adequada E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Alto                 |
-|      56 | Forte     | Adequada  | Baixo    | Limítrofe    |           3 | Moderado      | SE NIF é Forte E RR é Adequada E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Moderado             |
-|      57 | Forte     | Adequada  | Baixo    | Desfavorável |           1 | Baixo         | SE NIF é Forte E RR é Adequada E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Baixo             |
-|      58 | Forte     | Adequada  | Adequado | Favorável    |           7 | Muito Alto    | SE NIF é Forte E RR é Adequada E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Muito Alto        |
-|      59 | Forte     | Adequada  | Adequado | Limítrofe    |           5 | Alto          | SE NIF é Forte E RR é Adequada E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Alto              |
-|      60 | Forte     | Adequada  | Adequado | Desfavorável |           3 | Moderado      | SE NIF é Forte E RR é Adequada E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Moderado       |
-|      61 | Forte     | Adequada  | Elevado  | Favorável    |           6 | Muito Alto    | SE NIF é Forte E RR é Adequada E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Muito Alto         |
-|      62 | Forte     | Adequada  | Elevado  | Limítrofe    |           4 | Alto          | SE NIF é Forte E RR é Adequada E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Alto               |
-|      63 | Forte     | Adequada  | Elevado  | Desfavorável |           2 | Moderado      | SE NIF é Forte E RR é Adequada E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Moderado        |
-|      64 | Forte     | Limítrofe | Baixo    | Favorável    |           3 | Moderado      | SE NIF é Forte E RR é Limítrofe E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Moderado            |
-|      65 | Forte     | Limítrofe | Baixo    | Limítrofe    |           1 | Baixo         | SE NIF é Forte E RR é Limítrofe E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Baixo               |
-|      66 | Forte     | Limítrofe | Baixo    | Desfavorável |          -1 | Baixo         | SE NIF é Forte E RR é Limítrofe E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Baixo            |
-|      67 | Forte     | Limítrofe | Adequado | Favorável    |           5 | Alto          | SE NIF é Forte E RR é Limítrofe E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Alto             |
-|      68 | Forte     | Limítrofe | Adequado | Limítrofe    |           3 | Moderado      | SE NIF é Forte E RR é Limítrofe E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Moderado         |
-|      69 | Forte     | Limítrofe | Adequado | Desfavorável |           1 | Baixo         | SE NIF é Forte E RR é Limítrofe E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Baixo         |
-|      70 | Forte     | Limítrofe | Elevado  | Favorável    |           4 | Alto          | SE NIF é Forte E RR é Limítrofe E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Alto              |
-|      71 | Forte     | Limítrofe | Elevado  | Limítrofe    |           2 | Moderado      | SE NIF é Forte E RR é Limítrofe E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Moderado          |
-|      72 | Forte     | Limítrofe | Elevado  | Desfavorável |           0 | Baixo         | SE NIF é Forte E RR é Limítrofe E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Baixo          |
-|      73 | Forte     | Elevada   | Baixo    | Favorável    |           1 | Baixo         | SE NIF é Forte E RR é Elevada E VT é Baixo E RSBI é Favorável ENTÃO Potencial é Baixo                 |
-|      74 | Forte     | Elevada   | Baixo    | Limítrofe    |          -1 | Baixo         | SE NIF é Forte E RR é Elevada E VT é Baixo E RSBI é Limítrofe ENTÃO Potencial é Baixo                 |
-|      75 | Forte     | Elevada   | Baixo    | Desfavorável |          -3 | Muito Baixo   | SE NIF é Forte E RR é Elevada E VT é Baixo E RSBI é Desfavorável ENTÃO Potencial é Muito Baixo        |
-|      76 | Forte     | Elevada   | Adequado | Favorável    |           3 | Moderado      | SE NIF é Forte E RR é Elevada E VT é Adequado E RSBI é Favorável ENTÃO Potencial é Moderado           |
-|      77 | Forte     | Elevada   | Adequado | Limítrofe    |           1 | Baixo         | SE NIF é Forte E RR é Elevada E VT é Adequado E RSBI é Limítrofe ENTÃO Potencial é Baixo              |
-|      78 | Forte     | Elevada   | Adequado | Desfavorável |          -1 | Baixo         | SE NIF é Forte E RR é Elevada E VT é Adequado E RSBI é Desfavorável ENTÃO Potencial é Baixo           |
-|      79 | Forte     | Elevada   | Elevado  | Favorável    |           2 | Moderado      | SE NIF é Forte E RR é Elevada E VT é Elevado E RSBI é Favorável ENTÃO Potencial é Moderado            |
-|      80 | Forte     | Elevada   | Elevado  | Limítrofe    |           0 | Baixo         | SE NIF é Forte E RR é Elevada E VT é Elevado E RSBI é Limítrofe ENTÃO Potencial é Baixo               |
-|      81 | Forte     | Elevada   | Elevado  | Desfavorável |          -2 | Baixo         | SE NIF é Forte E RR é Elevada E VT é Elevado E RSBI é Desfavorável ENTÃO Potencial é Baixo            |
+|   Regra | NIF       | RR        | VT       | RSBI         |   Pontuação | Consequente   | SE...ENTÃO                                                                                      |
+|--------:|:----------|:----------|:---------|:-------------|------------:|:--------------|:------------------------------------------------------------------------------------------------|
+|       1 | Forte     | Adequada  | —        | Favorável    |           7 | Sucesso       | SE NIF é Forte E RR é Adequada E RSBI é Favorável ENTÃO Resultado é Sucesso                     |
+|       2 | Forte     | Limítrofe | —        | Favorável    |           5 | Sucesso       | SE NIF é Forte E RR é Limítrofe E RSBI é Favorável ENTÃO Resultado é Sucesso                    |
+|       3 | Forte     | Adequada  | —        | Limítrofe    |           5 | Sucesso       | SE NIF é Forte E RR é Adequada E RSBI é Limítrofe ENTÃO Resultado é Sucesso                     |
+|       4 | Limítrofe | Adequada  | Adequado | Favorável    |           5 | Sucesso       | SE NIF é Limítrofe E RR é Adequada E VT é Adequado E RSBI é Favorável ENTÃO Resultado é Sucesso |
+|       5 | Fraco     | —         | —        | —            |          -2 | Fracasso      | SE NIF é Fraco ENTÃO Resultado é Fracasso                                                       |
+|       6 | —         | Elevada   | —        | —            |          -2 | Fracasso      | SE RR é Elevada ENTÃO Resultado é Fracasso                                                      |
+|       7 | —         | —         | —        | Desfavorável |          -2 | Fracasso      | SE RSBI é Desfavorável ENTÃO Resultado é Fracasso                                               |
+|       8 | Limítrofe | —         | Baixo    | —            |          -1 | Fracasso      | SE NIF é Limítrofe E VT é Baixo ENTÃO Resultado é Fracasso                                      |
+|       9 | Limítrofe | —         | Elevado  | —            |           0 | Fracasso      | SE NIF é Limítrofe E VT é Elevado ENTÃO Resultado é Fracasso                                    |
+|      10 | Limítrofe | Limítrofe | —        | —            |           0 | Fracasso      | SE NIF é Limítrofe E RR é Limítrofe ENTÃO Resultado é Fracasso                                  |
+|      11 | Limítrofe | —         | —        | Limítrofe    |           0 | Fracasso      | SE NIF é Limítrofe E RSBI é Limítrofe ENTÃO Resultado é Fracasso                                |
+|      12 | —         | Limítrofe | —        | Limítrofe    |           0 | Fracasso      | SE RR é Limítrofe E RSBI é Limítrofe ENTÃO Resultado é Fracasso                                 |

@@ -52,23 +52,72 @@
     "netica/treino_discretizacao.cas": "d569886d05aae737142fa5f60fb709f7dd9bdcb97ead254858c8280c1a96ed95",
     "netica/evidencias/01_entradas_continuas.dne": "fc5d0d6fc718f44834a84c95f538c080d2484ef064a189fd31783ac6fd0c2f9b",
     "netica/evidencias/02_discretizacao_automatica.dne": "30274a9588631f58101f3198e4a25a78cbab180b8d807b496c9358cce43adb86",
-    "netica/Weaning_Rede2_Netica.dne": "4d73510ef995f509f7ff195fd059658e17f2d3bae7a6375c69c26afbbae5196b",
-    "src/netica_native.c": "c445f6c61ea372fd7dbf534a3cc2c003ec960ec262c656f703afbf9277cb0027",
+    "netica/Weaning_Rede2_Netica.dne": "1ee1613a25060f3f36035b7089dccda7460d2553c2c3f3ed23abf6c75eb414a0",
+    "src/netica_native.c": "bb3fee86a116637b8e2cba9002e591bd2289ece75be10f203befc42b86ca96be",
     "netica/evidencias/01_selecao_treino.png": "6bd4000d01634f7a6a7a40cc403a0f441fe29dfbba4ec40644b5e0ebbe0948e1",
     "netica/evidencias/02_dois_estados.png": "2aef5f7d1551785debfbbdc67f536a9704e674bebeff1ea52642bf2dceb12b3b",
     "netica/evidencias/03_arredondamento_20.png": "3104e5e4ec7cc67dab4365bb8128c84571314de947169cfb20125a289891dc1f",
     "netica/evidencias/04_cortes_gerados.png": "c291f900f1442bc3351c50aaf45c6358a70bb6a9a99c5a1676042e5e51d5ff5d",
-    "netica/evidencias/05_rede_aprendida.png": "03bdbd84ebbb89b54e09bea6e983ef75471f68fa2da990c41a1ffffe036202fa",
+    "netica/evidencias/05_rede_aprendida.png": "a531e0e3b5e2a42ad79c156d6712f488c7e415eb3805b88c7556bc0e2e1eb7c0",
     "netica/evidencias/rede1_treino_probabilidades.csv": "2e0484459a2d3df94f1c4e68fb3b39878f4ba30e6010a12b64f4f3ac68273cf4",
     "netica/evidencias/rede1_teste_probabilidades.csv": "eb465cea078308d17f33860d611ce11927315c7eed296f1de27368ff4d9aafef",
     "netica/evidencias/rede2_treino_probabilidades.csv": "b64bb834b4892677008b63854e4ad3964f87018945511c22d06c8f4d4bef5937",
     "netica/evidencias/rede2_teste_probabilidades.csv": "6cfd64b6186265e0dedfb6115f9bf098ef263408fa8ba156b6b4f405ee376f0d",
-    "netica/Weaning_Rede1_Clinica.dne": "0ef7bedb217570f2f0d33b4a30187f5f107aaa39e5f71cc580904792eff20f7f",
-    "data/weaning_test.csv": "5408d52a38bcb3712e224093cfb0cc748b13cbd0baaaa8e18ab5e730feaa5118"
+    "netica/Weaning_Rede1_Clinica.dne": "f85e6dc0c359b973c132666f6861b8fc99cab3c6b538278cca989de733ed96bb",
+    "data/weaning_test.csv": "5408d52a38bcb3712e224093cfb0cc748b13cbd0baaaa8e18ab5e730feaa5118",
+    "netica/evidencias/05_netica_rede1_clinica.png": "da9af5ce1d83facd7f2f2edc11c8730c4e1fac7461a871053db7b158f462e61e",
+    "netica/evidencias/06_netica_rede1_te3.png": "0cdcfa1f5f45b05bfe79348e667df8985c79131398862431dce89db9f6040eae",
+    "netica/evidencias/06b_netica_rede1_cpt.png": "8c4eeffcb428f537c998b01beba8bc4375a396998eaa400954c91b41c8190a40",
+    "netica/evidencias/07_netica_rede2_automatica.png": "a531e0e3b5e2a42ad79c156d6712f488c7e415eb3805b88c7556bc0e2e1eb7c0",
+    "netica/evidencias/08_netica_rede2_te3.png": "ad8cf061ed3c44130b97fa099193a38e1fcd7907eda04e211c4a3eccd1b1e5b8",
+    "netica/evidencias/09_netica_process_cases.png": "77a3b3444202a2b26ca11fd6341dd326bc2bb03c3a38446cc086278eab4ac129",
+    "netica/evidencias/process_cases_rede1_teste.txt": "1a3dd937b0def0963e2e6a7211151321ee2d33ae89eef95ff9fc07bed404cade",
+    "netica/evidencias/process_cases_rede1_treino.txt": "43efa4724d605ce8fd0833555289c5584436798f6eb723b491b42ec953c1615c",
+    "netica/evidencias/process_cases_rede2_teste.txt": "bdfd6c1d1efaed1065de4bfcb45f0437c476c6be384ad91d4817fbf873593a6f",
+    "netica/evidencias/process_cases_rede2_treino.txt": "c2ffabed6570321ef60020f0e62746090b3b52e3bec450af1955ac6bd51573f0"
   },
   "evaluation": {
     "training_rows": 21,
     "test_rows": 9,
     "target_entered_as_evidence": false
+  },
+  "process_cases_gui": {
+    "software": "Netica Application 7.01 (Limited Mode)",
+    "command": "Cases > Process Cases",
+    "control_file": "references/originais/CTRL_Respira.txt",
+    "validation": [
+      {
+        "rede": 1,
+        "conjunto": "treino",
+        "casos": 21,
+        "arquivo": "netica/evidencias/process_cases_rede1_treino.txt",
+        "erro_maximo_process_cases_python": 5.090625416759309e-07,
+        "classes_concordantes": 21
+      },
+      {
+        "rede": 1,
+        "conjunto": "teste",
+        "casos": 9,
+        "arquivo": "netica/evidencias/process_cases_rede1_teste.txt",
+        "erro_maximo_process_cases_python": 5.455457571246214e-07,
+        "classes_concordantes": 9
+      },
+      {
+        "rede": 2,
+        "conjunto": "treino",
+        "casos": 21,
+        "arquivo": "netica/evidencias/process_cases_rede2_treino.txt",
+        "erro_maximo_process_cases_python": 4.49586599698959e-07,
+        "classes_concordantes": 21
+      },
+      {
+        "rede": 2,
+        "conjunto": "teste",
+        "casos": 9,
+        "arquivo": "netica/evidencias/process_cases_rede2_teste.txt",
+        "erro_maximo_process_cases_python": 1.740013465534318e-07,
+        "classes_concordantes": 9
+      }
+    ]
   }
 }

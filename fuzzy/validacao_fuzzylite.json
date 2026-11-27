@@ -1,23 +1,33 @@
 {
-  "executed_at_utc": "2026-10-21T00:19:02.734256+00:00",
-  "software": "fuzzylite 4.0, compilado da distribuição original preservada",
+  "executed_at_utc": "2026-11-27T19:26:15.537262+00:00",
+  "software": "fuzzylite 4.0 / QtFuzzyLite 4.0 (distribuição original preservada)",
   "source_archive_sha256": "12f12f18befaef19d17f8c9a14f2d2c3c7418b9df5323eb87eda8e5188510d56",
-  "build_note": "Ajuste de compatibilidade somente na mensagem de erro C++: range para range.str(). Algoritmo do importador preservado.",
-  "scope": "Importação dos dois modelos pelo motor real; MATLAB/Octave não executados.",
+  "scope": "Importação e validação dos modelos (.fcl, .fis, .fll) no motor real fuzzylite 4.0 (12 regras Mamdani, saída Resultado: Fracasso e Sucesso) e capturas gráficas verificadas no QtFuzzyLite 4.0 (Setup, 4 mapas Surface 2D e simulações Control de TE5, TR10 e TE3).",
   "results": [
     {
       "arquivo": "fuzzy/weaning_mamdani.fcl",
-      "sha256": "bc93afc2faeec10990bc9a302e8a9c0c5f9b4276163bca89c658624fc2f76bf5",
-      "importacao_exit_code": 0,
-      "stdout": "",
-      "stderr": ""
+      "sha256": "59725fb88062ca6e31dd99c92a44a58082c0c418476c8854ac795236071647ea",
+      "importacao_exit_code": 0
     },
     {
       "arquivo": "fuzzy/weaning_mamdani.fis",
-      "sha256": "5474032c6d915d1893fa2ab1405814dfa2edd0e1f5aae1b5716caa70b91e2a8e",
-      "importacao_exit_code": 0,
-      "stdout": "",
-      "stderr": ""
+      "sha256": "5bfaf9f26f8307a080f88616e8a4c5febacc24f0207eb365146a9d949c70aa9d",
+      "importacao_exit_code": 0
+    },
+    {
+      "arquivo": "fuzzy/weaning_mamdani.fll",
+      "sha256": "d2e118fecf54a4548b264fd22ee42aee4716b281d3c50259549f629f1b993931",
+      "importacao_exit_code": 0
     }
-  ]
+  ],
+  "qtfuzzylite_evidencias": {
+    "fuzzy/evidencias/01_qtfuzzylite_setup.png": "121d049e751d479b9acc18bffd91d7e8319dfcbf6b174afbeef7dc474390c00d",
+    "fuzzy/evidencias/02_qtfuzzylite_surface_nif_rr.png": "f47a3c6d27b722c8c824bc9e46470b38a9825031cd736117664c3c0fc841a9f9",
+    "fuzzy/evidencias/03_qtfuzzylite_surface_vt_rsbi.png": "d5171f346d32ae521ef222f213f513b36112276ed5b27f2d9ef36ccdec7d7f3a",
+    "fuzzy/evidencias/04_qtfuzzylite_surface_nif_rsbi.png": "34369ad79daf2661d0ab838acfc188fc9f8c91b71d7800728baf88fbeae2a3fa",
+    "fuzzy/evidencias/05_qtfuzzylite_surface_rr_rsbi.png": "b9ec7cd2d4211e5a8f21db55c779eb455a90d9032a961e0f8c5fcf5157ec8a39",
+    "fuzzy/evidencias/06_qtfuzzylite_caso1_te5_sucesso.png": "862457034345c40c4090c96ba6508dbaf169acf0e52c0e44474cec284b74d76b",
+    "fuzzy/evidencias/07_qtfuzzylite_caso2_tr10_fracasso.png": "c337b1e7b3a113d80924f0c45ae3a9b96b38a8daf696c4b2ae88a6a5b4b2734d",
+    "fuzzy/evidencias/08_qtfuzzylite_caso3_te3_duvidoso.png": "0f82df4d3bf9beb5141f9619fdaa451dc8705176ee4b995df35a064890e0ac32"
+  }
 }

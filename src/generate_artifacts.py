@@ -205,7 +205,7 @@ def main():
 
     # Comparação final
     def row_from_metrics(name, split, m):
-        return {"Modelo": name, "Conjunto": split, "Acurácia": m["acuracia"], "Sensibilidade": m["sensibilidade"], "Especificidade": m["especificidade"], "PPV": m["ppv"], "NPV": m["npv"], "F1": m["f1"], "TN": m["tn"], "FP": m["fp"], "FN": m["fn"], "TP": m["tp"]}
+        return {"Modelo": name, "Conjunto": split, "Acurácia": m["acuracia"], "Acurácia bal.": m["acuracia_balanceada"], "Sensibilidade": m["sensibilidade"], "Especificidade": m["especificidade"], "PPV": m["ppv"], "NPV": m["npv"], "F1": m["f1"], "TN": m["tn"], "FP": m["fp"], "FN": m["fn"], "TP": m["tp"]}
 
     final_metrics = pd.DataFrame(
         [
@@ -230,6 +230,7 @@ def main():
     plotting.fig_matrizes_nb({"cm_nb1_train": cm_store["cm_nb1_train"], "cm_nb1_test": cm_store["cm_nb1_test"], "cm_nb2_train": cm_store["cm_nb2_train"], "cm_nb2_test": cm_store["cm_nb2_test"]})
     plotting.fig_metricas_nb(nb_metrics[nb_metrics["Conjunto"] != "Completa"])
     plotting.fig_dumbbell_nb(predictions["Rede 1 (clínica)"]["Completa"], predictions["Rede 2 (Netica)"]["Completa"])
+    plotting.fig_probabilidades_teste(predictions["Rede 1 (clínica)"]["Teste"], predictions["Rede 2 (Netica)"]["Teste"])
     plotting.fig_limiares(train, test)
     plotting.fig_memberships()
     plotting.fig_rule_consequents()

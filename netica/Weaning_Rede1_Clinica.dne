@@ -1,6 +1,7 @@
 // ~->[DNET-1]->~
-// Rede Naive Bayes — Weaning_Rede1_Clinica
-// Gerada para inspeção/uso no Netica; CPTs estimadas SOMENTE com os 21 casos de treino.
+// Rede Naive Bayes - Weaning_Rede1_Clinica
+// Gerada para uso direto no Netica (compativel com CTRL_Respira.txt e Respira_DB_*_Process_Cases.txt).
+// CPTs estimadas SOMENTE com os 21 casos de treino (Laplace alpha = 1).
 
 bnet Weaning_Rede1_Clinica {
 visual V1 {defdispform = BELIEFBARS;};

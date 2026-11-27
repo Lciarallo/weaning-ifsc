@@ -1,0 +1,52 @@
+Engine: weaning_mamdani
+InputVariable: NIF
+  enabled: true
+  range: -60.000 0.000
+  term: Fraco Trapezoid -25.000 -15.000 0.000 0.000
+  term: Limitrofe Triangle -35.000 -25.000 -15.000
+  term: Forte Trapezoid -60.000 -60.000 -35.000 -25.000
+InputVariable: RR
+  enabled: true
+  range: 5.000 60.000
+  term: Adequada Trapezoid 5.000 5.000 22.000 30.000
+  term: Limitrofe Triangle 22.000 30.000 38.000
+  term: Elevada Trapezoid 30.000 38.000 60.000 60.000
+InputVariable: VT
+  enabled: true
+  range: 100.000 1000.000
+  term: Baixo Trapezoid 100.000 100.000 300.000 400.000
+  term: Adequado Triangle 300.000 475.000 650.000
+  term: Elevado Trapezoid 600.000 750.000 1000.000 1000.000
+InputVariable: RSBI
+  enabled: true
+  range: 0.000 300.000
+  term: Favoravel Trapezoid 0.000 0.000 90.000 120.000
+  term: Limitrofe Triangle 90.000 120.000 150.000
+  term: Desfavoravel Trapezoid 120.000 150.000 300.000 300.000
+OutputVariable: Resultado
+  enabled: true
+  range: 0.000 100.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
+  default: 0.000
+  lock-valid: false
+  lock-range: false
+  term: Fracasso Trapezoid 0.000 0.000 35.000 65.000
+  term: Sucesso Trapezoid 35.000 65.000 100.000 100.000
+RuleBlock: regras
+  enabled: true
+  conjunction: Minimum
+  disjunction: none
+  activation: Minimum
+  rule: if NIF is Forte and RR is Adequada and RSBI is Favoravel then Resultado is Sucesso
+  rule: if NIF is Forte and RR is Limitrofe and RSBI is Favoravel then Resultado is Sucesso
+  rule: if NIF is Forte and RR is Adequada and RSBI is Limitrofe then Resultado is Sucesso
+  rule: if NIF is Limitrofe and RR is Adequada and VT is Adequado and RSBI is Favoravel then Resultado is Sucesso
+  rule: if NIF is Fraco then Resultado is Fracasso
+  rule: if RR is Elevada then Resultado is Fracasso
+  rule: if RSBI is Desfavoravel then Resultado is Fracasso
+  rule: if NIF is Limitrofe and VT is Baixo then Resultado is Fracasso
+  rule: if NIF is Limitrofe and VT is Elevado then Resultado is Fracasso
+  rule: if NIF is Limitrofe and RR is Limitrofe then Resultado is Fracasso
+  rule: if NIF is Limitrofe and RSBI is Limitrofe then Resultado is Fracasso
+  rule: if RR is Limitrofe and RSBI is Limitrofe then Resultado is Fracasso

@@ -28,7 +28,7 @@ static net_bn *read_net(const char *path) {
 
 static void train(const char *discretized, const char *cases, const char *output) {
     net_bn *net = read_net(discretized);
-    node_bn *target = NewNode_bn("Desmame", 2, net);
+    node_bn *target = NewNode_bn("Resultado", 2, net);
     SetNodeStateNames_bn(target, "Fracasso,Sucesso");
     SetNodeVisPosition_bn(target, NULL, 300, 500);
     prob_bn uniform[] = {0.5, 0.5};
@@ -65,7 +65,7 @@ static void predict(const char *model, const char *cases, const char *output) {
     net_bn *net = read_net(model);
     CompileNet_bn(net);
     check();
-    node_bn *target = GetNodeNamed_bn("Desmame", net);
+    node_bn *target = GetNodeNamed_bn("Resultado", net);
     FILE *input = fopen(cases, "r"), *out = fopen(output, "w");
     if (!input || !out) { perror("casos/saida"); exit(1); }
     char line[2048];

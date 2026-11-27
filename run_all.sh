@@ -3,13 +3,21 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-python3 src/generate_artifacts.py
-python3 src/export_models.py
-python3 src/build_notebook.py
-python3 -m nbconvert --to html notebooks/Weaning_Bayes_Fuzzy.ipynb \
+if [[ -z "${PYTHON:-}" ]]; then
+  if [[ -x ".venv/bin/python" ]]; then
+    PYTHON=".venv/bin/python"
+  else
+    PYTHON="python3"
+  fi
+fi
+
+"$PYTHON" src/generate_artifacts.py
+"$PYTHON" src/export_models.py
+"$PYTHON" src/build_notebook.py
+"$PYTHON" -m nbconvert --to html notebooks/Weaning_Bayes_Fuzzy.ipynb \
   --output Weaning_Bayes_Fuzzy.html --output-dir notebooks
-python3 src/build_report.py
-python3 scripts/preparar_entrega.py
+"$PYTHON" src/build_report.py
+"$PYTHON" scripts/preparar_entrega.py
 
 echo
 echo "Concluído. Relatório: report/Relatorio_Weaning_Bayes_Fuzzy.pdf"

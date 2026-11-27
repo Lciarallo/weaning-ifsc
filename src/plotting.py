@@ -49,7 +49,7 @@ C = {
     "dark": "#172A3A",
 }
 TERM_COLORS = ["#4C78A8", "#F58518", "#54A24B", "#B279A2", "#E45756"]
-OUT_COLORS = {"MB": "#8E2C3B", "B": "#C65D4B", "M": "#D9A441", "A": "#6A9E75", "MA": "#2F6E64"}
+OUT_COLORS = {"Fracasso": "#B23A48", "Sucesso": "#2F6E64", "MB": "#8E2C3B", "B": "#C65D4B", "M": "#D9A441", "A": "#6A9E75", "MA": "#2F6E64"}
 VAR_TITLES = {
     "NIF": "NIF/PImax (cm.H₂O)",
     "RR": "RR (resp/min)",
@@ -147,7 +147,7 @@ def fig_topologia():
         ax.axis("off")
         ax.set_title(title, pad=12, color=color)
         parent = (0, 1.03)
-        _node(ax, *parent, 0.92, 0.18, "Desmame", ["P(Sucesso) = 43,5%", "P(Fracasso) = 56,5%"], face="#F7FAFC", edge=color, title_color=color, fs=8.8)
+        _node(ax, *parent, 0.92, 0.18, "Resultado", ["P(Sucesso) = 43,5%", "P(Fracasso) = 56,5%"], face="#F7FAFC", edge=color, title_color=color, fs=8.8)
         xs = [-1.28, -0.43, 0.43, 1.28]
         ychild = 0.10
         heights = 0.29 if len(next(iter(states.values()))) == 3 else 0.25
@@ -159,7 +159,7 @@ def fig_topologia():
                 arrowprops=dict(arrowstyle="-|>", color=color, lw=1.1, shrinkA=0, shrinkB=0, connectionstyle="arc3,rad=0.0"),
             )
             _node(ax, x, ychild, 0.80, heights, var, states[var], face="#FFFFFF", edge=color, title_color=color, fs=7.2)
-        ax.text(0.0, 0.62, "P(Desmame | evidências) ∝ P(Desmame) · Π P(filho | Desmame)", ha="center", fontsize=7.7,
+        ax.text(0.0, 0.62, "P(Resultado | evidências) ∝ P(Resultado) · Π P(filho | Resultado)", ha="center", fontsize=7.7,
                 color="#37474F", bbox=dict(boxstyle="round,pad=0.25", fc="#F4F6F8", ec="#CFD8DC", lw=0.6))
         ax.text(0.0, -0.37, "Suavização de Laplace (α = 1) aplicada a todas as CPTs", ha="center", fontsize=7.4, color="#546E7A", style="italic")
     fig.suptitle("Topologia Naive Bayes e grades de discretização", fontsize=13, fontweight="bold", y=1.03)
@@ -248,6 +248,30 @@ def fig_dumbbell_nb(pred1: pd.DataFrame, pred2: pd.DataFrame, top_n: int = 16):
     return _save(fig, "fig05_divergencia_probabilidades.png")
 
 
+def fig_probabilidades_teste(pred1: pd.DataFrame, pred2: pd.DataFrame):
+    d = pred1[["ID", "Resultado", "p_sucesso"]].rename(columns={"p_sucesso": "Rede 1"}).merge(
+        pred2[["ID", "p_sucesso"]].rename(columns={"p_sucesso": "Rede 2"}), on="ID"
+    )
+    x = np.arange(len(d))
+    width = 0.36
+    fig, ax = plt.subplots(figsize=(10.6, 3.6))
+    b1 = ax.bar(x - width / 2, d["Rede 1"], width, color=C["Rede 1"], label="Rede 1 (limiares clínicos)", edgecolor="white")
+    b2 = ax.bar(x + width / 2, d["Rede 2"], width, color=C["Rede 2"], label="Rede 2 (automática — Netica)", edgecolor="white")
+    ax.axhline(0.5, color="#37474F", ls="--", lw=1.1, label="Ponto de decisão (50%)")
+    for bars in (b1, b2):
+        for b in bars:
+            ax.text(b.get_x() + b.get_width() / 2, b.get_height() + 0.02, f"{100*b.get_height():.1f}%", ha="center", va="bottom", fontsize=6.6, color="#263238")
+    labels = [f"{r.ID}\n({'F' if r.Resultado == 'Fracasso' else 'S'})" for r in d.itertuples()]
+    ax.set_xticks(x, labels, fontsize=8.2)
+    ax.set_ylim(0, 1.14)
+    ax.set_ylabel("P(Sucesso | evidências)")
+    ax.set_title("Probabilidade de sucesso nos nove casos de teste (Rede 1 vs. Rede 2)", loc="left")
+    ax.legend(ncol=3, loc="upper left", fontsize=8.0)
+    ax.grid(axis="x", visible=False)
+    fig.tight_layout()
+    return _save(fig, "fig05b_probabilidades_teste.png")
+
+
 def fig_limiares(train, test):
     fig, axes = plt.subplots(4, 1, figsize=(11.3, 6.0), sharex=False)
     rng = np.random.default_rng(2)
@@ -321,7 +345,8 @@ def fig_memberships():
             ax.axvline(m, color="#546E7A", lw=0.9, ls=":")
     axo = fig.add_subplot(gs[2, :])
     x = w.FUZZY_UNIVERSES["OUT"]
-    for term in ["MB", "B", "M", "A", "MA"]:
+    out_terms = list(w.FUZZY_MFS["OUT"].keys())
+    for term in out_terms:
         y = _mf_array("OUT", term)
         axo.plot(x, y, color=OUT_COLORS[term], lw=2.3, label=w.TERM_DISPLAY[term])
         axo.fill_between(x, 0, y, color=OUT_COLORS[term], alpha=0.12)
@@ -330,10 +355,10 @@ def fig_memberships():
                  fontsize=8, color="#263238", arrowprops=dict(arrowstyle="-", color="#263238", lw=0.8))
     axo.set_xlim(0, 100)
     axo.set_ylim(-0.03, 1.10)
-    axo.set_title("Saída — Potencial de desmame (0–100)", loc="left")
-    axo.set_xlabel("Potencial de desmame")
+    axo.set_title("Saída — Resultado (0–100): Fracasso e Sucesso", loc="left")
+    axo.set_xlabel("Resultado (0–100)")
     axo.set_ylabel("μ(y)")
-    axo.legend(ncol=5, loc="upper center", bbox_to_anchor=(0.5, 1.02), fontsize=8.0)
+    axo.legend(ncol=len(out_terms), loc="upper center", bbox_to_anchor=(0.5, 1.02), fontsize=8.5)
     fig.suptitle("Funções de pertinência do sistema Mamdani", fontsize=13, fontweight="bold", y=0.995)
     fig.text(0.5, 0.005, "Trapezoides nas extremidades (saturação fisiológica) e triângulos nas transições; sobreposições representam a incerteza clínica.", ha="center", fontsize=7.8, color="#555")
     return _save(fig, "fig07_funcoes_pertinencia.png")
@@ -341,33 +366,46 @@ def fig_memberships():
 
 def fig_rule_consequents():
     rules = w.fuzzy_rule_dataframe()
-    counts = rules["Consequente"].value_counts().reindex(["Muito Baixo", "Baixo", "Moderado", "Alto", "Muito Alto"]).fillna(0)
+    out_terms = list(w.FUZZY_MFS["OUT"].keys())
+    out_labels = [w.TERM_DISPLAY[k] for k in out_terms]
+    counts = rules["Consequente"].value_counts().reindex(out_labels).fillna(0)
     fig, axes = plt.subplots(1, 2, figsize=(11.0, 3.8), gridspec_kw={"width_ratios": [1, 1.25]})
-    colors = [OUT_COLORS[k] for k in ["MB", "B", "M", "A", "MA"]]
+    colors = [OUT_COLORS[k] for k in out_terms]
     axes[0].bar(counts.index, counts.values, color=colors, edgecolor="white")
     for i, v in enumerate(counts.values):
-        axes[0].text(i, v + 0.5, f"{int(v)}", ha="center", fontweight="bold", color="#263238")
-    axes[0].set_ylim(0, max(counts.values) + 5)
-    axes[0].set_title("Distribuição dos 81 consequentes")
+        axes[0].text(i, v + 0.3, f"{int(v)}", ha="center", fontweight="bold", color="#263238")
+    axes[0].set_ylim(0, max(counts.values) + 3)
+    axes[0].set_title(f"Distribuição das {len(rules)} regras (Resultado)")
     axes[0].set_ylabel("Número de regras")
-    axes[0].tick_params(axis="x", rotation=15)
+    axes[0].tick_params(axis="x", rotation=0)
     # heatmap NIF x RR para VT adequado e RSBI favorável
-    sub = rules[(rules["VT"] == "Adequado") & (rules["RSBI"] == "Favorável")]
-    pivot = sub.pivot_table(index="NIF", columns="RR", values="Pontuação", aggfunc="first")
+    order_nif_keys = ["NIF_Fraco", "NIF_Limitrofe", "NIF_Forte"]
+    order_rr_keys = ["RR_Adequada", "RR_Limitrofe", "RR_Elevada"]
     order_nif = ["Fraco", "Limítrofe", "Forte"]
     order_rr = ["Adequada", "Limítrofe", "Elevada"]
-    pivot = pivot.reindex(index=order_nif, columns=order_rr)
-    im = axes[1].imshow(pivot.values, cmap="RdYlGn", vmin=-3, vmax=7)
+    grid = np.zeros((3, 3))
+    labels_grid = [["" for _ in range(3)] for _ in range(3)]
+    for i, nk in enumerate(order_nif_keys):
+        for j, rk in enumerate(order_rr_keys):
+            combo = {"NIF": nk, "RR": rk, "VT": "VT_Adequado", "RSBI": "RSBI_Favoravel"}
+            matched = [
+                r for r in w.FUZZY_RULES
+                if all(r["terms"].get(v) in (None, combo[v]) for v in w.VARIABLES)
+            ]
+            best = max(matched, key=lambda r: r["score"])
+            grid[i, j] = best["score"]
+            labels_grid[i][j] = f"R{best['id']}: {best['consequent']}\n({best['score']:+d})"
+    im = axes[1].imshow(grid, cmap="RdYlGn", vmin=-3, vmax=8)
     for i in range(3):
         for j in range(3):
-            axes[1].text(j, i, f"{pivot.values[i, j]:+.0f}", ha="center", va="center", fontsize=10, fontweight="bold", color="#263238")
+            axes[1].text(j, i, labels_grid[i][j], ha="center", va="center", fontsize=8.5, fontweight="bold", color="#263238")
     axes[1].set_xticks(range(3), order_rr)
     axes[1].set_yticks(range(3), order_nif)
     axes[1].set_xlabel("RR")
     axes[1].set_ylabel("NIF")
-    axes[1].set_title("Pontuação das regras — VT adequado e RSBI favorável")
+    axes[1].set_title("Regra ativa e consequente — VT adequado e RSBI favorável")
     axes[1].grid(False)
-    fig.colorbar(im, ax=axes[1], shrink=0.8, label="Pontuação (quanto maior, mais favorável)")
+    fig.colorbar(im, ax=axes[1], shrink=0.8, label="Pontuação clínica")
     fig.tight_layout()
     return _save(fig, "fig08_regras_consequentes.png")
 
@@ -389,7 +427,7 @@ def fig_surface(which: str = "nif_rr"):
         ax.set_xlabel(VAR_TITLES["NIF"])
         ax.set_ylabel(VAR_TITLES["RR"])
         ax.set_title("Superfície de decisão — VT = 450 mL e RSBI = 90\n(linhas: 40 e 60)")
-        fig.colorbar(cs, ax=ax, label="Potencial de desmame")
+        fig.colorbar(cs, ax=ax, label="Resultado (0–100)")
         fig.tight_layout()
         return _save(fig, "fig09_superficie_nif_rr.png")
     else:
@@ -406,7 +444,7 @@ def fig_surface(which: str = "nif_rr"):
         ax.set_xlabel(VAR_TITLES["VT"])
         ax.set_ylabel(VAR_TITLES["RSBI"])
         ax.set_title("Superfície de decisão — NIF = −30 cm.H₂O e RR = 25\n(linhas: 40 e 60)")
-        fig.colorbar(cs, ax=ax, label="Potencial de desmame")
+        fig.colorbar(cs, ax=ax, label="Resultado (0–100)")
         fig.tight_layout()
         return _save(fig, "fig10_superficie_vt_rsbi.png")
 
@@ -424,8 +462,8 @@ def fig_fuzzy_cases(pred: pd.DataFrame):
     ax.axhline(50, color="#B0BEC5", ls="-", lw=0.8, alpha=0.7, label="Referência 50")
     ax.set_xticks(d["ord"], d["ID"], rotation=90, fontsize=6.7)
     ax.set_ylim(0, 100)
-    ax.set_ylabel("Potencial de desmame (crisp)")
-    ax.set_title("Saída do sistema Fuzzy nos 30 casos", loc="left")
+    ax.set_ylabel("Resultado (crisp)")
+    ax.set_title("Saída do sistema Fuzzy (Resultado) nos 30 casos", loc="left")
     handles = [Line2D([], [], marker="o", color="w", markerfacecolor=C["Fracasso"], markersize=7, label="Fracasso real"),
                Line2D([], [], marker="o", color="w", markerfacecolor=C["Sucesso"], markersize=7, label="Sucesso real")]
     handles += ax.get_legend_handles_labels()[0]
@@ -485,7 +523,7 @@ def _plot_output_case(res: w.FuzzyResult, case_label: str, filename: str):
     ax = fig.add_subplot(gs[0, 0])
     out_x = w.FUZZY_UNIVERSES["OUT"]
     # regiões dos consequentes, mais transparentes
-    for term in ["MB", "B", "M", "A", "MA"]:
+    for term in list(w.FUZZY_MFS["OUT"].keys()):
         y = _mf_array("OUT", term)
         ax.plot(out_x, y, color=OUT_COLORS[term], lw=1.0, alpha=0.55, ls="--")
     ax.fill_between(out_x, 0, res.aggregate, color=C["Fuzzy"], alpha=0.45, edgecolor="#1B5E20", linewidth=1.0, label="Região agregada (max)")
@@ -494,7 +532,7 @@ def _plot_output_case(res: w.FuzzyResult, case_label: str, filename: str):
     ax.scatter([res.centroid], [0], color="#111111", zorder=5, s=30)
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 1.05)
-    ax.set_xlabel("Potencial de desmame (0–100)")
+    ax.set_xlabel("Resultado (0–100): Fracasso vs. Sucesso")
     ax.set_ylabel("μ agregado(y)")
     ax.set_title("Agregação Mamdani e defuzzificação (COA)", loc="left")
     ax.legend(loc="upper left", fontsize=8)

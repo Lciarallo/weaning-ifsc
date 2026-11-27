@@ -41,8 +41,7 @@ def main() -> None:
 
     for split in ("train", "test"):
         df = pd.read_csv(ROOT / f"data/weaning_{split}.csv")
-        df = df.rename(columns={"Resultado": "Desmame"})
-        df[["IDnum", *w.VARIABLES, "Desmame"]].to_csv(
+        df[["IDnum", *w.VARIABLES, "Resultado"]].to_csv(
             ROOT / f"netica/casos_{split}_continuos.cas", sep="\t", index=False
         )
 
