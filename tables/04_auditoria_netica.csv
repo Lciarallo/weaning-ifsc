@@ -1,5 +1,0 @@
-﻿Variável,Corte adotado,Mediana treino,n faixa inferior,n faixa superior,Diferença,Intervalos
-NIF,-25.0,-25.0,10,11,1,"[−60, −25) | [−25, −10]"
-RR,30.0,30.0,10,11,1,"[13, 30) | [30, 46]"
-VT,350.0,350.0,10,11,1,"[120, 350) | [350, 950]"
-RSBI,90.0,86.0,11,10,1,"[10, 90) | [90, 270]"

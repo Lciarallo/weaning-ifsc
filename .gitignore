@@ -1,13 +1,4 @@
-# Python / Jupyter
-__pycache__/
-*.py[cod]
-.ipynb_checkpoints/
-.venv/
-*~
-
-# Pacote de e-mail (redundante com os arquivos versionados)
-Entrega_Weaning_IFSC*.zip
-
 # Sistema
+*~
 .DS_Store
 Thumbs.db

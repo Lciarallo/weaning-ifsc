@@ -4,11 +4,8 @@ Arquivos:
 
 - `weaning_mamdani.fis`: modelo para MATLAB/Octave (`readfis('weaning_mamdani.fis')`).
 - `weaning_mamdani.fcl`: modelo para `fuzzylite 4.0` / QtFuzzyLite 4.0 (norma IEC 61131-7).
-- `weaning_mamdani.fll`: modelo na linguagem nativa FuzzyLite Language (`fuzzylite 4.0b1401`), sincronizado com `src/weaning_lib.py` (12 regras compactas).
+- `weaning_mamdani.fll`: modelo na linguagem nativa FuzzyLite Language (`fuzzylite 4.0b1401`) (12 regras).
 - `evidencias/`: capturas reais verificadas da execução gráfica no **QtFuzzyLite 4.0** (`01_qtfuzzylite_setup.png` a `08_qtfuzzylite_caso3_te3_duvidoso.png`), incluindo a aba `Setup` (`Good Rules: 12. Bad Rules: 0.`), os 4 mapas `Surface 2D` (`NIF×RR`, `VT×RSBI`, `NIF×RSBI`, `RR×RSBI`) e as simulações de fuzzificação, regras ativadas e defuzzificação na aba `Control` para `TE5` (`72,732`), `TR10` (`25,750`) e `TE3` (`40,048`).
-- `../tables/11_fuzzy_mfs.csv`: universos, termos e parâmetros.
-- `../tables/12_fuzzy_regras.csv`: as 12 regras compactas, pontuação de referência e consequente.
-- `../tables/13_fuzzy_30casos.csv`: avaliação nos 30 casos.
 
 ## Configuração
 
@@ -24,8 +21,6 @@ Arquivos:
 - `40 ≤ Resultado < 60`: zona de cautela (decisão operacional conservadora: manter suporte / reavaliar).
 - `Resultado < 40`: `Fracasso` (manter suporte).
 
-## Validação
+## Execução
 
-A implementação manual em `src/weaning_lib.py` foi comparada ao `scikit-fuzzy` em TE1, TE3 e TR10; a diferença máxima no centroide foi inferior a 10⁻⁵. O notebook executa essa validação.
-
-As exportações FCL, FIS e FLL foram validadas no motor real do **fuzzylite 4.0** (`fuzzylite.exe`, exit code 0) e na interface gráfica **QtFuzzyLite 4.0** (`qtfuzzylite.exe`), gerando os 4 mapas de superfície 2D e as simulações dos casos em `fuzzy/evidencias/`. O registro de integridade está em `validacao_fuzzylite.json`.
+Abrir `weaning_mamdani.fll` no QtFuzzyLite 4.0. A aba `Setup` valida as 12 regras, a aba `Control` simula os casos e `Tools > Surface 2D` gera os mapas.

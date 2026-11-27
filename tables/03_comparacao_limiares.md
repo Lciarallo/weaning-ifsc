@@ -1,6 +1,0 @@
-| Variável   | Rede 1 (clínica)                | Rede 2 (Netica)          | Efeito                                                                                                               |
-|:-----------|:--------------------------------|:-------------------------|:---------------------------------------------------------------------------------------------------------------------|
-| NIF        | −30 e −20 cm.H₂O (3 faixas)     | −25 cm.H₂O (2 faixas)    | O corte automático cai no meio da zona de incerteza clínica; perde a distinção entre força forte, limítrofe e fraca. |
-| RR         | 20 e 30 resp/min (3 faixas)     | 30 resp/min (2 faixas)   | A Rede 2 preserva o limiar superior, mas não distingue RR normal de RR limítrofe.                                    |
-| VT         | 350 e 600 mL (3 faixas)         | 350 mL (2 faixas)        | A Rede 2 separa apenas baixo volume; perde a faixa de VT elevado.                                                    |
-| RSBI       | 105 e 150 resp/min/L (3 faixas) | 90 resp/min/L (2 faixas) | O corte automático é mais baixo que o clássico 105; reclassifica RSBI 90–104 como desfavorável.                      |
