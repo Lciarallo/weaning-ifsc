@@ -1,8 +1,8 @@
 # Desmame ventilatório: Naive Bayes (Netica) e Fuzzy Mamdani (QtFuzzyLite)
 
-Trabalho da disciplina Sistemas Probabilísticos e Difusos, Especialização em Computação Aplicada à Indústria (IFSC, Prof. Cesar Alberto Penz).
+Trabalho da disciplina Sistemas Probabilísticos e Difusos, Especialização em Computação Científica para a Indústria (IFSC, Prof. Cesar Alberto Penz).
 
-Autores: Luiz Eduardo do Nascimento Ciarallo e Renato Deodoro.
+Autores: Luiz Eduardo do Nascimento Ciarallo e Renato Teodoro.
 
 **Relatório:** [PDF](report/Relatorio_Weaning_Bayes_Fuzzy.pdf) · [HTML](report/Relatorio_Weaning_Bayes_Fuzzy.html)
 
