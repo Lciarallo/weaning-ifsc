@@ -2,3 +2,6 @@
 *~
 .DS_Store
 Thumbs.db
+
+# Netica (software proprietário da Norsys; não redistribuir)
+netica/netica32/

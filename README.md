@@ -22,6 +22,8 @@ Autores: Luiz Eduardo do Nascimento Ciarallo e Renato Deodoro.
 - `references/`: enunciado, base de conhecimento e arquivos originais da disciplina.
 - `report/`: relatório.
 
+O Netica não é distribuído neste repositório; o download oficial está em https://www.norsys.com/download.html.
+
 Material acadêmico; não constitui recomendação clínica.
 
 ## Fonte dos dados
